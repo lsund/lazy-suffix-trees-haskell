@@ -1,0 +1,26 @@
+* Suffix Trees
+** Task
+*** Implement different suffix trees algorithms and compare them
+** Suffix tree properties
+*** Containing all the suffixes/positions of a given string
+*** Allow particularly fast implementations of many important string operations
+**** Locate a substring in S
+**** Locate a substring if a certain number of mistakes are allowed
+**** Locate matches for a regular expression
+**** Longest common substring problem
+*** Takes linear time to construct.
+*** Drawback: High storage cost
+* Super-String
+** Task
+*** Implement different approximation algorithms and compore them
+*** Best proven vs "real"
+** Properties
+*** Two sequences
+    If X and Y are two sequences then U is a common supersequence if items
+    can be removed to create X or Y. We are looking for the shortest such
+    sequence.
+*** N sequences
+    NP-complete
+* Union/Intersection/Difference set construction
+** Have n pairwise different singleton sets
+** Develop datastructure that support something better than naive
