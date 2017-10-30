@@ -1,15 +1,14 @@
 
-import Protolude
-
-
 module Lib
    ( someFunc
     ) where
 
+import Protolude
+
 someFunc :: IO ()
 someFunc = putStrLn "Hello World"
 
-data Edge = Edge [String]
+data Edge = Edge [Text]
 
 data SuffixTree
     = Leaf
@@ -18,5 +17,5 @@ data SuffixTree
 make :: Text -> SuffixTree
 make t = undefined
 
-query :: String -> Maybe [Int]
+query :: Text -> Maybe [Int]
 query = undefined
