@@ -1,0 +1,73 @@
+* General
+** Expresses the internal structure of a string in a much deeper level than ordinary preprocessing
+** Solves the exact linear matching problem in linear time with the same worst case bound as KNP
+** Real value though, comes from linear use to many string problems more complex than exact matching
+** Provides a bridge between exact and approximate matching
+** Classic application of suffix trees:
+*** Preprocess in O(m)
+*** Search in O(n)
+** For each P, you do not need to preprocess the text again.
+** KNP Needs O(m) for each new string
+** Suffix trees has not made it in the mainstream, maybe because the papers are hard to understand.
+** It's unfortunate, since the algorithm arn't that complicated
+** When implemented well, they can efficiently solve many complex string problems.
+** No single other data-structure can act as a solution to that many problems that easily.
+* Notations
+** T     : Text, the searchspace. Length m.
+** S     : String, the search string to be found in T. Length n.
+** P     : Pattern, same as string but usually used when there are many.
+** SET_P : Same as P but seen as a set.
+* History
+** Wiener in 1973 developed the first suffix tree algorithm
+** McCreight a few years later developed a more space efficient solution
+** Ukkonen developed in the 90's an algorithm with all the advantages of McCreight, but simpler to understand
+* Applications
+** Notes
+*** Some of these applications need an additional tool: The constant time lowest common ancestor algorithm
+** APL1: Exact string matching
+*** Variant 1: A single T and a single S.
+    Suffix trees in this case acheives the same bound O(m + n) like KNP.
+*** Variant 2: A single T and multiple P.
+    For each of the patterns P, all occurences of P must be found in T
+    fast.  For suffix trees, this can be done in O(n + k) where k is
+    the number of occurences of P in T. In contrast, KNP etc need
+    O(n + m) for every single P.
+*** Variant 3: Multiple T and a single S.
+    KNP etc spend O(n) for each S. Allthough not obvious, suffix trees
+    can achieve the same bound. But their superiority lies in
+    variant 2.
+
+** APL2: Exact set matching
+   Finding all occurences of a set SET_P in T. Aho-Corasick method
+   finds all occurences in O(n + m + k). The same bound is easily
+   achieved by suffix trees. And of course, when there might be
+   multiple SET_P's we get the same advantages as in APL1. To solve
+   the set matching problem, just build a suffix tree for T and query
+   it for every element in SET_P.
+*** Comparison of suffix trees and keyword trees for exact matching
+    | method       | size | build time | search time |
+    |              |      |            |             |
+    | Aho-Corasick | O(n) | O(n)       | O(m)        |
+    | suffix tree  | O(m) | O(m)       | O(n)        |
+** APL3: Substring problem for a database of patterns
+   Given a set of strings, (a database) find for each presented string S
+   all strings in the database containing S. If you have a long
+   string, you could look at it like a database of strings if you keep
+   the indices.
+*** The combined length of all strings in the database is m.
+*** Can build tree in O(m)
+*** Any string can be determined in/not in the database in O(n).
+    If the full string is in the database then the matching path
+    reaches a leaf at the same time that the last character of a
+    string S is considered. Moreover, if S is a substring of some of
+    the strings in the database, then all of those strings can be found in O(n + k) time.
+** APL4: Longest common substring for two strings
+*** OBS: Not subsequence
+*** Method:
+    Creata a generalized suffix tree for S1 and S2. Mark each internal
+    node v with 1 (2) if there exists a leaf in the subtree of v
+    representing a suffix from S1 (S2). The path-label of any node
+    marked with both 1 and 2 is a common substring. Now you just have
+    to find the one with the greatest string-depth.
+*** Construction: O(|S1| + |S2|)
+*** Markings + string depth: standard linear tree traversal methods.
