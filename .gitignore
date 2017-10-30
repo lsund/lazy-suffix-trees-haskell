@@ -1,2 +1,8 @@
 .stack-work
 \#*
+*.out
+*.blg
+*.log
+*.aux
+*.pdf
+*.bbl
