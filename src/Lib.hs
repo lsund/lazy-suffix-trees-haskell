@@ -1,21 +1,37 @@
 
-module Lib
-   ( someFunc
-    ) where
+module Lib where
 
-import Protolude
+import Protolude hiding (tails)
 
-someFunc :: IO ()
-someFunc = putStrLn "Hello World"
+import Data.Text        (tails)
+import Data.List        (init)
 
-data Edge = Edge [Text]
+type Edge = (Text, SuffixTree)
 
 data SuffixTree
-    = Leaf
-    | InnerNode [Edge]
+    = Node [Edge]
+    | Leaf Int
+    deriving (Show)
+
+suffixes :: Text -> [Text]
+suffixes = init . tails
+
+tree1 :: Text -> SuffixTree
+tree1 t =
+   let ss = suffixes t
+   in Node [(t, Leaf 1)]
+
+match :: Text -> Edge -> Bool
+match = undefined -- TODO continue here
+
+longestPath :: Text -> SuffixTree -> Text
+longestPath = undefined
+
+next :: SuffixTree -> [Text] -> SuffixTree
+next = undefined
 
 make :: Text -> SuffixTree
-make t = undefined
+make = undefined
 
 query :: Text -> Maybe [Int]
 query = undefined

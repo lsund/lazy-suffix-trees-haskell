@@ -1,8 +1,8 @@
 module Main where
 
-import Lib
+import Lib (make)
 
 import Protolude
 
 main :: IO ()
-main = someFunc
+main = print $ make "xabxac"
