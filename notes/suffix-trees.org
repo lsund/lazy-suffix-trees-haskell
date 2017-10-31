@@ -21,6 +21,37 @@
 ** Wiener in 1973 developed the first suffix tree algorithm
 ** McCreight a few years later developed a more space efficient solution
 ** Ukkonen developed in the 90's an algorithm with all the advantages of McCreight, but simpler to understand
+* Generalized Suffix trees
+  Building a suffix tree for a single string can easily be extended to
+  building a suffix tree for a set of strings.
+
+** Method 1
+ 1. Append a unique string marker ($) to each string in the set.
+ 2. concatenate all strings together
+ 3. Build a suffix tree of the concatenated string
+ 4. The leaf markers are now numbers denoting starting
+    positions. Since we know the positions of all $'s these numbers
+    can easily be converted to a tuple (i,j) where i is the string
+    index and j is the suffix starting position in string i.
+** Method 2
+   Method 1 generates substrings that span more than the original
+   strings. These 'synthetic' suffixes are not of interest.
+
+ 1. First build a suffix tree of S1.
+ 2. Starting at the root of this tree, match S2 against the path in
+    the tree until mismatch.
+ 3. Suppose that the first i characters of S2 match. Then the tree
+    encodes every suffix of S2[1..i].
+ 4. Resume Ukkonen's algorithm on S2 in phase i + 1.
+ 5. Mark leaves with the string accordingly
+
+* Definitions
+** Suffix Links
+   Let xa denote an arbitrary string where x is a single character and
+   a is a substring. For an internal node v with path label xa, if
+   there is another node s(v) with path-label a, then the pointer from
+   v to s(v) is called a suffix link.
+
 * Applications
 ** Notes
 *** Some of these applications need an additional tool: The constant time lowest common ancestor algorithm
@@ -71,3 +102,118 @@
     to find the one with the greatest string-depth.
 *** Construction: O(|S1| + |S2|)
 *** Markings + string depth: standard linear tree traversal methods.
+** APL5: Recognizing DNA contamination
+   Contamination in DNA can come from many different sources.
+*** Bacteria/yest
+*** Foreign DNA
+*** ...
+    Often, the sources (strings of DNA) of possible contaminants are
+    known. This motivates solving the following problem.
+
+    DNA contamination problem: Given a string S1 (the newly isolated
+    and sequenced string of DNA) and a known string S2 (the combined
+    sources of possible contamination), find all substrings of S2 that
+    occur in S1 and that are longer than some input length L.
+
+    These substrings are candidates for unwanted pieces of S2 that have
+    contaminated S1.
+
+    The problem can easily be solved in linear time by extending the
+    approach discussed in APL4. Build a generalized suffix tree for S1
+    and S2. Then mark each internal node that has in its subtree a
+    leaf representing a suffix of S1 and also a leaf representing a
+    suffix of S2. Finally, report all marked nodes that have a
+    string-depth of L or greater. If v is such ha marked node, then
+    the path-label of v is a suspicious string.
+
+    More generally, you might have a set of known DNA string
+    contamination sources. Here, you can build a generalized suffix
+    tree for the SET_P of possible contaminants together with S1 and
+    mark every internal node that has a leaf in its subtree
+    representing a suffix from S1 and a leaf representing a suffix
+    from a pattern in SET_P.
+** APL6: Common substrings of more than two strings
+   Important in biology in many different contexts.
+
+   Given a set of strings find substring common to a large number of
+   those strings.
+
+   Suppose we have K strings whose lengths sum to n.
+
+   For each k between 2 and K, we define l(k) to be th elength of the
+   longest substring common to at least k of the strings.
+   We want to compute a table of K - 1 entries, where entry k gives
+   l(k) and also points to one of the common substrings of that
+   length. For example, consider {sanddollar, sandlot, handler, grand,
+   pandtry}. Then the table becomes
+
+   | k | l(k) | one substring |
+   |---+------+---------------|
+   | 2 |    4 | sand          |
+   | 3 |    3 | and           |
+   | 4 |    3 | and           |
+   | 5 |    2 | an            |
+   |---+------+---------------|
+
+   This can be solved in linear O(n) time. The linear time algorithm
+   is fully discussed in chapter 9 after the lowest common ancestor
+   method has been discussed.
+
+   Now we show how to solve this in O(Kn). This is acheived by the
+   generalization of the longest common substring method for two
+   strings.
+   1. Build a generalized suffix tree T for the K strings.
+   2. Each leaf then represents a suffix from one of the K strings and
+      is marked with one of the K unique string identifiers.
+   3. Each of the K strings has a distinct termination symbol, so that
+      identical suffixes will be at different leaves in the
+      generalized suffix tree -> each leaf in T has exactly one string
+      identifier.
+   4. Define C(v) to be the number of distict string identifiers that
+      appears in the leaves of some inner node v.
+      If all C(v) values are known, and the string depth of every node
+      is known, all l(k) can be extracted with an easy tree-traversal.
+
+   Computing C(v):
+   Given an internal node v, it's easy to compute the number of leaves
+   in the subtree in linear time. (Tree traversal). But this number
+   might be much larger than C(v) because two leaves in the subtree
+   might have the same identifier. For the moment, we take the easy
+   way and explicitly count for each inner node, and each of the K
+   strings. The resulting time is O(Kn).
+   Method. For each inner node v: create a K-length boolean array A and
+   set A[i] = true if there is a leaf with identifier i in the subtree. Then
+   C(v) is just the number of true values in that vector.
+** APL7: Building a smaller directed graph for exact matching
+   In many applications space is the critical constraint. Now we show
+   how to compress a suffix tree into a directed acyclic graph (DAG),
+   that can be sed to solve APL1 (and others) but take less space. The
+   method can also be used to build a directed acyclic word graph
+   (DAWG) which is the smallest finite-state machine that can
+   recognize suffixes of a given string.
+
+   For a given suffix tree, it might be the case that one subtree is
+   isomorphic with another subtree. That is, for every path in one of
+   the subtrees, there is a path in the other subtree with the same
+   label. In that case, one might remove one subtree and connect the
+   "dangling" edges to the root node of the second subtree. This is now
+   a DAG, not a tree which is smaller than the initial suffix
+   tree. It also solves the string matching problem for any given
+   pattern, but the leaves does not necessarily give the correct
+   starting positions anymore. Possible to fix? Exercise 10.
+
+   Detecting isomorphism:
+   Theorem: Two subtrees below p and q are isomorphic iff:
+   1. there is a directed path of suffix links from one node to the
+      other.
+   2. The number of leaves in the two subtrees are equal.
+   Proof:
+   Assume that there is a direct suffix link from p to q. Since there
+   is a suffix link from p to q, p has a path label xa while q has
+   path-label a. Thus, for every leaf in the subtree of p with index i
+   there exists a leaf in the subtree of q with index i + 1. All these
+   indices represent the same suffix exept that the lower ones start
+   with xa and the greater with a. Since the label up to p in denoted
+   by xa and up to q is denoted by a, any path in one tree also exists
+   in the other tree. By the same reasoning, this is true also for a
+   sequence of suffix pointers.

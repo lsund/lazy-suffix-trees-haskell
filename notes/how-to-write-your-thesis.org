@@ -40,3 +40,56 @@
 ** What diverses master thesis from bachelor?
 *** Master level research should be heighly developed independent critical thinking
 *** Master level reflects the experience in industrial/practical work related to the topic
+* Planning
+** Preliminary period: 1st of dec to 1st of June
+** What events will happen in my life during the period?
+*** Christmas
+*** Bodo?
+*** Mamma/pappa moving
+*** Helena and I moving?
+*** Until january: university work
+*** Doctronic?
+*** TNN
+** Hours
+*** 6 months, about 27 weeks.
+**** 30h/week - 810 hours
+**** 35h/week - 945 hours
+**** 40h/week - 1080 hours
+*** 35 Hours seems reasonable, thats 5h/day
+** Timeplan
+*** 23th nov submit thesis application
+*** 1st dec start thesis
+*** DEC
+**** Litterature research
+***** Should have finished suffix tree chapters of all three books.
+**** Methology and data gathering Goal:
+**** Implementation Goal
+***** Prototype of one algorithm.
+**** Writing
+***** A vague idea of chapters, sections and motivation.
+*** JAN
+**** Litterature research
+***** Exhausted all papers found.
+**** Methology and data gathering
+***** Have a understanding of all current algorithms.
+**** Implementation
+***** prototypes of all algorithms
+**** Writing
+*** FEB
+**** Litterature research
+***** Finished research and an orginized database of information.
+**** Methology and data gathering
+**** Implementation Goal
+***** Semi-efficient implementations of all algorithms.
+**** Writing Goal:
+*** MAR
+**** Writing
+***** Complete draft of chapters
+*** APR
+**** Writing
+***** Finish chapters
+***** Revision/Edits
+*** MAY
+**** Presentation
+***** Prapare for defense
+***** Make slides
