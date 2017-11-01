@@ -18,21 +18,45 @@
 
 \section{General}
 
-Suffix trees expresses the internal structure of a string in a much
-deeper level than ordinary preprocessing. They are able to solve the
-exact string matching problem with the same runtime bounds as
-algorithms such as the Knuth-Morris-Pratt (KMP) algorithm
-~\cite{website:knp-wiki} or the Boyer-Moore algorithm (BM)
-~\cite{website:bm-wiki}. However, their real value comes from linear
-use to being able to solve many string problems more complex than
-exact string search. It's hard to find another data structure that
-solves that many problems both efficiently and easy as suffix
-trees. A typical use case where they excel other string searching
-algorithms is when you have one pice of text, fixed over some time,
-but are presented multiple pattern strings. The task is now to find
-all occurences of each pattern in the text. With suffix trees, you
-need $O(n + k)$ for each pattern. In contrast, KMP and BM needs
-$O(m + n)$ for each input string presented.
+Suffix trees exposes the internal structure of a string on a deep level. This
+suprisingly simple datastructure allows for solving a wide range of problems
+efficiently and easily. While algorithms such as Knuth-Morris-Pratt (KMP)
+algorithm~\cite{website:knp-wiki} or the Boyer-Moore algorithm (BM)
+~\cite{website:bm-wiki} desrcibes in a traditional manner a specific sequence of
+steps to solve a specific problem, suffix trees are just data, and can be
+applied to many different string problems. Many of those are more complex than
+exact string search that KMP and BM solves. Even so, it should be mentioned that
+Suffix trees achieves the same time complexity bound for exact string search as
+these algorithms. In addition, in some settings of exact string search suffix
+trees are vastly superior.
+
+\section{Notation}
+
+A string is defined as...
+\\
+$T$ denotes the search space and will be refered to as ``a text''. $S$ is the
+search string and will be referred to as ``a string''. In the case of the string
+search problem, we want to find $S$ as a substring of $T$. Both $T$ and $S$ are
+strings and Usually $|T| >> |S|$.
+
+\section{Use cases and Applications}
+
+\subsection{Exact String Search}
+
+There are three variants of this problem.
+\begin{enumerate}
+        \item A single text and a single string is presented, at the same time.
+        \item A single text is presented first and then multiple strings.
+        \item A single string is presented first and then multiple texts.
+\end{enumerate}
+
+TODO FROM HERE
+\\
+A typical use case where they excel other string searching algorithms is when
+you have one pice of text, fixed over some time, but are presented multiple
+pattern strings. The task is now to find all occurences of each pattern in the
+text. With suffix trees, you need $O(n + k)$ for each pattern. In contrast, KMP
+and BM needs $O(m + n)$ for each input string presented.
 
 \section{History}
 

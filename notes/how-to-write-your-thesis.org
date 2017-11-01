@@ -60,26 +60,32 @@
 *** 23th nov submit thesis application
 *** 1st dec start thesis
 *** DEC
-**** Litterature research
-***** Should have finished suffix tree chapters of all three books.
+**** Research
+***** Litterature: Practical: Should have finished suffix tree chapters of all three books.
+***** Meta: Phase 1 + 2
 **** Methology and data gathering Goal:
+***** Suffix tree pretty printer, toy data
 **** Implementation Goal
 ***** Prototype of one algorithm.
 **** Writing
 ***** A vague idea of chapters, sections and motivation.
 *** JAN
-**** Litterature research
-***** Exhausted all papers found.
+**** Research
+***** Litterature: Practical: Exhausted all papers found.
+***** Meta: Collect data
 **** Methology and data gathering
-***** Have a understanding of all current algorithms.
+***** Have a understanding of all current algorithms
+***** Usable test data
 **** Implementation
 ***** prototypes of all algorithms
 **** Writing
 *** FEB
-**** Litterature research
-***** Finished research and an orginized database of information.
+**** Research
+***** Litterature: Finished research and an orginized database of information.
+***** Meta: Analyze data
 **** Methology and data gathering
-**** Implementation Goal
+***** Real benchmark data
+**** Implementation
 ***** Semi-efficient implementations of all algorithms.
 **** Writing Goal:
 *** MAR
@@ -93,3 +99,63 @@
 **** Presentation
 ***** Prapare for defense
 ***** Make slides
+* Research
+** General
+*** Where is the research data coming from?
+**** Doctronic?
+**** Past article benchmarking data?
+*** Appendix 14 can help with research
+*** Need to clarify and formulate research problem
+*** What is data in my case?
+**** Prior knowledge about
+***** Theory
+***** Algorithms
+***** efficiency
+***** Test strings
+*** Use secondary data before collecting real world data
+*** Analyze the data
+*** Topic must pose a buseness problem, issues and challanges.
+*** Research questions must be measurable in practice
+*** Hypothesis
+*** Research problem should be
+**** Interesting
+**** Important
+**** Precise and well-delimited
+**** Feasable
+**** Stretching your skills
+**** Well defined audience
+**** Answerable, with a useful answer
+**** Capable of producing clear business reccomendations
+**** Able to provide follow-up opportunities for you after graduation
+*** Thesis must have focus on a limited topic
+** The 5 phases
+*** Phase 1: Research Problem and Research Question verification
+**** DONE Select the research topic (Best way to implement suffix trees)
+     CLOSED: [2017-11-01 Wed 09:11]
+**** TODO Identify the direct beneficiaries and stakeholders of the research topic (1d)
+**** TODO Validate the topic through investigation, data gathering, cunsolting, literature review, other experts etc (3d)
+**** TODO Fine tune problem definition and define research objective (7d)
+**** TODO Develop theoretical and conceptual framework (3d)
+**** TODO Develop research questions and hypotheses or propositions (3d)
+*** Phase 2: Research Plan Design
+**** TODO Describe the variables or factors that will impact research outcomes (1d)
+**** TODO Identify the research methods to be applied (1d)
+**** TODO Identify and describe the nature of sample research participants (1d)
+**** TODO Describe the kind of data (1d)
+**** TODO Describe chosen data collection techniques (2d)
+**** TODO Plan for a high response rate (1d)
+**** TODO Chose data analysis techniques based on the research questions (2d)
+**** TODO Set a feasible time schedule for conducting the practical research stage (1d)
+*** Phase 3: Data Collection
+**** TODO Conduct data collection using the chosen techniques and instruments (7d)
+**** TODO Follow up with research participants (3d)
+**** TODO Prapare data for analysis (7d)
+*** Phase 4: Data Analysis, Conclusions
+**** TODO Analyse the data
+**** TODO Prapare insightful analysis
+**** TODO Benchmark
+**** TODO Introduce reccomendations
+**** TODO identify areas of further research
+*** Phase 5: Thesis Defense
+**** TODO Write the report according to formal writing
+**** TODO Defend the thesis

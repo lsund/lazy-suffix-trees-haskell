@@ -1,3 +1,7 @@
+* History
+** Wiener in 1973 developed the first suffix tree algorithm
+** McCreight a few years later developed a more space efficient solution
+** Ukkonen developed in the 90's an algorithm with all the advantages of McCreight, but simpler to understand
 * General
 ** Expresses the internal structure of a string in a much deeper level than ordinary preprocessing
 ** Solves the exact linear matching problem in linear time with the same worst case bound as KNP
@@ -12,20 +16,10 @@
 ** It's unfortunate, since the algorithm arn't that complicated
 ** When implemented well, they can efficiently solve many complex string problems.
 ** No single other data-structure can act as a solution to that many problems that easily.
-* Notations
-** T     : Text, the searchspace. Length m.
-** S     : String, the search string to be found in T. Length n.
-** P     : Pattern, same as string but usually used when there are many.
-** SET_P : Same as P but seen as a set.
-* History
-** Wiener in 1973 developed the first suffix tree algorithm
-** McCreight a few years later developed a more space efficient solution
-** Ukkonen developed in the 90's an algorithm with all the advantages of McCreight, but simpler to understand
-* Generalized Suffix trees
+** Generalized Suffix trees
   Building a suffix tree for a single string can easily be extended to
   building a suffix tree for a set of strings.
-
-** Method 1
+*** Method 1
  1. Append a unique string marker ($) to each string in the set.
  2. concatenate all strings together
  3. Build a suffix tree of the concatenated string
@@ -33,7 +27,7 @@
     positions. Since we know the positions of all $'s these numbers
     can easily be converted to a tuple (i,j) where i is the string
     index and j is the suffix starting position in string i.
-** Method 2
+*** Method 2
    Method 1 generates substrings that span more than the original
    strings. These 'synthetic' suffixes are not of interest.
 
@@ -45,7 +39,32 @@
  4. Resume Ukkonen's algorithm on S2 in phase i + 1.
  5. Mark leaves with the string accordingly
 
+* Notations
+** T     : Text, the searchspace. Length m.
+** S     : String, the search string to be found in T. Length n.
+** P     : Pattern, same as string but usually used when there are many.
+** SET_P : Same as P but seen as a set.
 * Definitions
+** Alphabet is assumed finite and known
+** A suffix tree for an m-character string S properties
+*** rooted, directed tree
+*** exactly m leaves numbered 1 to m
+*** Each internal node other than the root has at least 2 children
+*** Each edge is labeled with a non-empty substring of S
+*** No two edges of a node can have edge-labels beginning with the same character
+*** The key feature is that for each leaf i, the root->leaf label spells out the suffix starting at i in S
+*** Thus, for each internal node v, all numbers of the leafs under v corresponds to the starting indices of the root->node label (string).
+** Problem:
+*** Statement
+    If one suffix matches a prefix of another suffix then it's not
+    possible to create such a suffix tree, since the path for the
+    first suffx would not end in a leaf.
+*** Solution:
+    Assume that the last character of S does not occur anywhere else
+    in S. (can append a special character to S).
+** The label of a root->node path is the concatination of substrings of the edges in the correct order
+** For any node v, the string depth is the number of characters in v's label
+** A path that ends in a middle of an edge splits the label at the designated point.
 ** Suffix Links
    Let xa denote an arbitrary string where x is a single character and
    a is a substring. For an internal node v with path label xa, if
@@ -56,6 +75,10 @@
 ** Notes
 *** Some of these applications need an additional tool: The constant time lowest common ancestor algorithm
 ** APL1: Exact string matching
+   Note that if only one occurence of P in T suffices, then this can
+   be queried in O(n) rather than O(n + k). The idea is to in every
+   node store one index of its leafs. This can be achieved in O(n) in
+   preprocessing by Depth first traversal.
 *** Variant 1: A single T and a single S.
     Suffix trees in this case acheives the same bound O(m + n) like KNP.
 *** Variant 2: A single T and multiple P.
@@ -217,3 +240,7 @@
    by xa and up to q is denoted by a, any path in one tree also exists
    in the other tree. By the same reasoning, this is true also for a
    sequence of suffix pointers.
+* Ideas:
+** Suffix trees on infinite strings
+*** Could first create suffix tree up to N characters and then lazily build STree
+*** Really inefficient?
