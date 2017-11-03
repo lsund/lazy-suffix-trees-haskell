@@ -4,7 +4,7 @@ module Lib where
 import Protolude hiding (tails)
 
 import Data.Maybe       (fromJust)
-import Data.Text        (tails, stripPrefix, commonPrefixes)
+import Data.Text        (tails, commonPrefixes)
 import Data.List        (init)
 
 type Edge = (Text, SuffixTree)
@@ -25,12 +25,12 @@ tree1 text =
 match :: Text -> Edge -> Maybe (Text, Text, Text)
 match text (label, _) = commonPrefixes text label
 
-extend :: Int -> Text -> SuffixTree -> SuffixTree
-extend n "" tree = tree
+-- extend :: Int -> Text -> SuffixTree -> SuffixTree
+-- extend n "" tree = tree
 extend n text tree@(Node es) =
     case match text (fromJust $ head es) of
-        Just (p, s1, s2) -> undefined -- TODO continue here
-        Nothing -> undefined
+        Just (p, s1, s2) -> Leaf n -- TODO what should be here?
+        Nothing -> Node ((text, Leaf n) : es)
 
 next :: SuffixTree -> [Text] -> SuffixTree
 next = undefined

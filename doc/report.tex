@@ -30,14 +30,23 @@ Suffix trees achieves the same time complexity bound for exact string search as
 these algorithms. In addition, in some settings of exact string search suffix
 trees are vastly superior.
 
-\section{Notation}
+\section{Notation and Definitions}
 
-A string is defined as...
+A string is $S$ is an ordered list of characters written contiguously from left
+to right. For any string S, S[i..j] is the substring of S that starts at
+position $i$ and ends at position $j$. In particular, S[1..i] is the prefix that
+ends at position $i$ and $S[j..|S|]$ is the suffux of $S$ that starts at
+position $j$. We call a prefix, suffix or substring of S \textit{proper} if it is not
+the entire string. For any string S, $S(i)$ denotes the i'th character of S. We
+say that two characters $a$ and $b$ \textit{match} if $a = b$ , and
+\textit{mismatch} otherwise. We consider two strings equal if $|S| = |T|$
+of equal length and $\{ S(i) = T(i) | i \in [1..|S|]\}$. In that case, we also
+say that the two strings \textit{matches}.
 \\
-$T$ denotes the search space and will be refered to as ``a text''. $S$ is the
-search string and will be referred to as ``a string''. In the case of the string
-search problem, we want to find $S$ as a substring of $T$. Both $T$ and $S$ are
-strings and Usually $|T| >> |S|$.
+We'll usually use $T$ to denote the search space and will be refered to as ``a
+text''. $S$ is the search string and will be referred to as ``a string''. In the
+case of the string search problem, we want to find $S$ as a substring of
+$T$. Both $T$ and $S$ are strings and Usually $|T| >> |S|$.
 
 \section{Use cases and Applications}
 
