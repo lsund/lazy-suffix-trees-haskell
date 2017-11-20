@@ -244,3 +244,4 @@
 ** Suffix trees on infinite strings
 *** Could first create suffix tree up to N characters and then lazily build STree
 *** Really inefficient?
+** Suffix trees related to functional programming

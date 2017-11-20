@@ -3,40 +3,59 @@ module Lib where
 
 import Protolude hiding (tails)
 
-import Data.Maybe       (fromJust)
-import Data.Text        (tails, commonPrefixes)
-import Data.List        (init)
+-- import Data.Maybe       (fromJust)
+-- import Data.Text        (tails, commonPrefixes)
+import Data.List        (groupBy)
 
-type Edge = (Text, SuffixTree)
+-- After Giegerich and Kurtz 1994
 
-data SuffixTree
-    = Node [Edge]
-    | Leaf Int
-    deriving (Show)
+-- A suffixtree is eather a leaf or a branch with a number of subtrees.
+-- A subtree is the product of a label and a suffixtree.
+data SuffixTree a = Leaf | Branch [([a], SuffixTree a)] deriving (Show)
 
-suffixes :: Text -> [Text]
-suffixes = init . tails
+type EdgeFunction a  = [[a]] -> ([a], [[a]])
 
-tree1 :: Text -> SuffixTree
-tree1 text =
-   let ss = suffixes text
-   in Node [(text, Leaf 1)]
+edgePst :: EdgeFunction a
+edgePst [s] = (s, [[]])
+edgePst ss  = ([], ss)
 
-match :: Text -> Edge -> Maybe (Text, Text, Text)
-match text (label, _) = commonPrefixes text label
 
--- extend :: Int -> Text -> SuffixTree -> SuffixTree
--- extend n "" tree = tree
-extend n text tree@(Node es) =
-    case match text (fromJust $ head es) of
-        Just (p, s1, s2) -> Leaf n -- TODO what should be here?
-        Nothing -> Node ((text, Leaf n) : es)
+suffixes :: [a] -> [[a]]
+suffixes [] = []
+suffixes (x : xs) = (x : xs) : suffixes xs
 
-next :: SuffixTree -> [Text] -> SuffixTree
-next = undefined
 
-make :: Text -> SuffixTree
-make = undefined
+groupByHead :: Ord a => [[a]] -> [[[a]]]
+groupByHead = groupBy compFun . sortBy ordFun
+  where
+    ordFun []      []      = EQ
+    ordFun (x : _) (y : _) = x `compare` y
+    ordFun []      _       = LT
+    ordFun _      []       = GT
+    compFun xs             = (== EQ) . ordFun xs
 
-query :: Text -> Maybe [Int]
-query = undefined
+
+-- construct _ [[]] = Leaf
+-- construct [[]]      = Leaf
+-- construct suffixes  =
+--     let
+--         -- [[first letter], [second letter]...]
+--         grouped = groupByHead suffixes
+--         firsts = map (\((x : _) : _) -> x) grouped
+--         -- [([prefix], [[
+--         prefixed = zip firsts $ map edgePst grouped
+--     in
+--       Branch $ map (\(a, (p, y : ys)) -> (a : p, construct ys)) prefixed
+
+
+-- make t = construct $ suffixes t
+
+
+-- Choose a common prefix for each group for the edge label
+-- Shoul
+-- lazyTree :: EdgeFunction a -> [a] -> [a] -> SuffixTree a
+-- lazyTree mkEdge letters t =
+--     construct mkEdge letters $ suffixes t
+
+-- lazyPst :: [a] -> [a] -> SuffixTree a
+-- lazyPst = lazyTree edgePst
