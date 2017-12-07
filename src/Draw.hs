@@ -12,24 +12,30 @@ import Lib
 -------------------------------------------------------------------------
 -- Dummy data
 
-dummyST = Branch [(("a", 1), Branch [(("c", 1), Leaf)]), (("b", 1), Leaf)]
-dummyLazyAST = lazyAST "xa" "xaxa"
+tree0 = lazyAST "xa" "xaxa"
+tree1 = lazyAST "acg" "agcgacgag"
 
+tree3 = lazyPST "xa" "xaxa"
+tree4 = lazyPST "acg" "agcgacgag"
+
+tree5 = lazyCST "xa" "xaxa"
+tree6 = lazyCST "acg" "agcgacgag"
 -------------------------------------------------------------------------
 -- Conversion
 
 toTree :: (Label t, STree t) -> Tree (Label t)
 toTree = unfoldTree tuplize
-    where tuplize (l, Leaf)      = (l, [])
-          tuplize (l, Branch xs) = (l, xs)
+    where tuplize (s, Leaf)      = (s, [])
+          tuplize (s, Branch xs) = (s, xs)
 
 -------------------------------------------------------------------------
 -- Draw
 
 
 drawST :: (Tree String -> String) -> STree Char -> IO ()
-drawST drawFun st = putStr $ drawFun $ map fst $ toTree $ wrapRoot st
+drawST drawFun = putStr . drawFun . map edgeLabel . toTree . wrapRoot
     where wrapRoot st = (("Root", 1 :: Int), st)
+          edgeLabel (s, l) = take l s
 
 draw       = drawST drawTree
 drawPretty = drawST drawVerticalTree
