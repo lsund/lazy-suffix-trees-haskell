@@ -1,8 +1,9 @@
 module Main where
 
-import Lib (make)
+import Lib (lazyAST)
 
 import Protolude
 
 main :: IO ()
-main = print $ make "xabxac"
+main = print $ lazyAST "abcx" "xabxac"
+

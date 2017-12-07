@@ -1,0 +1,8 @@
+* 4th of december
+** Reading through my older notes and merging them with my main planning document
+** Reading and adding notes in HWYMT last part about supervisor and starting writing chapter
+** Reading 30m in how to solve it and taking nowes
+* 7th of december
+** 30 min HWYMT and taking notes
+** 30 min entering notes
+** 1h implementing drawing functions for STree

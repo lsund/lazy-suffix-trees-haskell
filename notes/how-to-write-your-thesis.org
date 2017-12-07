@@ -1,5 +1,9 @@
 * General
-** The thesis is about me
+** Keep it simple
+*** Only collect data you can handle.
+** Norbert Blum
+*** Probably sees me as a low-maintenence student
+    Might only have a couple of hours in total alotted for me
 ** Important things to consider about the thesis
 *** Should be a researchable question
 *** Research problem should be important
@@ -10,7 +14,6 @@
 *** New knowledge and insights
 *** Clear implementation of abstract ideas
 *** Good understanding of the problem
-*** Clear focus
 ** Skills needed:
 *** Social networking, many contacts
 *** listening
@@ -40,72 +43,51 @@
 ** What diverses master thesis from bachelor?
 *** Master level research should be heighly developed independent critical thinking
 *** Master level reflects the experience in industrial/practical work related to the topic
+** The purpose of the thesis work could be to:
+*** Optimize the construction of something
+*** Structure the construction of somethnig
+*** Satisfy business needs
+*** Improve the performance of something
+*** Enlighten with new methods about something
+*** Compare two things (which is better?)
+*** Design something new
+*** To prove (for example a new bound on something)
+*** To forecast the development of something
 * Planning
 ** Preliminary period: 1st of dec to 1st of June
 ** What events will happen in my life during the period?
+*** New year
 *** Christmas
+    Probably 3 or 4 days of lost work
 *** Bodo?
+    Attended funeral, no chance of working - 3 days of lost work
 *** Mamma/pappa moving
 *** Helena and I moving?
 *** Until january: university work
 *** Doctronic?
+    20h per week, can do other things than implementation work
 *** TNN
+    Will take about 10h/week
 ** Hours
 *** 6 months, about 27 weeks.
 **** 30h/week - 810 hours
 **** 35h/week - 945 hours
 **** 40h/week - 1080 hours
 *** 35 Hours seems reasonable, thats 5h/day
-** Timeplan
-*** 23th nov submit thesis application
-*** 1st dec start thesis
-*** DEC
-**** Research
-***** Litterature: Practical: Should have finished suffix tree chapters of all three books.
-***** Meta: Phase 1 + 2
-**** Methology and data gathering Goal:
-***** Suffix tree pretty printer, toy data
-**** Implementation Goal
-***** Prototype of one algorithm.
-**** Writing
-***** A vague idea of chapters, sections and motivation.
-*** JAN
-**** Research
-***** Litterature: Practical: Exhausted all papers found.
-***** Meta: Collect data
-**** Methology and data gathering
-***** Have a understanding of all current algorithms
-***** Usable test data
-**** Implementation
-***** prototypes of all algorithms
-**** Writing
-*** FEB
-**** Research
-***** Litterature: Finished research and an orginized database of information.
-***** Meta: Analyze data
-**** Methology and data gathering
-***** Real benchmark data
-**** Implementation
-***** Semi-efficient implementations of all algorithms.
-**** Writing Goal:
-*** MAR
-**** Writing
-***** Complete draft of chapters
-*** APR
-**** Writing
-***** Finish chapters
-***** Revision/Edits
-*** MAY
-**** Presentation
-***** Prapare for defense
-***** Make slides
 * Research
+** Prelimaries
+*** Read about 7 articles, choose a style similar to these.
+*** Find out what articles Norbert likes.
 ** General
+*** Should fill in a gap in litterature.
+*** Should be precise, follow empirical and mathematic methods.
+*** Keep a research diary
+*** What are my interests? The thesis is about me
+*** Who and what will gain from the thesis?
 *** Where is the research data coming from?
 **** Doctronic?
 **** Past article benchmarking data?
 *** Appendix 14 can help with research
-*** Need to clarify and formulate research problem
 *** What is data in my case?
 **** Prior knowledge about
 ***** Theory
@@ -128,6 +110,18 @@
 **** Capable of producing clear business reccomendations
 **** Able to provide follow-up opportunities for you after graduation
 *** Thesis must have focus on a limited topic
+** Problem statement / Description
+*** Clear focus on what it is solving
+*** Major question, minor questions
+*** Should not be too complicated, should be able to explain it in 2 minutes
+*** Need to clarify and formulate research problem
+*** Justify why my approach is different
+*** Convert big problem into smaller parts. Compose them back together
+** Approaching the problem
+*** Limitations / problems with the chosen approach
+*** Must be something new. Find what's new about the problem
+*** Are there existing methods on how to solve the problem? Existing solutions to similar problems?
+*** Argue my ability and expertice to use the tools needed to solve the problem
 ** The 5 phases
 *** Phase 1: Research Problem and Research Question verification
 **** DONE Select the research topic (Best way to implement suffix trees)
@@ -159,3 +153,204 @@
 *** Phase 5: Thesis Defense
 **** TODO Write the report according to formal writing
 **** TODO Defend the thesis
+* Writing
+** Read more english. Especially articles. 1h reading per day
+*** Books to read at the side
+**** How to solve it
+**** Real world haskell
+*** Journals
+**** The economist
+** The writing will consist of (not necessarly in order)
+*** Thesis Proposal
+*** Research questions
+*** Rationale of choice
+*** Basic outline
+*** Skeleton of outline
+*** Supporting outline
+*** Draft of introduction
+*** Draft of body, methods and result
+*** Draft of conclusions
+*** Revisions edits
+*** Proof readings
+*** Preparation of final copy
+*** Title page, abstract and table of contents
+*** Tables, figures, appendix and reference
+** All chapters should be:
+*** Complete
+    Good english defining all technical terms. Not too many questions left unanswered.
+    Definitions of limit, scope, country and institutions.
+*** Accurate
+    Correct and logical reasoning based on the evidence for the main point.
+    No unnecesary points made.
+*** Clear
+    Highlight key phrases. Make good use of headers and sub-headers. Have a
+    thought-through structure and organization.
+*** Attractive (visually)
+    Proper layout. For final copy: Paper and binding quality good. See official
+    guidelines for margin and spacing. Check spelling, use consistent where
+    ambigiouity occurs.
+** Style
+*** Thesis should sound like an academic article.
+*** Dont use too complex vocabulary, thesis should be easy to understand.
+*** Balance long and short sentences.
+*** Refer to myself as "the Researcher"
+*** Vary words with synonyms if possible.
+*** Each paragraph explains one thing. First sentence summarizes it
+*** What would the header for this paragraph be?
+*** 3-4 paragraphs per page.
+*** Transitions between paragraphs
+**** But, however, on the other hand, yet
+**** For example, that is
+**** similarly, moreover, furthermore, in addition
+**** Therefore, consequently, as a result, thus
+**** Then, after that, ultimately
+*** If the paragraphs are floating on nicely, don't use transitions
+*** Do's and Don'ts
+**** Ask others to read it before submission
+**** Less is more
+**** DRY
+**** Do not use too much technical terms or cliche's
+**** Don't over-explain the basics, don't be over-enthustiastic
+**** Assume reader is of academic background with vague interest in the subject.
+**** Stay disconnected from the work, not personal.
+**** Dont overstate the ideas. Use arguably, possibly etc
+**** Make every word and every sentence count
+*** Specific words
+**** Considered {as, to be} -> considered
+**** Dont begin sentences with also
+**** Data is -> Data are
+**** Media is -> Media are
+**** Each is singular
+**** Every is singular
+**** Methology is the study or the system of methods. use method
+**** Limit 'Plus' to mathematic
+**** Unique means one of a kind, not special/unusual
+**** Since is always followed by a specific date description
+**** Continual - happening again and again
+**** Continuous - happening all the time without stopping
+**** Farther - physical distance
+**** Further - metaphorical distance
+**** Among - more than 2 things
+**** Between - 2 things
+**** imply - the speaker
+**** infer - the listener
+**** e.g - for example
+**** i.e - that is
+*** Avoid meaningless things like
+**** In the case of
+**** In regard to
+**** in this respect
+**** due to the fact that
+**** in the point of fact
+**** from the point of view that
+* Timeplan
+** DEC
+*** DONE 23th nov submit thesis application
+*** DONE 1st dec start thesis
+*** DONE 4th give Norbert  all my contact details ask about address
+    CLOSED: [2017-12-04 Mon 13:27]
+*** TODO Concurrent and parallel programming in haskell by simon marlow
+*** TODO 15th Have working functional implementation
+*** TODO 22th Notice norbert that first draft is coming
+*** TODO 29th Send in first draft (hard-copy)
+*** Research
+**** Litterature: Practical: Should have finished suffix tree chapters of all three books.
+**** Meta: Phase 1 + 2
+*** Methology and data gathering Goal:
+**** Suffix tree pretty printer, toy data
+*** Implementation Goal
+**** Prototype of one algorithm.
+*** Writing
+**** A vague idea of chapters, sections and motivation.
+** JAN
+*** Research
+**** Litterature: Practical: Exhausted all papers found.
+**** Meta: Collect data
+*** Methology and data gathering
+**** Have a understanding of all current algorithms
+**** Usable test data
+*** Implementation
+**** prototypes of all algorithms
+*** Writing
+** FEB
+*** Research
+**** Litterature: Finished research and an orginized database of information.
+**** Meta: Analyze data
+*** Methology and data gathering
+**** Real benchmark data
+*** Implementation
+**** Semi-efficient implementations of all algorithms.
+*** Writing Goal:
+** MAR
+*** Writing
+**** Complete draft of chapters
+** APR
+*** Writing
+**** Finish chapters
+**** Revision/Edits
+** MAY
+*** Last week: Proof reading
+*** Presentation
+**** Prapare for defense
+**** Make slides
+* How to solve it
+** The list
+*** Understanding the problem
+**** Preliminaries
+***** What is the Unknown?
+***** What is the data?
+***** What is the condition?
+**** Can we solve the problem?
+***** Is it possible to satisfy the condition?
+***** Is the condition sufficent to determine the unknown?
+***** Is it insufficient?
+***** Is it redundant?
+**** Draw a figure
+***** Introduce suitable notation
+**** Separate various parts of the contition
+***** Write the separate parts down
+*** Devising a plan
+**** Find the connection between the data and the unknown
+**** Consider auxillary problems if an immidiate solution can not be found
+***** Have you seen the problem before?
+***** Have you seen the same problem in a slightly different setting?
+***** Do you know a related problem?
+***** Do you know a useful theorem?
+**** Look at the unknown!
+***** Try to think of similar problems that have the same unknown.
+**** Here is a problem related to you and solved before. Can you use it?
+***** Can you use its method?
+***** Can you introduce an auxillary element to make its use possible?
+**** Can you restate the problem?
+***** Can you restate it again?
+**** Go back to definitions
+**** If you cannot solve the problem, try solving an related problem.
+***** Can you think of a more accesible related problem?
+***** A more general problem?
+***** A more special problem?
+***** An analogous problem?
+***** Can you solve a part of the problem?
+**** Keep only part of the condition, drop the other. How far is the unknown then determined?
+***** How can it vary?
+**** Can you Derive something useful from the data?
+***** Could you think of any other appropriate data to determine the unknown?
+***** Could you change the unknown or the data or both so that the new unknown and data are nearer eachother?
+***** Did you use all the data? Did you use the whole condition?
+***** Have you taken into account the different notions involved?
+*** Carrying out the plan
+**** Check each step
+***** Can you see that each step is correct?
+***** Can you prove it?
+*** Looking back
+**** Can you check the result?
+**** Can you check the argument?
+**** Can you derive the result in a different way?
+**** Can you see it now at a glance?
+**** Can you use the result or method for some other problem?
+** General pointers
+*** The hardest part of researching a problem is understanding precisely what the problem says
+*** When teaching something, ask the same questions as the audiance would.
+*** Good ideas are based on past experience
+*** Solving a problem:
+    Begin with a general question of the list. Proceed gradually to more specific and
+    more concrete questions that have to provoke a response.
