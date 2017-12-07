@@ -5,4 +5,5 @@
 * 7th of december
 ** 30 min HWYMT and taking notes
 ** 30 min entering notes
-** 1h implementing drawing functions for STree
+** 2h implementation work, mainly drawing trees
+** 30 min reading about ukkonens method

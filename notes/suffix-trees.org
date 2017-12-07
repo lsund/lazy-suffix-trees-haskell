@@ -246,3 +246,4 @@
 *** Really inefficient?
 ** Suffix trees related to functional programming
 ** Should be very easy to parallelize in the functional paradigm
+** Investigate higher level functional concepts for local update
