@@ -8,6 +8,7 @@ import Data.Tree
 import Data.Tree.Pretty
 
 import Lib
+import Reader
 
 -------------------------------------------------------------------------
 -- Dummy data
@@ -20,6 +21,9 @@ tree4 = lazyPST "acg" "agcgacgag"
 
 tree5 = lazyCST "xa" "xaxa"
 tree6 = lazyCST "acg" "agcgacgag"
+
+tree7 = lazyAST "abcd" "abc"
+
 -------------------------------------------------------------------------
 -- Conversion
 
@@ -34,8 +38,14 @@ toTree = unfoldTree tuplize
 
 drawST :: (Tree String -> String) -> STree Char -> IO ()
 drawST drawFun = putStr . drawFun . map edgeLabel . toTree . wrapRoot
-    where wrapRoot st = (("Root", 1 :: Int), st)
+    where wrapRoot st = (("x", 1 :: Int), st)
           edgeLabel (s, l) = take l s
 
 draw       = drawST drawTree
 drawPretty = drawST drawVerticalTree
+
+drawFile path = do
+    res <- fileToTree path
+    case res of
+      Left e -> putStrLn $ "PARSER ERROR:\n" ++ show e
+      Right t -> putStrLn $ drawVerticalTree $ map (: []) t

@@ -3,7 +3,7 @@
 *** Only collect data you can handle.
 ** Norbert Blum
 *** Probably sees me as a low-maintenence student
-    Might only have a couple of hours in total alotted for me
+*** Might only have a couple of hours in total alotted for me
 ** Important things to consider about the thesis
 *** Should be a researchable question
 *** Research problem should be important
@@ -154,13 +154,7 @@
 **** TODO Write the report according to formal writing
 **** TODO Defend the thesis
 * Writing
-** Read more english. Especially articles. 1h reading per day
-*** Books to read at the side
-**** How to solve it
-**** Real world haskell
-*** Journals
-**** The economist
-** The writing will consist of (not necessarly in order)
+** Writing procedure (not necessarly in order)
 *** Thesis Proposal
 *** Research questions
 *** Rationale of choice
@@ -190,21 +184,42 @@
     guidelines for margin and spacing. Check spelling, use consistent where
     ambigiouity occurs.
 ** Style
-*** Thesis should sound like an academic article.
-*** Dont use too complex vocabulary, thesis should be easy to understand.
-*** Balance long and short sentences.
-*** Refer to myself as "the Researcher"
-*** Vary words with synonyms if possible.
-*** Each paragraph explains one thing. First sentence summarizes it
-*** What would the header for this paragraph be?
-*** 3-4 paragraphs per page.
+*** Format
+**** 12 point times new roman, 1.5 spacing and numbered pages
+**** Al pages before CH1 should be labeled with roman style, starting at copyright
+**** Up to three levels of subtitles. If further structure is needed, use bullet points etc.
+**** Structure Idea
+***** Cover page
+***** Copyright page
+***** Aknowledgements
+***** Abstract
+***** Table of contents
+***** List of Figures
+***** List of tables
+***** CH1: Introduction
+***** CH2: Litterature Review
+***** CH3: Methodology, theoretical framework
+***** CH4: Findings, Results
+***** CH5: Conlusions, Discussion, Limitations, Reccomendations for future research
+***** References
+***** Appendices
+***** Biography
+*** General
+**** Thesis should sound like an academic article.
+**** Dont use too complex vocabulary, thesis should be easy to understand.
+**** Balance long and short sentences.
+**** Refer to myself as "the Researcher"
+**** Vary words with synonyms if possible.
+**** Each paragraph explains one thing. First sentence summarizes it
+**** What would the header for this paragraph be?
+**** 3-4 paragraphs per page.
+**** If the paragraphs are floating on nicely, don't use transitions
 *** Transitions between paragraphs
 **** But, however, on the other hand, yet
 **** For example, that is
 **** similarly, moreover, furthermore, in addition
 **** Therefore, consequently, as a result, thus
 **** Then, after that, ultimately
-*** If the paragraphs are floating on nicely, don't use transitions
 *** Do's and Don'ts
 **** Ask others to read it before submission
 **** Less is more
@@ -243,14 +258,38 @@
 **** due to the fact that
 **** in the point of fact
 **** from the point of view that
+*** Punctuation
+**** No periods for list of items, unless items are sentences
+**** No periods in headings, titles of figures, caption of figures, adresses
+**** When commas occur inside the element of a series, semicolons should be used
+**** Comma follows:
+***** Namely
+***** that is
+***** i.e.
+***** e.g.
+***** for example
+**** Comma does not follow:
+***** but
+***** or
+***** unless
+**** Semicolon marks a greater break in the sentence than comma
+**** Color marks a greater berak in the sentence than semicolon
+**** Dash makes a sudden interruption in the sentence-flow
+**** Quotation:
+***** Jamies's -> Jamies'
+***** They took their SAT's -> They took their SATs
+**** Comma and period go inside quotation mark. Colon/semicolon go outside
+* Preparation
+** Lack of structure will be the first thing the examiners notice
+** Read more english. Especially articles. 1h reading per day
 * Timeplan
 ** DEC
 *** DONE 23th nov submit thesis application
 *** DONE 1st dec start thesis
 *** DONE 4th give Norbert  all my contact details ask about address
     CLOSED: [2017-12-04 Mon 13:27]
-*** TODO Concurrent and parallel programming in haskell by simon marlow
 *** TODO 15th Have working functional implementation
+*** TODO 16th Find old thesises, specifically the ones that blum supervised
 *** TODO 22th Notice norbert that first draft is coming
 *** TODO 29th Send in first draft (hard-copy)
 *** Research
@@ -293,64 +332,90 @@
 *** Presentation
 **** Prapare for defense
 **** Make slides
-* How to solve it
-** The list
-*** Understanding the problem
-**** Preliminaries
-***** What is the Unknown?
-***** What is the data?
-***** What is the condition?
-**** Can we solve the problem?
-***** Is it possible to satisfy the condition?
-***** Is the condition sufficent to determine the unknown?
-***** Is it insufficient?
-***** Is it redundant?
-**** Draw a figure
-***** Introduce suitable notation
-**** Separate various parts of the contition
-***** Write the separate parts down
-*** Devising a plan
-**** Find the connection between the data and the unknown
-**** Consider auxillary problems if an immidiate solution can not be found
-***** Have you seen the problem before?
-***** Have you seen the same problem in a slightly different setting?
-***** Do you know a related problem?
-***** Do you know a useful theorem?
-**** Look at the unknown!
-***** Try to think of similar problems that have the same unknown.
-**** Here is a problem related to you and solved before. Can you use it?
-***** Can you use its method?
-***** Can you introduce an auxillary element to make its use possible?
-**** Can you restate the problem?
-***** Can you restate it again?
-**** Go back to definitions
-**** If you cannot solve the problem, try solving an related problem.
-***** Can you think of a more accesible related problem?
-***** A more general problem?
-***** A more special problem?
-***** An analogous problem?
-***** Can you solve a part of the problem?
-**** Keep only part of the condition, drop the other. How far is the unknown then determined?
-***** How can it vary?
-**** Can you Derive something useful from the data?
-***** Could you think of any other appropriate data to determine the unknown?
-***** Could you change the unknown or the data or both so that the new unknown and data are nearer eachother?
-***** Did you use all the data? Did you use the whole condition?
-***** Have you taken into account the different notions involved?
-*** Carrying out the plan
-**** Check each step
-***** Can you see that each step is correct?
-***** Can you prove it?
-*** Looking back
+* Resources
+** Haskell Books
+*** Concurrent and parallel programming in haskell by simon marlow
+*** Haskell from first principles
+*** Real world haskell
+** How to solve it
+*** The list
+**** Understanding the problem
+***** Preliminaries
+****** What is the Unknown?
+****** What is the data?
+****** What is the condition?
+***** Can we solve the problem?
+****** Is it possible to satisfy the condition?
+****** Is the condition sufficent to determine the unknown?
+****** Is it insufficient?
+****** Is it redundant?
+***** Draw a figure
+****** Introduce suitable notation
+***** Separate various parts of the contition
+****** Write the separate parts down
+**** Devising a plan
+***** Find the connection between the data and the unknown
+***** Consider auxillary problems if an immidiate solution can not be found
+****** Have you seen the problem before?
+****** Have you seen the same problem in a slightly different setting?
+****** Do you know a related problem?
+****** Do you know a useful theorem?
+***** Look at the unknown!
+****** Try to think of similar problems that have the same unknown.
+***** Here is a problem related to you and solved before. Can you use it?
+****** Can you use its method?
+****** Can you introduce an auxillary element to make its use possible?
+***** Can you restate the problem?
+****** Can you restate it again?
+***** Go back to definitions
+***** If you cannot solve the problem, try solving an related problem.
+****** Can you think of a more accesible related problem?
+****** A more general problem?
+****** A more special problem?
+****** An analogous problem?
+****** Can you solve a part of the problem?
+***** Keep only part of the condition, drop the other. How far is the unknown then determined?
+****** How can it vary?
+***** Can you Derive something useful from the data?
+****** Could you think of any other appropriate data to determine the unknown?
+****** Could you change the unknown or the data or both so that the new unknown and data are nearer eachother?
+****** Did you use all the data? Did you use the whole condition?
+****** Have you taken into account the different notions involved?
+**** Carrying out the plan
+***** Check each step
+****** Can you see that each step is correct?
+****** Can you prove it?
+**** Looking back
 **** Can you check the result?
 **** Can you check the argument?
 **** Can you derive the result in a different way?
 **** Can you see it now at a glance?
 **** Can you use the result or method for some other problem?
-** General pointers
-*** The hardest part of researching a problem is understanding precisely what the problem says
-*** When teaching something, ask the same questions as the audiance would.
-*** Good ideas are based on past experience
-*** Solving a problem:
+*** General pointers
+**** The hardest part of researching a problem is understanding precisely what the problem says
+**** When teaching something, ask the same questions as the audiance would.
+**** Good ideas are based on past experience
+**** Solving a problem:
     Begin with a general question of the list. Proceed gradually to more specific and
     more concrete questions that have to provoke a response.
+*** The procedure
+**** 1. Start with the problem statement
+    Visualize the problem as clearly and vividly as you can. Do not consider details
+    at this time. Memorize the problem statement. Isolate the principal parts of the
+    problem. Consider the principal parts one by one in isolation and in combinations.
+***** For problems to prove:
+     Principal parts are Hypothesis and conclusion
+***** For problems to find:
+     Principal parts are Unkown, data and conditions
+**** 2. Think about the details of your problem
+    Consider the problem from various view points and cosider prior
+    knowledge about the problem. Consider the details in different
+    orders or combinations. Try to find some meaning or new
+    interpretation in every detail. Think about what helped in
+    situations in the past. Be greatful for new ideas or solidified
+    knowledge. Follow up on incomplete ideas if they seem useful. Two
+    questions might be easier to answer than one provided that they
+    are intelligently connected.
+**** 3. Carry out the plan
+    Compose and decompose the steps if they are too big. When one step
+    is solved, try to make it shorter, clearer or more usable.

@@ -1,5 +1,5 @@
 * History
-** Wiener in 1973 developed the first suffix tree algorithm
+** Wiener in 1973 developed the first suffix tree algorithm (linear time)
 ** McCreight a few years later developed a more space efficient solution
 ** Ukkonen developed in the 90's an algorithm with all the advantages of McCreight, but simpler to understand
 * General
@@ -16,6 +16,7 @@
 ** It's unfortunate, since the algorithm arn't that complicated
 ** When implemented well, they can efficiently solve many complex string problems.
 ** No single other data-structure can act as a solution to that many problems that easily.
+* Suffix tree variations
 ** Generalized Suffix trees
   Building a suffix tree for a single string can easily be extended to
   building a suffix tree for a set of strings.
@@ -39,6 +40,12 @@
  4. Resume Ukkonen's algorithm on S2 in phase i + 1.
  5. Mark leaves with the string accordingly
 
+** Implicit suffix trees
+   Let T be the suffix tree for S$. Then the implicit suffix tree T' is obtained from
+   T by deleting every copy of $, every edge (and associated node) that only are
+   marked with an $.
+*** An implicit suffix tree might not have a leaf for each suffix.
+*** T can be easily constructed from T'
 * Notations
 ** T     : Text, the searchspace. Length m.
 ** S     : String, the search string to be found in T. Length n.
@@ -240,6 +247,29 @@
    by xa and up to q is denoted by a, any path in one tree also exists
    in the other tree. By the same reasoning, this is true also for a
    sequence of suffix pointers.
+* Methods
+** Ukkonens
+   Ukkonens method is equally fast as Weiner but uses less space. It is also easier
+   to understand. Additionally, it has an on-line property which can come in useful.
+*** Constructs a sequence of implicit suffix trees
+*** Constructs I_i for each S[1..i] of S. (Each prefix)
+*** The true suffix tree is built using I_m
+*** I_1 is just the single edge marked by S(1)
+*** m phases, one for each letter in S
+*** In phase i+1:
+**** I_i+1 is created from I_i
+**** There is i+1 extensions, one for each letter consedired by S[1..i+1]
+**** In extension j, the algorithm finds the end of the root path with label S[j..i].
+**** Then it adds S(i+1) if necessary to its end.
+*** Rules for adding S(i+1)
+    Let S[j..i] = B be a suffix of S[1..i]. The current extension is j.
+    Extend B to be sure that BS(i+1) is in the new tree according to the rules:
+    1. If B ends on a leaf, just add S(i+1) to the end of the edge
+    2. If there is no path continuing with S(i+1) after B, then insert a new leaf
+       with edge marking S(i+1)
+    3. Otherwise, BS(i+1) is already in the suffix tree. Since this is an implicit
+       suffix tree, we do not need to mark the end of every suffix and thus do nothing.
+
 * Ideas:
 ** Suffix trees on infinite strings
 *** Could first create suffix tree up to N characters and then lazily build STree

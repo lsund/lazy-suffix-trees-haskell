@@ -1,9 +1,19 @@
-* 4th of december
-** Reading through my older notes and merging them with my main planning document
-** Reading and adding notes in HWYMT last part about supervisor and starting writing chapter
-** Reading 30m in how to solve it and taking nowes
-* 7th of december
-** 30 min HWYMT and taking notes
-** 30 min entering notes
-** 2h implementation work, mainly drawing trees
-** 30 min reading about ukkonens method
+* Dec
+** Week 1
+*** 3/12: 0.5h
+**** 30m meeting doctronic
+*** 4/12: 1.5h
+**** 30m Reading through my older notes and merging them with my main planning document
+**** 30m Reading and adding notes in HWYMT last part about supervisor and starting writing chapter
+**** 30m Reading in how to solve it and taking nowes
+*** 7/12: 5h
+**** 30m HWYMT and taking notes
+**** 30m entering notes
+**** 2h implementation work, mainly drawing trees
+**** 30m reading about ukkonens method
+**** 1h implementing C modules
+**** 30m How to solve it + notes
+*** 8/12
+**** 30m HWYMT and taking notes
+**** 20m Enter notes in the computer
+**** 1h Haskellbook
