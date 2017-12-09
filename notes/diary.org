@@ -13,7 +13,10 @@
 **** 30m reading about ukkonens method
 **** 1h implementing C modules
 **** 30m How to solve it + notes
-*** 8/12
+*** 8/12 5h
 **** 30m HWYMT and taking notes
-**** 20m Enter notes in the computer
+**** 30m Enter notes in the computer
+**** 1h Haskellbook
+**** 3h implementation
+*** 9/12
 **** 1h Haskellbook
