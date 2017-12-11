@@ -1,9 +1,9 @@
-name:                suffix-trees
+name:                suffix-trees-haskell
 version:             0.2.0.0
 synopsis:            Suffix trees in haskell
 description:         This is so far an experimental library for implementing
                      suffix trees, created as a part of my master thesis.
-homepage:            https://github.com/githubuser/suffix-trees#readme
+homepage:            https://github.com/githubuser/suffix-trees-haskell#readme
 license:             BSD3
 license-file:        LICENSE
 author:              Author name here
@@ -29,11 +29,11 @@ library
   default-extensions:  NoImplicitPrelude
                      , OverloadedStrings
 
-executable suffix-trees-exe
+executable suffix-trees-haskell-exe
   hs-source-dirs:      app,src
   main-is:             Main.hs
   build-depends:       base
-                     , suffix-trees
+                     , suffix-trees-haskell
                      , protolude
                      , text
                      , pretty-tree
@@ -45,15 +45,15 @@ executable suffix-trees-exe
   other-modules:       Lib
   ghc-options:
 
-test-suite suffix-trees-test
+test-suite suffix-trees-haskell-test
   type:                exitcode-stdio-1.0
   hs-source-dirs:      test
   main-is:             Spec.hs
   build-depends:       base
-                     , suffix-trees
+                     , suffix-trees-haskell
   ghc-options:
   default-language:    Haskell2010
 
 source-repository head
   type:     git
-  location: https://github.com/githubuser/suffix-trees
+  location: https://github.com/githubuser/suffix-trees-haskell
