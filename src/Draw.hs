@@ -4,10 +4,10 @@ module Draw where
 import Prelude          (String)
 
 import Protolude
-import Data.Tree
 import Data.Tree.Pretty
+import Data.Tree
 
-import Lib
+import LazyTree
 import Reader
 
 -------------------------------------------------------------------------
@@ -25,20 +25,12 @@ tree6 = lazyCST "acg" "agcgacgag"
 tree7 = lazyAST "abcd" "abc"
 
 -------------------------------------------------------------------------
--- Conversion
-
-toTree :: (Label t, STree t) -> Tree (Label t)
-toTree = unfoldTree tuplize
-    where tuplize (s, Leaf)      = (s, [])
-          tuplize (s, Branch xs) = (s, xs)
-
--------------------------------------------------------------------------
 -- Draw
 
 
 drawST :: (Tree String -> String) -> STree Char -> IO ()
-drawST drawFun = putStr . drawFun . map edgeLabel . toTree . wrapRoot
-    where wrapRoot st = (("x", 1 :: Int), st)
+drawST drawFun = putStr . drawFun . map edgeLabel . toTree
+    where
           edgeLabel (s, l) = take l s
 
 draw       = drawST drawTree
@@ -48,4 +40,4 @@ drawFile path = do
     res <- fileToTree path
     case res of
       Left e -> putStrLn $ "PARSER ERROR:\n" ++ show e
-      Right t -> putStrLn $ drawVerticalTree $ map (: []) t
+      Right t -> putStrLn $ drawVerticalTree t

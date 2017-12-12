@@ -1,22 +1,13 @@
 
-module Lib where
+module LazyTree where
 
 import Protolude
+import Data.Tree
 
--- The type parameter a is the type of the alphabet.
---
--- Edge labels are represented as pairs (s, l) where s is a suffix of the text
--- that contains the edge label as a prefix of length l. Think about other ways
--- of representing the labels?
 type Label a = ([a], Int)
 
--- A suffix tree is eacher a Leaf or a Branch node with a list of
--- (edgelabel, subtree) pairs. These data structures are also used in all later
--- functional algorithms
 data STree a = Leaf | Branch [(Label a, STree a)] deriving (Eq, Show)
 
--- An edgeFunction takes a list of suffixes and splits off a common prefix.
--- Different edge functions are supplied for ast, pst and cst.
 type EdgeFunction a = [[a]] -> (Int, [[a]])
 
 -------------------------------------------------------------------------
@@ -31,10 +22,6 @@ lazyPST = lazyTree edgePST
 lazyCST :: Eq a => [a] -> [a] -> STree a
 lazyCST = lazyTree edgeCST
 
--- The function lazyTree constructs ast, pst or cst depending on the edge
--- function supplied. It takes the list of non-empty suffixes of the text,
--- including the nested suffixes. It groups them by the first letter, applies
--- the edge function and constructs subtrees recursively.
 lazyTree :: Eq a => EdgeFunction a -> [a] -> [a] -> STree a
 lazyTree edge alpha t = sTr $ suffixes t
     where sTr [[]] = Leaf
@@ -85,3 +72,11 @@ edgeCST awss@((a : w) : ss)
   | otherwise                      = (0, awss)
     where (cpl, rss) = edgeCST (w : [u | _ : u <- ss])
 
+-------------------------------------------------------------------------
+-- Conversion
+
+toTree :: STree Char -> Tree (Label Char)
+toTree t = unfoldTree tuplize $ wrapRoot t
+    where tuplize (s, Leaf)      = (s, [])
+          tuplize (s, Branch xs) = (s, xs)
+          wrapRoot st = (("x", 1 :: Int), st)

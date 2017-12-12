@@ -11,7 +11,7 @@ import Data.Tree
 -- [LABEL[CHILDREN ...]]
 --
 -- for example:
--- [x[a[b[c[]]]b[c[]]c[]]]
+-- x[a[b[c[]]]b[c[]]c[]]
 -- represents the tree
 --
 --   x
@@ -32,19 +32,19 @@ import Data.Tree
 symbol :: String -> Parser String
 symbol s = string s <* spaces
 
-parseTree :: Parser (Tree Char)
+parseTree :: Parser (Tree String)
 parseTree = do
-    character <- noneOf "[]"
+    s <- many1 $ noneOf "[]"
     spaces
     subtree <- parseSubTree
-    return $ Node character subtree
+    return $ Node s subtree
 
-parseSubTree :: Parser [Tree Char]
+parseSubTree :: Parser [Tree String]
 parseSubTree = do
     symbol "["
     trees <- sepBy parseTree (symbol ",")
     symbol "]"
     return trees
 
-fileToTree :: FilePath -> IO (Either ParseError (Tree Char))
+fileToTree :: FilePath -> IO (Either ParseError (Tree String))
 fileToTree = parseFromFile parseTree

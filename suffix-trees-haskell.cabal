@@ -25,6 +25,7 @@ library
                      , pretty-tree
                      , containers
                      , parsec
+                     , QuickCheck
   default-language:    Haskell2010
   default-extensions:  NoImplicitPrelude
                      , OverloadedStrings
@@ -39,6 +40,7 @@ executable suffix-trees-haskell-exe
                      , pretty-tree
                      , containers
                      , parsec
+                     , QuickCheck
   default-language:    Haskell2010
   default-extensions:  NoImplicitPrelude
                      , OverloadedStrings
@@ -51,6 +53,7 @@ test-suite suffix-trees-haskell-test
   main-is:             Spec.hs
   build-depends:       base
                      , suffix-trees-haskell
+                     , QuickCheck
   ghc-options:
   default-language:    Haskell2010
 

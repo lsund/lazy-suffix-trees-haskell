@@ -1,6 +1,6 @@
 module Main where
 
-import Lib (lazyAST)
+import LazyTree (lazyAST)
 
 import Protolude
 
