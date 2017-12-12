@@ -26,6 +26,7 @@ library
                      , containers
                      , parsec
                      , QuickCheck
+                     , random
   default-language:    Haskell2010
   default-extensions:  NoImplicitPrelude
                      , OverloadedStrings
@@ -35,12 +36,6 @@ executable suffix-trees-haskell-exe
   main-is:             Main.hs
   build-depends:       base
                      , suffix-trees-haskell
-                     , protolude
-                     , text
-                     , pretty-tree
-                     , containers
-                     , parsec
-                     , QuickCheck
   default-language:    Haskell2010
   default-extensions:  NoImplicitPrelude
                      , OverloadedStrings
@@ -53,7 +48,6 @@ test-suite suffix-trees-haskell-test
   main-is:             Spec.hs
   build-depends:       base
                      , suffix-trees-haskell
-                     , QuickCheck
   ghc-options:
   default-language:    Haskell2010
 
