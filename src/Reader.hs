@@ -2,49 +2,53 @@ module Reader where
 
 import Prelude      (String)
 
-import Protolude
+import Protolude hiding (optional)
 import Text.ParserCombinators.Parsec
+import Text.Parsec.Prim
 
 import Data.Tree
+import Data.Char
 
 -- Reads a tree of the following recursive structure
--- [LABEL[CHILDREN ...]]
+-- [LABEL[CHILDREN ...LEAF2[]]]
 --
 -- for example:
--- x[a[b[c[]]]b[c[]]c[]]
+-- x[a[b[c1[]]]b[c3[]]c4[]]
 -- represents the tree
 --
 --   x
 --   |
 -- -----
 -- /  |  \
--- a  b  c
+-- a  b  c[4]
 -- |  |
--- b  c
+-- b  c[3]
 -- |
--- c
---
---
--- Stolen from
--- https://stackoverflow.com/questions/26993496/parse-string-to-list-in-haskell
--- data Tree = Tree Char [Tree] deriving Show
+-- c[1]
 
-symbol :: String -> Parser String
-symbol s = string s <* spaces
 
-parseTree :: Parser (Tree String)
+symbol :: String -> Parser (String, Maybe Int)
+symbol s = parsecMap (\x -> (x, Nothing)) $ string s <* spaces
+
+
+-- Parses a word, and then maybe a digit. Then parses the subtree
+parseTree :: Parser (Tree (String, Maybe Int))
 parseTree = do
-    s <- many1 $ noneOf "[]"
+    s <- many1 $ letter
+    mc <- optionMaybe digit
     spaces
     subtree <- parseSubTree
-    return $ Node s subtree
+    return $ Node (s, digitToInt <$> mc) subtree
 
-parseSubTree :: Parser [Tree String]
+
+parseSubTree :: Parser [Tree (String, Maybe Int)]
 parseSubTree = do
     symbol "["
     trees <- sepBy parseTree (symbol ",")
     symbol "]"
     return trees
 
-fileToTree :: FilePath -> IO (Either ParseError (Tree String))
+
+fileToTree :: FilePath -> IO (Either ParseError (Tree (String, Maybe Int)))
 fileToTree = parseFromFile parseTree
+
