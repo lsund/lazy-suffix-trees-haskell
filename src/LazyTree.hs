@@ -69,7 +69,7 @@ edgeCST :: Eq a => EdgeFunction a
 edgeCST [s] = (length s, [[]])
 edgeCST awss@((a : w) : ss)
   | [] == [0 | c : _ <- ss, a /= c] = (1 + cpl, rss)
-  | otherwise                      = (0, awss)
+  | otherwise                       = (0, awss)
     where (cpl, rss) = edgeCST (w : [u | _ : u <- ss])
 
 -------------------------------------------------------------------------
