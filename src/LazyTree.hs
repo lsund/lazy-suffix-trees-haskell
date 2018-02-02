@@ -6,11 +6,17 @@ import Data.Tree
 import Protolude
 import Util
 
+type SuffixList a = [[a]]
+
 type Label a = ([a], Int)
 
 data STree a = Leaf | Branch [(Label a, STree a)] deriving (Eq, Show)
 
-type EdgeFunction a = [[a]] -> (Int, [[a]])
+-- The type parameter a is because we need arbitrary types for the
+-- characters in the alphabet
+--
+-- An EdgeFunction takes a list of suffixes and splits of a common prefix
+type EdgeFunction a = SuffixList a -> (Int, SuffixList a)
 
 -------------------------------------------------------------------------
 -- Impl
@@ -36,13 +42,13 @@ lazyTree edge alpha = tree . suffixes
 
 -- select suffixes strating with the character a
 -- TODO might create a version that does the filter and tail at the same time
-select :: Eq a => [[a]] -> a -> [[a]]
+select :: Eq a => SuffixList a -> a -> SuffixList a
 select ss a = map tail $ filter (headEq a) ss
 
 
 -- All non-empty suffixes
 -- TODO might need to remove the empty element from here
-suffixes :: [a] -> [[a]]
+suffixes :: [a] -> SuffixList a
 suffixes = tails
 
 
@@ -55,11 +61,14 @@ edgeAST xs = (0, xs)
 -- Similar as AST but takes the whole suffix as an edge label once a suffix
 -- list has become unitary. This requires elimination of nested suffixes when
 -- they become empty.
+--
+-- Here, the nested suffixes are not removed immideately, they are removed when
+-- they become empty
 edgePST :: Eq a => EdgeFunction a
-edgePST = pstLabel . removeNested
+edgePST = pstSplit . removeNested
     where
-        pstLabel [x] = (length x, [[]])
-        pstLabel xs  = (0, xs)
+        pstSplit [x] = (length x, [[]])
+        pstSplit xs  = (0, xs)
 
 -- Takes a list of suffixes and removes the ones that occur in other suffixes
 removeNested :: (Eq a) => [[a]] -> [[a]]
