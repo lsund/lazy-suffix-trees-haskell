@@ -1,6 +1,5 @@
 module Main where
 
-import LazyTree (lazyCST)
 import Draw
 
 import Protolude

@@ -1,8 +1,10 @@
 
 module LazyTree where
 
-import Protolude
 import Data.Tree
+
+import Protolude
+import Util
 
 type Label a = ([a], Int)
 
@@ -32,37 +34,41 @@ lazyTree edge alpha = tree . suffixes
                                                , (cpl, ssr) <- [edge (sa : ssa)]]
 
 
--- select suffixes strating with a
+-- select suffixes strating with the character a
+-- TODO might create a version that does the filter and tail at the same time
 select :: Eq a => [[a]] -> a -> [[a]]
-select ss a = [u | c : u <- ss, a == c]
+select ss a = map tail $ filter (headEq a) ss
 
 
 -- All non-empty suffixes
+-- TODO might need to remove the empty element from here
 suffixes :: [a] -> [[a]]
-suffixes []         = []
-suffixes aw@(_ : w) = aw : suffixes w
+suffixes = tails
 
 
 -- This function is trivial since the first (only) letter of the edge label has
 -- aleready been split off.
 edgeAST :: Eq a => EdgeFunction a
-edgeAST ss = (0, ss)
+edgeAST xs = (0, xs)
 
 
 -- Similar as AST but takes the whole suffix as an edge label once a suffix
 -- list has become unitary. This requires elimination of nested suffixes when
 -- they become empty.
 edgePST :: Eq a => EdgeFunction a
-edgePST = g . elimNested
+edgePST = pstLabel . removeNested
     where
-        g [s] = (length s, [[]])
-        g ss  = (0, ss)
+        pstLabel [x] = (length x, [[]])
+        pstLabel xs  = (0, xs)
 
-elimNested :: (Eq a) => [[a]] -> [[a]]
-elimNested [s] = [s]
-elimNested awss@((a : w) : ss) | [] == [0 | c : _ <- ss, a /= c] = [a : s | s <- rss]
-                               | otherwise                       = awss
-                                 where rss = elimNested (w : [u | _ :u <- ss])
+-- Takes a list of suffixes and removes the ones that occur in other suffixes
+removeNested :: (Eq a) => [[a]] -> [[a]]
+removeNested [s]                     = [s]
+removeNested suffix@((x : xs) : xss)
+    | (not . any (headEq x)) xss     = map tail removed
+    | otherwise                      = suffix
+        where
+            removed                  = removeNested (xs : map tail xss)
 
 -- Extracts the the longest common prefix of its suffixes
 edgeCST :: Eq a => EdgeFunction a

@@ -12,3 +12,10 @@ randString n = do
     let cs = take n $ randoms g :: [Int]
     return $ map (\x -> chr . (+65) . abs $ x `mod` 26) cs
 
+tail :: [a] -> [a]
+tail []       = undefined
+tail (_ : xs) = xs
+
+headEq :: Eq a => a -> [a] -> Bool
+headEq a []      = False
+headEq a (c : _) = c == a
