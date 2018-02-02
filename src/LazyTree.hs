@@ -23,11 +23,11 @@ lazyCST :: Eq a => [a] -> [a] -> STree a
 lazyCST = lazyTree edgeCST
 
 lazyTree :: Eq a => EdgeFunction a -> [a] -> [a] -> STree a
-lazyTree edge alpha t = sTr $ suffixes t
-    where sTr [[]] = Leaf
-          sTr ss   =
+lazyTree edge alpha = tree . suffixes
+    where tree [[]] = Leaf
+          tree ss   =
             Branch
-                [((a : sa, succ cpl), sTr ssr) | a <- alpha
+                [((a : sa, succ cpl), tree ssr) | a <- alpha
                                                , sa : ssa <- [select ss a]
                                                , (cpl, ssr) <- [edge (sa : ssa)]]
 

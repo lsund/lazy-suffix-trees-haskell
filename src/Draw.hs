@@ -13,16 +13,7 @@ import Reader
 -------------------------------------------------------------------------
 -- Dummy data
 
-tree0 = lazyAST "xa" "xaxa"
-tree1 = lazyAST "acg" "agcgacgag"
-
-tree3 = lazyPST "xa" "xaxa"
-tree4 = lazyPST "acg" "agcgacgag"
-
-tree5 = lazyCST "xa" "xaxa"
-tree6 = lazyCST "acg" "agcgacgag"
-
-tree7 = lazyAST "abcd" "abc"
+advalgSample = lazyCST "ab" "abaababa"
 
 -------------------------------------------------------------------------
 -- Draw
@@ -31,7 +22,7 @@ tree7 = lazyAST "abcd" "abc"
 drawST :: (Tree String -> String) -> STree Char -> IO ()
 drawST drawFun = putStr . drawFun . map edgeLabel . toTree
     where
-        edgeLabel (s, l) = (take l s)
+        edgeLabel (s, l) = take l s
 
 draw ::STree Char -> IO ()
 draw = drawST drawTree
@@ -47,4 +38,4 @@ drawFile path = do
       Right t -> putStrLn $ drawVerticalTree (map showEdge t)
     where
         showEdge (s, Nothing) = s :: String
-        showEdge (s, Just i) = (s :: String) ++ "[" ++ (show i) ++ "]"
+        showEdge (s, Just i) = (s :: String) ++ "[" ++ show i ++ "]"

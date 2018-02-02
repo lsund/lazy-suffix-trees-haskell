@@ -1,9 +1,10 @@
 module Main where
 
-import LazyTree (lazyAST)
+import LazyTree (lazyCST)
+import Draw
 
 import Protolude
 
 main :: IO ()
-main = print $ lazyAST "abcx" "xabxac"
+main = drawPretty advalgSample
 
