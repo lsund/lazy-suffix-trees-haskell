@@ -7,7 +7,7 @@ import Protolude
 import Data.Tree.Pretty
 import Data.Tree
 
-import LazyTree
+import LazyTree.Functional
 import Reader
 
 -------------------------------------------------------------------------
