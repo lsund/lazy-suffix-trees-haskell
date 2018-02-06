@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: fe12dcfcae4821aa58c3a777bd431542607b53b410980308a98b9768587645b4
+-- hash: 09087bc3c90a848d818a33f9fe7419b5b653f45282c6b6c4a3fa916555244476
 
 name:                suffix-trees-haskell
 version:             1.0.0
@@ -28,6 +28,7 @@ library
       Draw
       LazyTree.Functional
       Reader
+      Search
       Util
   other-modules:
       Paths_suffix_trees_haskell

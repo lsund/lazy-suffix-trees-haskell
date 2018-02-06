@@ -6,6 +6,7 @@ import  Data.List            hiding (filter)
 
 import  LazyTree.Functional
 import  Draw
+import  Search
 
 -------------------------------------------------------------------------------
 -- Program
@@ -13,17 +14,20 @@ import  Draw
 removeNewLines :: Text -> Text
 removeNewLines = filter (/= '\n')
 
-runFilePath :: FilePath -> IO ()
-runFilePath path = do
+treeFromFile :: FilePath -> IO (STree Char)
+treeFromFile path = do
     cont <- readFile path
     let s = unpack (removeNewLines cont)
-    drawPretty $ lazyCST (nub s) s
+    return $ lazyCST (nub s) s
 
 
 main :: IO ()
 main =
-    -- do
+    do
     -- args <- getArgs
     -- print args
-    runFilePath "data/advAlg"
+    t <- treeFromFile "data/advAlg"
+    print $ search t "a"
+    -- drawPretty t
+
 
