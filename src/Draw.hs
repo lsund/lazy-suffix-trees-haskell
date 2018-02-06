@@ -16,6 +16,9 @@ import Reader
 advalgSample :: STree Char
 advalgSample = lazyCST "ab" "abaababa"
 
+sgSample :: STree Char
+sgSample = lazyCST "acg" "agcgacgag"
+
 -------------------------------------------------------------------------
 -- Draw
 
