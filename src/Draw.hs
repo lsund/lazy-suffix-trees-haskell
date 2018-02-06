@@ -13,6 +13,7 @@ import Reader
 -------------------------------------------------------------------------
 -- Dummy data
 
+advalgSample :: STree Char
 advalgSample = lazyCST "ab" "abaababa"
 
 -------------------------------------------------------------------------
@@ -24,7 +25,7 @@ drawST drawFun = putStr . drawFun . map edgeLabel . toTree
     where
         edgeLabel (s, l) = take l s
 
-draw ::STree Char -> IO ()
+draw :: STree Char -> IO ()
 draw = drawST drawTree
 
 drawPretty :: STree Char -> IO ()

@@ -13,9 +13,9 @@ randString n = do
     return $ map (\x -> chr . (+65) . abs $ x `mod` 26) cs
 
 tail :: [a] -> [a]
-tail []       = undefined
+tail []       = []
 tail (_ : xs) = xs
 
 headEq :: Eq a => a -> [a] -> Bool
-headEq a []      = False
+headEq _ []      = False
 headEq a (c : _) = c == a

@@ -50,6 +50,8 @@ removeNested suffix@((x : xs) : xss)
     | otherwise                      = suffix
         where
             removed                  = removeNested (xs : map tail xss)
+removeNested []                      = []
+removeNested ([] : _ : _ )           = []
 
 edgePST :: Eq a => EdgeFunction a
 edgePST = pstSplit . removeNested
@@ -66,9 +68,11 @@ edgePST = pstSplit . removeNested
 edgeCST :: Eq a => EdgeFunction a
 edgeCST [s] = (length s, [[]])
 edgeCST awss@((a : w) : ss)
-  | [] == [0 | c : _ <- ss, a /= c] = (1 + cpl, rss)
+  | [] == [0 :: Int | c : _ <- ss, a /= c] = ((1 :: Int) + cpl, rss)
   | otherwise                       = (0, awss)
     where (cpl, rss) = edgeCST (w : [u | _ : u <- ss])
+edgeCST []                      = (-1, [[]])
+edgeCST ([] : _ : _ )           = (-1, [[]])
 
 -- All non-empty suffixes
 -- TODO might need to remove the empty element from here
