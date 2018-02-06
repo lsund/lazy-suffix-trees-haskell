@@ -24,10 +24,8 @@ treeFromFile path = do
 main :: IO ()
 main =
     do
-    -- args <- getArgs
-    -- print args
     t <- treeFromFile "data/advAlg"
-    print $ search t "a"
-    -- drawPretty t
+    drawPretty t
+    print $ search t "ab"
 
 
