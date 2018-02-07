@@ -5,7 +5,7 @@ import  Data.Text            as T   (unpack, filter)
 import  Data.List            hiding (filter)
 
 import  LazyTree.Functional
-import  Draw
+-- import  Draw
 import  Search
 
 -------------------------------------------------------------------------------
@@ -22,11 +22,13 @@ treeFromFile path = do
     return $ lazyCST (nub s) s
 
 
+-- abaababa
 main :: IO ()
 main =
     do
-    t <- treeFromFile "data/advAlg"
-    drawPretty t
-    print $ search t "ab"
+    -- t <- treeFromFile "data/advAlg"
+    -- drawPretty t
+    cont <- readFile "data/advAlg"
+    print $ indices (unpack (removeNewLines cont)) "a"
 
 

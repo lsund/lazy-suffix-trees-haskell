@@ -17,7 +17,9 @@ type Alphabet a = [a]
 
 type Edge a = (Label a, STree a)
 
-data STree a = Leaf Int | Branch [Edge a] deriving (Eq, Show)
+data STree a = Leaf     { _leafNumber :: Int }
+             | Branch   { _branches   :: [Edge a] }
+             deriving (Eq, Show)
 
 type EdgeFunction a = SuffixList a -> (Int, SuffixList a)
 
@@ -87,12 +89,12 @@ lazyTree edge as t = makeTree (length t) (suffixes t)
     where
         makeTree i [[]]  = Leaf i
         makeTree i ss    = Branch (foldl (makeBranch i ss) [] as)
-        makeBranch i ss acc a =
+        makeBranch i ss subtrees a =
             let axs          = startsWith a ss
                 (lcp, rests) = edge axs
             in case axs of
-                (mark : _) -> (newLabel mark lcp , descendTree lcp rests) : acc
-                []         -> acc
+                (mark : _) -> (newLabel mark lcp , descendTree lcp rests) : subtrees
+                []         -> subtrees
             where
                 startsWith c          = map tail . filter (headEq c)
                 newLabel mark lcp     = (a : mark, succ lcp)

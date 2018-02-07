@@ -2,6 +2,7 @@
 module Search where
 
 import Protolude
+import Data.List    (nub)
 
 import LazyTree.Functional
 
@@ -21,6 +22,8 @@ match p ((s, len), t)
     | isPrefixOf p (take len s) = Just ([], t)
     | otherwise                 = Nothing
 
+
+
 search :: Eq a => STree a -> Pattern a -> Maybe (Pattern a, STree a)
 search (Leaf i)          p      = Just (p, Leaf i)
 search (Branch [])       _      = Nothing
@@ -28,6 +31,15 @@ search (Branch branches) p =
     case firstMatch branches p of
         Just ([], t)   -> Just ([], t)
         Just (rest, t) -> search t rest
-        Nothing -> Nothing
+        Nothing        -> Nothing
 
+
+indices :: Eq a => [a] -> Pattern a -> Maybe [Int]
+indices x p =
+    let t = (lazyCST (nub x) x)
+    in indices' . snd <$> search t p
+    where
+        indices' :: STree a -> [Int]
+        indices' (Leaf i) = [i]
+        indices' (Branch xs) = sort $ concatMap (indices' . snd) xs
 
