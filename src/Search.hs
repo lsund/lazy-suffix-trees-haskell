@@ -34,9 +34,9 @@ search (Branch branches) p =
         Nothing        -> Nothing
 
 
-indices :: Eq a => [a] -> Pattern a -> Maybe [Int]
-indices x p =
-    let t = (lazyCST (nub x) x)
+indices :: Eq a => Alphabet a -> [a] -> Pattern a -> Maybe [Int]
+indices as x p =
+    let t = (lazyCST as x)
     in indices' . snd <$> search t p
     where
         indices' :: STree a -> [Int]
