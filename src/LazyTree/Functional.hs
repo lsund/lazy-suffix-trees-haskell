@@ -1,7 +1,7 @@
 
 module LazyTree.Functional where
 
-import Prelude      (String)
+import Prelude              (String)
 import Data.Tree
 
 import Protolude
@@ -88,12 +88,15 @@ suffixes = tails
 -- Functional LazyTree
 
 
+-- Leaf Numbers: The leaf number starts at the length of the string.  For each
+-- time we match a mark and descend, we reduce the leaf number by the length of
+-- the mark plus one, for the current character
 lazyTree :: Eq a => EdgeFunction a -> Alphabet a -> [a] -> STree a
-lazyTree edge as = tree . suffixes
+lazyTree edge as t = tree (length t) (suffixes t)
     where
-        tree [[]]    = Leaf 0
-        tree ss      = Branch (map (treeFor ss) as)
-        treeFor ss a = ((a : xs, succ lcp), tree xs')
+        tree i [[]]  = Leaf i
+        tree i ss    = Branch (map (treeFor i ss) as)
+        treeFor i ss a = ((a : xs, succ lcp), tree (i - (lcp + 1)) xs')
             where
                 startsWith c = map tail . filter (headEq c)
                 (xs : xss)   = startsWith a ss
