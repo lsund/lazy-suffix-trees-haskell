@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 09087bc3c90a848d818a33f9fe7419b5b653f45282c6b6c4a3fa916555244476
+-- hash: f3109e9fada280d5c1311daeea1b48a3c5b0dd40949a2b7f547ea11e14dd270a
 
 name:                suffix-trees-haskell
 version:             1.0.0
@@ -23,8 +23,9 @@ flag library-only
 library
   hs-source-dirs:
       src
-  default-extensions: NoImplicitPrelude
+  default-extensions: NoImplicitPrelude OverloadedStrings
   exposed-modules:
+      Analyze
       Draw
       LazyTree.Functional
       Reader
@@ -54,7 +55,7 @@ executable suffix-trees-haskell
       Paths_suffix_trees_haskell
   hs-source-dirs:
       app
-  default-extensions: NoImplicitPrelude
+  default-extensions: NoImplicitPrelude OverloadedStrings
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       QuickCheck
@@ -79,7 +80,7 @@ test-suite test
       Paths_suffix_trees_haskell
   hs-source-dirs:
       test
-  default-extensions: NoImplicitPrelude
+  default-extensions: NoImplicitPrelude OverloadedStrings
   ghc-options: -Wall
   build-depends:
       QuickCheck
