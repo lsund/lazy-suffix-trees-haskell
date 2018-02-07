@@ -2,9 +2,8 @@
 module LazyTree.Functional where
 
 import Prelude              (String)
-import Data.Tree
-
 import Protolude
+
 import Util
 
 -------------------------------------------------------------------------------
@@ -16,21 +15,11 @@ type Label a = ([a], Int)
 
 type Alphabet a = [a]
 
-data STree a = Leaf Int | Branch [(Label a, STree a)] deriving (Eq, Show)
+type Edge a = (Label a, STree a)
+
+data STree a = Leaf Int | Branch [Edge a] deriving (Eq, Show)
 
 type EdgeFunction a = SuffixList a -> (Int, SuffixList a)
-
-
--------------------------------------------------------------------------------
--- Conversion
-
-
-toTree :: STree Char -> Tree (Label Char)
-toTree t = unfoldTree tuplize $ wrapRoot t
-    where tuplize ((m, n), Leaf i)    = (showLeaf (m, n) i, [])
-          tuplize (l, Branch xs) = (l, xs)
-          wrapRoot st = (("x", 1 :: Int), st)
-          showLeaf (m, n) i = (m ++ "<" ++ show i ++ ">" :: String, n + 3)
 
 
 -------------------------------------------------------------------------------
@@ -114,3 +103,10 @@ lazyPST = lazyTree edgePST
 
 lazyCST :: Eq a => [a] -> [a] -> STree a
 lazyCST = lazyTree edgeCST
+
+unfoldEdge :: Edge Char -> (Label Char, [Edge Char])
+unfoldEdge (l, Branch xs)   = (l, xs)
+unfoldEdge ((m, n), Leaf i) = (showLeaf, [])
+    where
+        showLeaf = (m ++ "<" ++ show i ++ ">" :: String, n + 3)
+

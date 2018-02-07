@@ -10,6 +10,11 @@ import Data.Tree
 import LazyTree.Functional
 import Reader
 
+toTree :: STree Char -> Tree (Label Char)
+toTree = unfoldTree unfoldEdge . rootEdge
+    where
+        rootEdge st = (("r", 1 :: Int), st)
+
 -------------------------------------------------------------------------
 -- Draw
 
