@@ -80,17 +80,23 @@ suffixes = tails
 -- Leaf Numbers: The leaf number starts at the length of the string.  For each
 -- time we match a mark and descend, we reduce the leaf number by the length of
 -- the mark plus one, for the current character
-lazyTree :: Eq a => EdgeFunction a -> Alphabet a -> [a] -> STree a
-lazyTree edge as t = tree (length t) (suffixes t)
-    where
-        tree i [[]]  = Leaf i
-        tree i ss    = Branch (map (treeFor i ss) as)
-        treeFor i ss a = ((a : xs, succ lcp), tree (i - (lcp + 1)) xs')
-            where
-                startsWith c = map tail . filter (headEq c)
-                (xs : xss)   = startsWith a ss
-                (lcp, xs')   = edge (xs : xss)
 
+
+lazyTree :: Eq a => EdgeFunction a -> Alphabet a -> [a] -> STree a
+lazyTree edge as t = makeTree (length t) (suffixes t)
+    where
+        makeTree i [[]]  = Leaf i
+        makeTree i ss    = Branch (foldl (makeBranch i ss) [] as)
+        makeBranch i ss acc a =
+            let axs          = startsWith a ss
+                (lcp, rests) = edge axs
+            in case axs of
+                (mark : _) -> (newLabel mark lcp , descendTree lcp rests) : acc
+                []         -> acc
+            where
+                startsWith c          = map tail . filter (headEq c)
+                newLabel mark lcp     = (a : mark, succ lcp)
+                descendTree lcp rests = makeTree (i - (succ lcp)) rests
 
 -------------------------------------------------------------------------------
 -- Public API

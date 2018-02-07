@@ -18,6 +18,7 @@ treeFromFile :: FilePath -> IO (STree Char)
 treeFromFile path = do
     cont <- readFile path
     let s = unpack (removeNewLines cont)
+    print s
     return $ lazyCST (nub s) s
 
 
