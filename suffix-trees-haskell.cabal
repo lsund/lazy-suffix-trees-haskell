@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: f3109e9fada280d5c1311daeea1b48a3c5b0dd40949a2b7f547ea11e14dd270a
+-- hash: 4ec22f8d72d2b108ec73c5d38e81cee36ab67e7ec4921de603f7af4f5347b266
 
 name:                suffix-trees-haskell
 version:             1.0.0
@@ -37,6 +37,7 @@ library
       QuickCheck
     , base >=4.8.2.0 && <4.9 || >=4.9.1.0 && <5
     , containers
+    , deepseq
     , parsec
     , pretty-tree ==0.1.0.0
     , protolude
@@ -61,6 +62,7 @@ executable suffix-trees-haskell
       QuickCheck
     , base >=4.8.2.0 && <4.9 || >=4.9.1.0 && <5
     , containers
+    , deepseq
     , parsec
     , pretty-tree ==0.1.0.0
     , protolude
@@ -86,6 +88,7 @@ test-suite test
       QuickCheck
     , base >=4.8.2.0 && <4.9 || >=4.9.1.0 && <5
     , containers
+    , deepseq
     , hspec >=2.0.0
     , parsec
     , pretty-tree ==0.1.0.0

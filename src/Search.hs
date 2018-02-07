@@ -2,7 +2,6 @@
 module Search where
 
 import Protolude
-import Data.List    (nub)
 
 import LazyTree.Functional
 
@@ -18,9 +17,9 @@ firstMatch ((l, t) : xs) p =
 
 match :: Eq a => Pattern a -> (Label a, STree a) -> Maybe (Pattern a, STree a)
 match p ((s, len), t)
-    | isPrefixOf (take len s) p = Just (drop len p, t)
-    | isPrefixOf p (take len s) = Just ([], t)
-    | otherwise                 = Nothing
+    | take len s `isPrefixOf` p          = Just (drop len p, t)
+    | p          `isPrefixOf` take len s = Just ([], t)
+    | otherwise                          = Nothing
 
 
 
@@ -36,10 +35,15 @@ search (Branch branches) p =
 
 indices :: Eq a => Alphabet a -> [a] -> Pattern a -> Maybe [Int]
 indices as x p =
-    let t = (lazyCST as x)
+    let t = lazyCST as x
     in indices' . snd <$> search t p
     where
         indices' :: STree a -> [Int]
-        indices' (Leaf i) = [i]
+        indices' (Leaf i)    = [i]
         indices' (Branch xs) = sort $ concatMap (indices' . snd) xs
 
+
+exists :: Eq a => Alphabet a -> [a] -> Pattern a -> Bool
+exists as x p =
+    let t = lazyCST as x
+    in isJust $ search t p

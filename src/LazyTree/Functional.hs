@@ -79,11 +79,6 @@ suffixes = tails
 -- Functional LazyTree
 
 
--- Leaf Numbers: The leaf number starts at the length of the string.  For each
--- time we match a mark and descend, we reduce the leaf number by the length of
--- the mark plus one, for the current character
-
-
 lazyTree :: Eq a => EdgeFunction a -> Alphabet a -> [a] -> STree a
 lazyTree edge as t = makeTree (length t) (suffixes t)
     where

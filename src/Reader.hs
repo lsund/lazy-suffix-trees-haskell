@@ -2,7 +2,7 @@ module Reader where
 
 import Prelude      (String)
 
-import Protolude hiding (optional)
+import Protolude
 import Text.ParserCombinators.Parsec
 import Text.Parsec.Prim
 
@@ -34,7 +34,7 @@ symbol s = parsecMap (\x -> (x, Nothing)) $ string s <* spaces
 -- Parses a word, and then maybe a digit. Then parses the subtree
 parseTree :: Parser (Tree (String, Maybe Int))
 parseTree = do
-    s <- many1 $ letter
+    s <- many1 letter
     mc <- optionMaybe digit
     spaces
     subtree <- parseSubTree
@@ -43,9 +43,9 @@ parseTree = do
 
 parseSubTree :: Parser [Tree (String, Maybe Int)]
 parseSubTree = do
-    symbol "["
+    _ <- symbol "["
     trees <- sepBy parseTree (symbol ",")
-    symbol "]"
+    _ <- symbol "]"
     return trees
 
 
