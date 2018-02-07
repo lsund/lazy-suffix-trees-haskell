@@ -1,6 +1,7 @@
 
 module LazyTree.Functional where
 
+import Prelude      (String)
 import Data.Tree
 
 import Protolude
@@ -15,7 +16,7 @@ type Label a = ([a], Int)
 
 type Alphabet a = [a]
 
-data STree a = Leaf | Branch [(Label a, STree a)] deriving (Eq, Show)
+data STree a = Leaf Int | Branch [(Label a, STree a)] deriving (Eq, Show)
 
 type EdgeFunction a = SuffixList a -> (Int, SuffixList a)
 
@@ -26,9 +27,10 @@ type EdgeFunction a = SuffixList a -> (Int, SuffixList a)
 
 toTree :: STree Char -> Tree (Label Char)
 toTree t = unfoldTree tuplize $ wrapRoot t
-    where tuplize (s, Leaf)      = (s, [])
-          tuplize (s, Branch xs) = (s, xs)
+    where tuplize ((m, n), Leaf i)    = (showLeaf (m, n) i, [])
+          tuplize (l, Branch xs) = (l, xs)
           wrapRoot st = (("x", 1 :: Int), st)
+          showLeaf (m, n) i = (m ++ "<" ++ show i ++ ">" :: String, n + 3)
 
 
 -------------------------------------------------------------------------------
@@ -89,7 +91,7 @@ suffixes = tails
 lazyTree :: Eq a => EdgeFunction a -> Alphabet a -> [a] -> STree a
 lazyTree edge as = tree . suffixes
     where
-        tree [[]]    = Leaf
+        tree [[]]    = Leaf 0
         tree ss      = Branch (map (treeFor ss) as)
         treeFor ss a = ((a : xs, succ lcp), tree xs')
             where

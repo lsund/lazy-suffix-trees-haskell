@@ -22,7 +22,7 @@ match p ((s, len), t)
     | otherwise                 = Nothing
 
 search :: Eq a => STree a -> Pattern a -> Maybe (Pattern a, STree a)
-search Leaf              p      = Just (p, Leaf)
+search (Leaf i)          p      = Just (p, Leaf i)
 search (Branch [])       _      = Nothing
 search (Branch branches) p =
     case firstMatch branches p of
