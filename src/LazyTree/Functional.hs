@@ -82,10 +82,10 @@ lazyTree edgeFun as t = lazyTree' (length t) (tails t)
         lazyTree' i suffixes = Branch (foldl (addEdge i suffixes) [] as)
         addEdge i suffixes edges a =
             let
-                aSuffixes    = groupSuffixes a suffixes
-                (lcp, rests) = edgeFun aSuffixes
+                suffixGroup  = groupSuffixes a suffixes
+                (lcp, rests) = edgeFun suffixGroup
             in
-                case aSuffixes of
+                case suffixGroup of
                     (mark : _) -> makeEdge mark lcp rests : edges
                     []         -> edges
             where

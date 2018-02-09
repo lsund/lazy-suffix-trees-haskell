@@ -2,6 +2,7 @@ module Main where
 
 import  Protolude
 import  Data.Text            as T   (unpack)
+import  Draw
 -- import Control.DeepSeq
 
 -- import Analyze
@@ -19,5 +20,6 @@ main = do
         -- p = "Wegen"                 -- 3s
         p = "ABI. L 185, S. 5"         -- 2s
         -- p = "a"
-    print $ indices alphaS textS p       -- Get all indices of p
+    -- print $ indices alphaS textS p       -- Get all indices of p
     -- print $ exists alphaS textS p       -- Does p exist?
+    drawFile "data/sample"

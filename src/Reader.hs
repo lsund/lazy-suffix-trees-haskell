@@ -9,46 +9,50 @@ import Text.Parsec.Prim
 import Data.Tree
 import Data.Char
 
--- Reads a tree of the following recursive structure
--- [LABEL[CHILDREN ...LEAF2[]]]
---
--- for example:
--- x[a[b[c1[]]]b[c3[]]c4[]]
--- represents the tree
---
---   x
---   |
--- -----
--- /  |  \
--- a  b  c[4]
--- |  |
--- b  c[3]
--- |
--- c[1]
-
 
 symbol :: String -> Parser (String, Maybe Int)
 symbol s = parsecMap (\x -> (x, Nothing)) $ string s <* spaces
 
+-- identifier = do
+--     neg <- optionMaybe $ symbol "-"
+--     i <- digit
+--     return $
+--        case neg of
+--             Nothing -> i
+--             Just _ -> (-i)
 
 -- Parses a word, and then maybe a digit. Then parses the subtree
-parseTree :: Parser (Tree (String, Maybe Int))
-parseTree = do
-    s <- many1 letter
-    mc <- optionMaybe digit
-    spaces
-    subtree <- parseSubTree
-    return $ Node (s, digitToInt <$> mc) subtree
+parseTree :: String -> Parser (Tree (String, Maybe Int))
+parseTree x = do
+    _ <- symbol "<"
+    ci <- parseNum
+    _ <- symbol ","
+    cj <- parseNum
+    _ <- symbol ","
+    neg <- optionMaybe $ symbol "-"
+    ck <- digit
+    _ <- symbol ">"
+    subtree <- parseSubTree x
+    let i = digitToInt ci
+        j = digitToInt cj
+        k = if pos then Just (digitToInt ck) else Nothing
+        l = take (j - i) $ drop i x
+        pos = isNothing neg
+    return $ Node (l, k) subtree
+    where
+        parseNum = do
+            _ <- optionMaybe $ symbol "-"
+            digit
 
 
-parseSubTree :: Parser [Tree (String, Maybe Int)]
-parseSubTree = do
+parseSubTree :: String -> Parser [Tree (String, Maybe Int)]
+parseSubTree x = do
     _ <- symbol "["
-    trees <- sepBy parseTree (symbol ",")
+    trees <- sepBy (parseTree x)  (symbol ",")
     _ <- symbol "]"
     return trees
 
 
 fileToTree :: FilePath -> IO (Either ParseError (Tree (String, Maybe Int)))
-fileToTree = parseFromFile parseTree
+fileToTree = parseFromFile $ parseTree "abaababa"
 
