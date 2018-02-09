@@ -17,7 +17,7 @@ main = do
         textS   = unpack text
         -- p = "eg"                    -- 81s
         -- p = "Wegen"                 -- 3s
-        p = "ABI. L 185, S. 567"   -- 2s
+        p = "ABI. L 185, S. 5"         -- 2s
         -- p = "a"
-    -- print $ indices alphaS textS p       -- Get all indices of p
-    print $ exists alphaS textS p       -- Does p exist?
+    print $ indices alphaS textS p       -- Get all indices of p
+    -- print $ exists alphaS textS p       -- Does p exist?

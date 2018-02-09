@@ -20,8 +20,8 @@ tail (_ : xs) = xs
 
 
 headEq :: Eq a => a -> [a] -> Bool
-headEq _ []      = False
 headEq a (c : _) = c == a
+headEq _ []      = False
 
 
 removeDuplicates :: Text -> Text
