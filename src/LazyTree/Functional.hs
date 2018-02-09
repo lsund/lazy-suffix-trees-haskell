@@ -71,29 +71,29 @@ edgeCST suffix@((x : xs) : xss)
         allStartsWith c = null . filter (not . headEq c)
 
 
-suffixes :: [a] -> SuffixList a
-suffixes = tails
-
-
 -------------------------------------------------------------------------------
 -- Functional LazyTree
 
 
 lazyTree :: Eq a => EdgeFunction a -> Alphabet a -> [a] -> STree a
-lazyTree edge as t = makeTree (length t) (suffixes t)
+lazyTree edgeFun as t = lazyTree' (length t) (tails t)
     where
-        makeTree i [[]]  = Leaf i
-        makeTree i ss    = Branch (foldl (makeBranch i ss) [] as)
-        makeBranch i ss subtrees a =
-            let axs          = startsWith a ss
-                (lcp, rests) = edge axs
-            in case axs of
-                (mark : _) -> (newLabel mark lcp , descendTree lcp rests) : subtrees
-                []         -> subtrees
+        lazyTree' i [[]]     = Leaf i
+        lazyTree' i suffixes = Branch (foldl (addEdge i suffixes) [] as)
+        addEdge i suffixes edges a =
+            let
+                aSuffixes    = groupSuffixes a suffixes
+                (lcp, rests) = edgeFun aSuffixes
+            in
+                case aSuffixes of
+                    (mark : _) -> makeEdge mark lcp rests : edges
+                    []         -> edges
             where
-                startsWith c          = map tail . filter (headEq c)
-                newLabel mark lcp     = (a : mark, succ lcp)
-                descendTree lcp rests = makeTree (i - (succ lcp)) rests
+                groupSuffixes c         = map tail . filter (headEq c)
+                newLabel mark lcp       = (a : mark, succ lcp)
+                descendTree lcp         = lazyTree' (i - succ lcp)
+                makeEdge mark lcp rests = ( newLabel mark lcp
+                                           , descendTree lcp rests)
 
 -------------------------------------------------------------------------------
 -- Public API
