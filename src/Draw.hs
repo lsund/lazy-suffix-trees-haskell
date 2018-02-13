@@ -7,7 +7,9 @@ import Protolude
 import Data.Tree.Pretty
 import Data.Tree
 
+import Data.SuffixTree
 import LazyTree.Functional
+
 import Reader
 
 toTree :: STree Char -> Tree (Label Char)

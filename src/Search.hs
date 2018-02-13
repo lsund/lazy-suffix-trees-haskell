@@ -3,6 +3,7 @@ module Search where
 
 import Protolude
 
+import Data.SuffixTree
 import LazyTree.Functional
 
 type Pattern a = [a]

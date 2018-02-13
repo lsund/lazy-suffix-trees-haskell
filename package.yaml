@@ -16,8 +16,6 @@ default-extensions:
     - NoImplicitPrelude
     - OverloadedStrings
 
-# The library contains all of our application code. The executable
-# defined below is just a thin wrapper.
 library:
   source-dirs: src
   when:
@@ -34,7 +32,6 @@ library:
       - -fwarn-tabs
       - -O2
 
-# Runnable executable for our application
 executables:
   suffix-trees-haskell:
     main: Main.hs
@@ -49,7 +46,6 @@ executables:
     - condition: flag(library-only)
       buildable: false
 
-# Test suite
 tests:
   test:
     main: Spec.hs
