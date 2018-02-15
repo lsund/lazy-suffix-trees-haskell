@@ -1,10 +1,10 @@
 
-module Search where
+module Algorithm.Search where
 
 import           Protolude
 
+import           Algorithm.LazyTree.Functional
 import           Data.SuffixTree
-import           LazyTree.Functional
 
 type Pattern a = [a]
 

@@ -1,19 +1,21 @@
 module Main where
 
-import  Protolude
-import  Data.Text            as T   (unpack)
-import  Draw
+import           Data.Text                     as T (unpack)
+import           Draw
+import           Protolude
 -- import Control.DeepSeq
 
 -- import Analyze
 -- import  Draw
-import  Search
-import LazyTree.Functional
-import Ukkonen.Functional
+import           Algorithm.LazyTree.Functional
+import           Algorithm.Search
+import           Algorithm.Ukkonen.Functional
 
 
 main = do
-    let t = lazyCST "ab" "abaababa"
+    let t = naiveOnline "abaababa"
+    drawPretty t
+    let t2 = lazyCST "abaababa"
     drawPretty t
 
 -- main = do

@@ -1,5 +1,5 @@
 
-module LazyTree.Functional where
+module Algorithm.LazyTree.Functional where
 
 import           Prelude         (String, init)
 import           Protolude

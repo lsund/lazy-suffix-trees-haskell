@@ -1,5 +1,5 @@
 
-module Ukkonen.Functional where
+module Algorithm.Ukkonen.Functional where
 
 import           Data.List       (head, tail, (!!))
 import           Protolude       hiding (head)
@@ -9,10 +9,10 @@ import           Data.SuffixTree
 isTword :: Eq a => Label a -> STree a -> Bool
 isTword (a : _, 0) (Branch es) = [] /= [0 :: Int | ((c:_,_),_) <- es, a == c]
 isTword (a : w, wlen) (Branch es)
-    | isLeaf node || wlen' < ulen = (w !! wlen') == (u !! wlen)
+    | isLeaf node || wlen' < ulen = (w !! wlen') == (u !! wlen')
     | otherwise = isTword (drop ulen w, wlen' - ulen) node
         where
-            wlen' = succ wlen
+            wlen' = pred wlen
             (u, ulen, node) =
                 head [(u', pred culen, node') | ((c : u', culen), node') <- es, a == c]
 isTword (_,_)  _ = False

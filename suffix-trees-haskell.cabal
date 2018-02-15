@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 2c3173c0e39ae41a5282c754ff93a903c8266715c965cc70c454284b718fa4e3
+-- hash: d18f0950f76880a2ad4f53ae125bac863773beae128915cc75f8bba50371f6a1
 
 name:                suffix-trees-haskell
 version:             1.0.0
@@ -25,13 +25,14 @@ library
       src
   default-extensions: NoImplicitPrelude OverloadedStrings
   exposed-modules:
+      Algorithm.Common
+      Algorithm.LazyTree.Functional
+      Algorithm.Search
+      Algorithm.Ukkonen.Functional
       Analyze
       Data.SuffixTree
       Draw
-      LazyTree.Functional
       Reader
-      Search
-      Ukkonen.Functional
       Util
   other-modules:
       Paths_suffix_trees_haskell
@@ -81,6 +82,7 @@ test-suite test
   other-modules:
       Benchmark
       LazyTree
+      Ukkonen
       Paths_suffix_trees_haskell
   hs-source-dirs:
       test

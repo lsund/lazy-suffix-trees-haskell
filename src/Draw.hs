@@ -1,14 +1,14 @@
 
 module Draw where
 
-import           Prelude             (String)
+import           Prelude                       (String)
 
 import           Data.Tree
 import           Data.Tree.Pretty
 import           Protolude
 
+import           Algorithm.LazyTree.Functional
 import           Data.SuffixTree
-import           LazyTree.Functional
 
 import           Reader
 
