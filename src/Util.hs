@@ -1,11 +1,11 @@
 
 module Util where
 
-import           Prelude                  (String)
-import           Protolude
-import           Data.Char                (chr)
-import           System.Random
+import           Data.Char     (chr)
 import qualified Data.Text     as T
+import           Prelude       (String)
+import           Protolude
+import           System.Random
 
 randString :: Int -> IO String
 randString n = do

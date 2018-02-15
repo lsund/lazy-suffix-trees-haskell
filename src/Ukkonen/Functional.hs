@@ -1,10 +1,10 @@
 
 module Ukkonen.Functional where
 
-import Data.List ((!!), head, tail)
-import Protolude hiding (head)
+import           Data.List       (head, tail, (!!))
+import           Protolude       hiding (head)
 
-import Data.SuffixTree
+import           Data.SuffixTree
 
 isTword :: Eq a => Label a -> STree a -> Bool
 isTword (a : _, 0) (Branch es) = [] /= [0 :: Int | ((c:_,_),_) <- es, a == c]

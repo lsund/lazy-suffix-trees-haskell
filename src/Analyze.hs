@@ -1,9 +1,9 @@
 
 module Analyze where
 
-import Protolude
+import           Protolude
 
-import Util
+import           Util
 
 alphabet :: Text -> Text
 alphabet = removeDuplicates

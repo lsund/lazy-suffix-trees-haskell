@@ -1,16 +1,16 @@
 
 module Draw where
 
-import Prelude          (String)
+import           Prelude             (String)
 
-import Protolude
-import Data.Tree.Pretty
-import Data.Tree
+import           Data.Tree
+import           Data.Tree.Pretty
+import           Protolude
 
-import Data.SuffixTree
-import LazyTree.Functional
+import           Data.SuffixTree
+import           LazyTree.Functional
 
-import Reader
+import           Reader
 
 toTree :: STree Char -> Tree (Label Char)
 toTree = unfoldTree unfoldEdge . rootEdge
@@ -36,8 +36,8 @@ drawFile :: String -> IO ()
 drawFile path = do
     res <- fileToTree path
     case res of
-      Left e -> putStrLn $ "PARSER ERROR:\n" ++ show e
+      Left e  -> putStrLn $ "PARSER ERROR:\n" ++ show e
       Right t -> putStrLn $ drawVerticalTree (map showEdge t)
     where
         showEdge (s, Nothing) = s :: String
-        showEdge (s, Just i) = (s :: String) ++ "[" ++ show i ++ "]"
+        showEdge (s, Just i)  = (s :: String) ++ "[" ++ show i ++ "]"

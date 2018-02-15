@@ -1,10 +1,10 @@
 
 module Search where
 
-import Protolude
+import           Protolude
 
-import Data.SuffixTree
-import LazyTree.Functional
+import           Data.SuffixTree
+import           LazyTree.Functional
 
 type Pattern a = [a]
 
@@ -12,8 +12,8 @@ firstMatch :: Eq a => [(Label a, STree a)] -> Pattern a -> Maybe (Pattern a, STr
 firstMatch []            _ = Nothing
 firstMatch ((l, t) : xs) p =
     case match p (l, t) of
-        Nothing         -> firstMatch xs p
-        Just x          -> Just x
+        Nothing -> firstMatch xs p
+        Just x  -> Just x
 
 
 match :: Eq a => Pattern a -> (Label a, STree a) -> Maybe (Pattern a, STree a)

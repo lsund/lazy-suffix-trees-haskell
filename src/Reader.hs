@@ -1,13 +1,13 @@
 module Reader where
 
-import Prelude      (String)
+import           Prelude                       (String)
 
-import Protolude
-import Text.ParserCombinators.Parsec
-import Text.Parsec.Prim
+import           Protolude
+import           Text.Parsec.Prim
+import           Text.ParserCombinators.Parsec
 
-import Data.Tree
-import Data.Char
+import           Data.Char
+import           Data.Tree
 
 
 symbol :: String -> Parser (String, Maybe Int)

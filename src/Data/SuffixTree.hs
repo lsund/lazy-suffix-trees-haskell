@@ -1,7 +1,7 @@
 
 module Data.SuffixTree where
 
-import Protolude
+import           Protolude
 
 -------------------------------------------------------------------------------
 -- Data

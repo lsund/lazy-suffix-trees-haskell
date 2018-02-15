@@ -1,11 +1,11 @@
 
 module LazyTree.Functional where
 
-import Prelude              (String, init)
-import Protolude
+import           Prelude         (String, init)
+import           Protolude
 
-import Data.SuffixTree
-import Util
+import           Data.SuffixTree
+import           Util
 
 -------------------------------------------------------------------------------
 -- Atomic Suffix Tree
