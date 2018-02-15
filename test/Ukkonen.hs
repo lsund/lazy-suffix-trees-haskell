@@ -1,11 +1,15 @@
 import           Test.QuickCheck
 
-import qualified LazyTree.Functional as LT
-import qualified Ukkonen.Functional  as U
+import           Algorithm.Common
+import qualified Algorithm.LazyTree.Functional as LT
+import qualified Algorithm.Ukkonen.Functional  as U
+import           Data.List
+import           Prelude                       (String)
+import           Protolude
 
-prop_tree :: String -> String -> Bool
-prop_tree a b = ta == tb
-    where ta = LazyTree.toTree $ LazyTree.lazyAST a b
-          tb = Other.LazyTree.toTree $ Other.LazyTree.lazyAST a b
+prop_tree :: String -> Bool
+prop_tree x = ta == tb
+    where ta = toTree $ LT.lazyCST (nub x) x
+          tb = toTree $ U.naiveOnline x
 
 runTest = quickCheck prop_tree

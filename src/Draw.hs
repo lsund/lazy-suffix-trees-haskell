@@ -7,15 +7,11 @@ import           Data.Tree
 import           Data.Tree.Pretty
 import           Protolude
 
+import           Algorithm.Common
 import           Algorithm.LazyTree.Functional
 import           Data.SuffixTree
 
 import           Reader
-
-toTree :: STree Char -> Tree (Label Char)
-toTree = unfoldTree unfoldEdge . rootEdge
-    where
-        rootEdge st = (("r", 1 :: Int), st)
 
 -------------------------------------------------------------------------
 -- Draw

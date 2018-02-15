@@ -1,22 +1,24 @@
 module Main where
 
+import           Data.List
 import           Data.Text                     as T (unpack)
 import           Draw
 import           Protolude
--- import Control.DeepSeq
 
--- import Analyze
--- import  Draw
 import           Algorithm.LazyTree.Functional
 import           Algorithm.Search
 import           Algorithm.Ukkonen.Functional
 
+text = "abaababa"
 
 main = do
-    let t = naiveOnline "abaababa"
+    let t = naiveOnline text
+    print t
     drawPretty t
-    let t2 = lazyCST "abaababa"
-    drawPretty t
+    putStrLn ("-------------------------------\n" :: Text)
+    let t2 = lazyCST (nub text) text
+    print t2
+    drawPretty t2
 
 -- main = do
 --     text <- readFile "data/book/data.xml"

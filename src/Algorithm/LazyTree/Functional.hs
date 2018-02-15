@@ -65,7 +65,7 @@ lazyTree edgeFun as t = lazyTree' (length t) (init $ tails t)
         lazyTree' i suffixes = Branch (foldl (addEdge i suffixes) [] as)
         addEdge i suffixes edges a =
             let
-                suffixGroup  = filter (not . null) $ groupSuffixes a suffixes
+                suffixGroup  = groupSuffixes a suffixes
                 (lcp, rests) = edgeFun suffixGroup
             in
                 case suffixGroup of
@@ -89,10 +89,4 @@ lazyPST = lazyTree edgePST
 
 lazyCST :: Eq a => [a] -> [a] -> STree a
 lazyCST = lazyTree edgeCST
-
-unfoldEdge :: Edge Char -> (Label Char, [Edge Char])
-unfoldEdge (l, Branch xs)   = (l, xs)
-unfoldEdge ((m, n), Leaf i) = (showLeaf, [])
-    where
-        showLeaf = (m ++ "<" ++ show i ++ ">" :: String, n + 3)
 
