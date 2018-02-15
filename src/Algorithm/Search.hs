@@ -44,7 +44,5 @@ indices as x p =
         indices' (Branch xs) = sort $ concatMap (indices' . snd) xs
 
 
-exists :: Eq a => Alphabet a -> [a] -> Pattern a -> Bool
-exists as x p =
-    let t = lazyCST as x
-    in isJust $ search t p
+exists :: Eq a => Pattern a -> STree a -> Bool
+exists p t = isJust $ search t p
