@@ -59,7 +59,7 @@ edgeCST suffix@((x : xs) : xss)
 
 
 lazyTree :: Eq a => EdgeFunction a -> Alphabet a -> [a] -> STree a
-lazyTree edgeFun as t = lazyTree' (length t) (init $ tails t)
+lazyTree edgeFun as x = lazyTree' (length x) (init $ tails x)
     where
         lazyTree' i [[]]     = Leaf i
         lazyTree' i suffixes = Branch (foldl (addEdge i suffixes) [] as)
