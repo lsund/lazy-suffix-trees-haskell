@@ -58,11 +58,11 @@ edgeCST suffix@((x : xs) : xss)
 -- Functional LazyTree
 
 
-lazyTree :: Eq a => EdgeFunction a -> Alphabet a -> [a] -> STree a
+lazyTree :: Eq a => EdgeFunction a -> Alphabet a -> [a] -> STree2 a
 lazyTree edgeFun as x = lazyTree' (length x) (init $ tails x)
     where
-        lazyTree' i [[]]     = Leaf i
-        lazyTree' i suffixes = Branch (foldl (addEdge i suffixes) [] as)
+        lazyTree' i [[]]     = Leaf2 i
+        lazyTree' i suffixes = Branch2 (foldl (addEdge i suffixes) [] as)
         addEdge i suffixes edges a =
             let
                 suffixGroup  = groupSuffixes a suffixes
@@ -73,20 +73,20 @@ lazyTree edgeFun as x = lazyTree' (length x) (init $ tails x)
                     []         -> edges
             where
                 groupSuffixes c         = map tail . filter (headEq c)
-                newLabel mark lcp       = (a : mark, succ lcp)
+                newLabel mark lcp       = Label2 (a : mark) (succ lcp)
                 descendTree lcp         = lazyTree' (i - succ lcp)
-                makeEdge mark lcp rests = ( newLabel mark lcp
-                                           , descendTree lcp rests)
+                makeEdge mark lcp rests = Edge2 (newLabel mark lcp)
+                                                (descendTree lcp rests)
 
 -------------------------------------------------------------------------------
 -- Public API
 
-lazyAST :: Eq a => [a] -> [a] -> STree a
+lazyAST :: Eq a => [a] -> [a] -> STree2 a
 lazyAST = lazyTree edgeAST
 
-lazyPST :: Eq a => [a] -> [a] -> STree a
+lazyPST :: Eq a => [a] -> [a] -> STree2 a
 lazyPST = lazyTree edgePST
 
-lazyCST :: Eq a => [a] -> [a] -> STree a
+lazyCST :: Eq a => [a] -> [a] -> STree2 a
 lazyCST = lazyTree edgeCST
 

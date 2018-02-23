@@ -17,15 +17,15 @@ import           Reader
 -- Draw
 
 
-drawST :: (Tree String -> String) -> STree Char -> IO ()
+drawST :: (Tree String -> String) -> STree2 Char -> IO ()
 drawST drawFun = putStr . drawFun . map edgeLabel . toTree
     where
-        edgeLabel (s, l) = take l s
+        edgeLabel (Label2 s l) = take l s
 
-draw :: STree Char -> IO ()
+draw :: STree2 Char -> IO ()
 draw = drawST drawTree
 
-drawPretty :: STree Char -> IO ()
+drawPretty :: STree2 Char -> IO ()
 drawPretty = drawST drawVerticalTree
 
 drawFile :: String -> IO ()
