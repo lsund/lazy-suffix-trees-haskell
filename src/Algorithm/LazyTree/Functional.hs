@@ -4,6 +4,7 @@ module Algorithm.LazyTree.Functional where
 import           Prelude         (String, init)
 import           Protolude
 
+import           Data.Label
 import           Data.SuffixTree
 import           Util
 

@@ -3,6 +3,7 @@ module Draw where
 
 import           Prelude                       (String)
 
+import           Data.Label                    hiding (take)
 import           Data.Tree
 import           Data.Tree.Pretty
 import           Protolude

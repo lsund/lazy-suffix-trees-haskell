@@ -1,6 +1,7 @@
 
 module Algorithm.Common where
 
+import           Data.Label
 import           Data.Tree
 import           Prelude         (String)
 import           Protolude

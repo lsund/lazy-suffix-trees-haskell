@@ -30,3 +30,6 @@ removeDuplicates t   =  x `T.cons` removeDuplicates withoutX
     where x = T.head t
           withoutX = T.filter (\y -> not (x == y)) (T.tail t)
 
+
+listify :: (a, a) -> [a]
+listify (a, b) = [a, b]

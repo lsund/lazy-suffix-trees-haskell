@@ -1,15 +1,11 @@
 
 module Data.SuffixTree where
 
+import           Data.Label
 import           Protolude
 
 -------------------------------------------------------------------------------
 -- Data
-
-data Label a = Label
-    { _mark :: [a]
-    , _len  :: Int
-    } deriving (Eq, Show)
 
 data Edge a = Edge
     { _label   :: Label a
