@@ -8,15 +8,15 @@ import           Protolude
 import           Data.SuffixTree
 
 
-unfoldEdge :: Edge2 Char -> (Label2 Char, [Edge2 Char])
-unfoldEdge (Edge2 l (Branch2 xs))   = (l, xs)
-unfoldEdge (Edge2 (Label2 m n) (Leaf2 i)) = (showLeaf, [])
+unfoldEdge :: Edge Char -> (Label Char, [Edge Char])
+unfoldEdge (Edge l (Branch xs))   = (l, xs)
+unfoldEdge (Edge (Label m n) (Leaf i)) = (showLeaf, [])
     where
-        showLeaf = Label2 (m ++ "<" ++ show i ++ ">" :: String) (n + 3)
+        showLeaf = Label (m ++ "<" ++ show i ++ ">" :: String) (n + 3)
 
 
-toTree :: STree2 Char -> Tree (Label2 Char)
+toTree :: STree Char -> Tree (Label Char)
 toTree = unfoldTree unfoldEdge . rootEdge
     where
-        rootEdge = Edge2 (Label2 "r" (1 :: Int))
+        rootEdge = Edge (Label "r" (1 :: Int))
 

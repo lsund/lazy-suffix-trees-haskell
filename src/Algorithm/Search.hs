@@ -8,26 +8,26 @@ import           Data.SuffixTree
 
 type Pattern a = [a]
 
-firstMatch :: Eq a => [Edge2 a] -> Pattern a -> Maybe (Pattern a, STree2 a)
+firstMatch :: Eq a => [Edge a] -> Pattern a -> Maybe (Pattern a, STree a)
 firstMatch []            _ = Nothing
-firstMatch (Edge2 l t : xs) p =
-    case match p (Edge2 l t) of
+firstMatch (Edge l t : xs) p =
+    case match p (Edge l t) of
         Nothing -> firstMatch xs p
         Just x  -> Just x
 
 
-match :: Eq a => Pattern a -> Edge2 a -> Maybe (Pattern a, STree2 a)
-match p (Edge2 (Label2 s len) t)
+match :: Eq a => Pattern a -> Edge a -> Maybe (Pattern a, STree a)
+match p (Edge (Label s len) t)
     | take len s `isPrefixOf` p          = Just (drop len p, t)
     | p          `isPrefixOf` take len s = Just ([], t)
     | otherwise                          = Nothing
 
 
 
-search :: Eq a => STree2 a -> Pattern a -> Maybe (Pattern a, STree2 a)
-search (Leaf2 i)          p      = Just (p, Leaf2 i)
-search (Branch2 [])       _      = Nothing
-search (Branch2 branches) p =
+search :: Eq a => STree a -> Pattern a -> Maybe (Pattern a, STree a)
+search (Leaf i)          p      = Just (p, Leaf i)
+search (Branch [])       _      = Nothing
+search (Branch branches) p =
     case firstMatch branches p of
         Just ([], t)   -> Just ([], t)
         Just (rest, t) -> search t rest
@@ -44,5 +44,5 @@ search (Branch2 branches) p =
 --         indices' (Branch xs) = sort $ concatMap (indices' . snd) xs
 
 
-exists :: Eq a => Pattern a -> STree2 a -> Bool
+exists :: Eq a => Pattern a -> STree a -> Bool
 exists p t = isJust $ search t p
