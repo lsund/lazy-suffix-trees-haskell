@@ -5,31 +5,30 @@ import           Data.List        (head)
 import           Protolude        hiding (head)
 
 import           Algorithm.Search
+import           Data.Label       (Label (..))
 import qualified Data.Label       as Label
-import           Data.Label       (Label(..))
 import           Data.SuffixTree
 import           Util
 
-edgeChar :: Edge a -> a
-edgeChar (Edge (Label (c : _) _) _) = c
-
-matchPrefix :: Label a -> Label a -> Label a
-matchPrefix lbl suffix = Label (drop (_len lbl) (_mark suffix)) (_len suffix - _len lbl)
 
 -- Update a tree
 update :: (Ord a) => (STree a, Label a) -> (STree a, Label a)
-update (tree, Label (x : xs) l)
-    | exists suffix tree = (tree, Label (x : xs) (succ l))
-    where suffix = take (succ l) (x : xs)
-update (tree, Label (x : xs) 0) = (insert (Label (x : xs) 0) tree, Label xs 0)
-update (tree, Label (x : xs) l) =
-    update (insert (Label (x : xs) l) tree, Label xs (pred l))
-update(tree, lbl) = (tree, lbl)
+update (tree, lbl@(Label mark l))
+    | exists suffix tree = (tree, Label mark (succ l))
+    | l == 0             = (insert (Label.empty lbl) tree, Label.tail lbl)
+    | otherwise          = update (insert lbl tree, Label.shrink lbl)
+    where suffix = take (succ l) mark
 
--- longer : suffix -> edge label -> current tree -> bool
-longer :: Label a -> Label a -> STree a -> Bool
-longer suffix lbl tree = (not . isLeaf) tree && _len suffix > _len lbl
 
+-------------------------------------------------------------------------------
+-- Insert
+
+
+addLeafEdge :: Ord a => Label a -> [Edge a] -> [Edge a]
+addLeafEdge suffix [] = [leafEdge suffix]
+addLeafEdge suffix (e : edges)
+    | compareFirst suffix e == GT = e : addLeafEdge suffix edges
+    | otherwise                   = leafEdge suffix : e : edges
 
 -- split : suffix -> edge label -> tree -> (edge, edge)
 splitEdge :: Ord a => Label a -> Label a -> STree a -> (Edge a, Edge a)
@@ -43,29 +42,27 @@ splitEdge suffix lbl tree =
     in
         if head x < head y then (ex, ey) else (ey, ex)
 
-compareFirst :: Eq a => Label a -> Edge a -> Bool
-compareFirst (Label (x : _) _) (Edge (Label (y : _) _) _) = x == y
+splitAndInsert :: Ord a => Label a -> [Edge a] -> [Edge a]
+splitAndInsert _ []                  = []
+splitAndInsert suffix (edge : edges)
+    | EQ /= compareFirst suffix edge = edge : splitAndInsert suffix edges
+    | longer suffix edge             = edge { _subtree = tree' } : edges
+    | otherwise                      = edge' : edges
+    where
+        edge' = Edge (Label.take (_len suffix) (_label edge)) (Branch split)
+        tree' = insert (matchPrefix edge suffix) (_subtree edge)
+        split = listify $ splitEdge suffix (_label edge) (_subtree edge)
 
--- Insert a suffix
--- /s ends on a vertex
+-- Function for inserting a suffix in a A+ tree. Let `sa` be the suffix to be
+-- inserted and s' (suffix) be the path that emerges by following the mark s.
+-- Distinguish between two cases:
+--
+-- (1) s' to be inserted does not end in a vertex.
+-- (2) s' to be inserted does not end in a vertex.
 insert :: Ord a => Label a -> STree a -> STree a
-insert (Label suff@(c : _) 0) (Branch edges) = Branch (insert' edges)
-    where insert' [] = [Edge (Label.full suff) (Leaf 0)]
-          insert' (e : es)
-            | c > edgeChar e = e : insert' es
-            | otherwise      = Edge (Label.full suff) (Leaf 0) : e : es
-
--- /s does not end on a vertex
-insert suffix (Branch edges) = Branch (insert' edges)
-    where insert' (e@(Edge lbl _) : es)
-            | not $ compareFirst suffix e = e : insert' es
-            | longer suffix lbl (_subtree e) = Edge lbl tree' : es
-            | otherwise  = Edge (Label.take (_len suffix) lbl) (Branch split) : es
-            where
-                tree' = insert (matchPrefix lbl suffix) (_subtree e)
-                split = listify $ splitEdge suffix lbl (_subtree e)
-          insert' _ = []
-
+insert suffix (Branch edges')
+    | Label.isEmpty suffix = Branch (addLeafEdge suffix edges')
+    | otherwise            = Branch (splitAndInsert suffix edges')
 insert _ _ = Leaf 0
 
 naiveOnline :: Ord a => [a] -> STree a

@@ -1,7 +1,8 @@
 
 module Algorithm.LazyTree.Functional where
 
-import           Prelude         (String, init)
+import qualified Data.List       as List
+import           Prelude         (init)
 import           Protolude
 
 import           Data.Label
@@ -26,10 +27,10 @@ removeNested []                      = []
 removeNested ([] : _ : _ )           = []
 removeNested [s]                     = [s]
 removeNested suffix@((x : xs) : xss)
-    | (not . any (headEq x)) xss     = map tail removed
+    | (not . any (headEq x)) xss     = map List.tail removed
     | otherwise                      = suffix
         where
-            removed                  = removeNested (xs : map tail xss)
+            removed                  = removeNested (xs : map List.tail xss)
 
 
 edgePST :: Eq a => EdgeFunction a
@@ -51,8 +52,8 @@ edgeCST suffix@((x : xs) : xss)
   | allStartsWith x xss         = (succ lcp, xs')
   | otherwise                   = (0, suffix)
     where
-        (lcp, xs')              = edgeCST (xs : map tail xss)
-        allStartsWith c         = null . filter (not . headEq c)
+        (lcp, xs')              = edgeCST (xs : map List.tail xss)
+        allStartsWith c         = any (not . headEq c)
 
 
 -------------------------------------------------------------------------------
@@ -73,7 +74,7 @@ lazyTree edgeFun as x = lazyTree' (length x) (init $ tails x)
                     (mark : _) -> makeEdge mark lcp rests : edges
                     []         -> edges
             where
-                groupSuffixes c         = map tail . filter (headEq c)
+                groupSuffixes c         = map List.tail . filter (headEq c)
                 newLabel mark lcp       = Label (a : mark) (succ lcp)
                 descendTree lcp         = lazyTree' (i - succ lcp)
                 makeEdge mark lcp rests = Edge (newLabel mark lcp)
