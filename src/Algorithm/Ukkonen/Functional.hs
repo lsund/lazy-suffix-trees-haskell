@@ -1,10 +1,10 @@
 
 module Algorithm.Ukkonen.Functional where
 
-import           Protolude
+import           Protolude hiding (empty)
 
 import           Algorithm.Search
-import           Data.Label       (Label (..))
+import           Data.Label       (Label (..), grow, compress, empty)
 import qualified Data.Label       as Label
 import           Data.SuffixTree
 import           Util
@@ -12,11 +12,11 @@ import           Util
 
 -- Update a tree
 update :: (Ord a) => (STree a, Label a) -> (STree a, Label a)
-update (tree, lbl@(Label mark l))
-    | exists suffix tree = (tree, Label mark (succ l))
-    | l == 0             = (insert (Label.empty lbl) tree, Label.tail lbl)
-    | otherwise          = update (insert lbl tree, Label.shrink lbl)
-    where suffix = take (succ l) mark
+update (tree, lbl@(Label mark len))
+    | exists suffix tree = (tree, grow lbl)
+    | len == 0           = (insert (empty lbl) tree, Label.tail lbl)
+    | otherwise          = update (insert lbl tree, compress lbl)
+    where suffix = take (succ len) mark
 
 
 -------------------------------------------------------------------------------
@@ -37,9 +37,9 @@ splitEdge suffix edge tree
     where
         suffix'               = Label.drop suffix (_label edge)
         suffix''              = Label.drop suffix suffix
-        sibling | isLeaf tree = Edge suffix'  (Leaf 0)
+        sibling | isLeaf tree = Edge suffix'  (Leaf (_len suffix))
                 | otherwise   = Edge (dropSuffixMark suffix edge) tree
-        newEdge               = Edge suffix'' (Leaf 0)
+        newEdge               = Edge suffix'' (Leaf (_len suffix))
 
 
 splitAndInsert :: Ord a => Label a -> [Edge a] -> [Edge a]

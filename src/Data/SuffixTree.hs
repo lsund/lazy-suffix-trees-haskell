@@ -39,7 +39,7 @@ edgeChar :: Edge a -> a
 edgeChar (Edge (Label (c : _) _) _) = c
 
 leafEdge :: Label a -> Edge a
-leafEdge suffix = Edge (Label.fromList (_mark suffix)) (Leaf 0)
+leafEdge suffix = Edge (Label.fromList (_mark suffix)) (Leaf (_len suffix))
 
 isLeafEdge :: Edge a -> Bool
 isLeafEdge = isLeaf . _subtree

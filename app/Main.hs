@@ -15,11 +15,11 @@ text = "abaababa"
 main = do
     let t = naiveOnline text
     -- print t
-    drawPretty t
+    -- drawPretty t
     -- putStrLn ("-------------------------------\n" :: Text)
-    -- let t2 = lazyCST (nub text) text
+    let t2 = lazyCST (nub text) text
     -- print t2
-    -- drawPretty t2
+    drawPretty t2
 
 -- main = do
 --     text <- readFile "data/book/data.xml"

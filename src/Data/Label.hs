@@ -23,8 +23,11 @@ take n (Label xs _) = Label xs n
 tail :: Label a -> Label a
 tail (Label mark n) = Label (List.tail mark) n
 
-shrink :: Label a -> Label a
-shrink (Label mark n) = Label (List.tail mark) (pred n)
+compress :: Label a -> Label a
+compress (Label mark n) = Label (List.tail mark) (pred n)
+
+grow :: Label a -> Label a
+grow (Label mark n) = Label mark (succ n)
 
 
 empty :: Label a -> Label a
@@ -35,8 +38,10 @@ isEmpty :: Label a -> Bool
 isEmpty (Label _ 0) = True
 isEmpty _           = False
 
+
 rest :: Label a -> Label a
 rest lbl = fromList (List.drop (_len lbl) (_mark lbl))
+
 
 drop :: Label a -> Label a -> Label a
 drop lbl lbl' = fromList (List.drop (_len lbl) (_mark lbl'))
@@ -44,4 +49,3 @@ drop lbl lbl' = fromList (List.drop (_len lbl) (_mark lbl'))
 
 compareFirst :: Ord a => Label a -> Label a -> Ordering
 compareFirst (Label (x : _) _) (Label (y : _) _) = x `compare` y
-
