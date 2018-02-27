@@ -38,8 +38,8 @@ compareFirst (Label (x : _) _) (Edge (Label (y : _) _) _) = x `compare` y
 edgeChar :: Edge a -> a
 edgeChar (Edge (Label (c : _) _) _) = c
 
-leafEdge :: Label a -> Edge a
-leafEdge suffix = Edge (Label.fromList (_mark suffix)) (Leaf (_len suffix))
+leafEdge :: Int -> Label a -> Edge a
+leafEdge l suffix = Edge (Label.fromList (_mark suffix)) (Leaf l)
 
 isLeafEdge :: Edge a -> Bool
 isLeafEdge = isLeaf . _subtree

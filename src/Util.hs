@@ -18,6 +18,9 @@ tail :: [a] -> [a]
 tail []       = []
 tail (_ : xs) = xs
 
+fst3 :: (a, b, c) -> a
+fst3 (x, _, _) = x
+
 
 headEq :: Eq a => a -> [a] -> Bool
 headEq a (c : _) = c == a

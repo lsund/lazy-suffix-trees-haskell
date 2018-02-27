@@ -9,17 +9,14 @@ import           Algorithm.LazyTree.Functional
 import           Algorithm.Search
 import           Algorithm.Ukkonen.Functional
 
-text = "abaababa"
--- text = "agcgacgag"
+-- text = "abaababa"
+text = "agcgacgag"
 
 main = do
-    let t = naiveOnline text
-    -- print t
-    -- drawPretty t
-    -- putStrLn ("-------------------------------\n" :: Text)
     let t2 = lazyCST (nub text) text
-    -- print t2
+    let t = naiveOnline text
     drawPretty t2
+    drawPretty t
 
 -- main = do
 --     text <- readFile "data/book/data.xml"

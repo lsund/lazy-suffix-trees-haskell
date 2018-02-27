@@ -23,8 +23,8 @@ take n (Label xs _) = Label xs n
 tail :: Label a -> Label a
 tail (Label mark n) = Label (List.tail mark) n
 
-compress :: Label a -> Label a
-compress (Label mark n) = Label (List.tail mark) (pred n)
+shrink :: Label a -> Label a
+shrink (Label mark n) = Label (List.tail mark) (pred n)
 
 grow :: Label a -> Label a
 grow (Label mark n) = Label mark (succ n)
