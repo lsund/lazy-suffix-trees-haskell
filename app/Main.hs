@@ -14,7 +14,7 @@ text = "abaababa"
 
 main = do
     let t = naiveOnline text
-    print t
+    -- print t
     drawPretty t
     -- putStrLn ("-------------------------------\n" :: Text)
     -- let t2 = lazyCST (nub text) text

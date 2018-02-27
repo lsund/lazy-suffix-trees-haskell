@@ -4,7 +4,7 @@ module Algorithm.Search where
 import           Protolude
 
 import           Algorithm.LazyTree.Functional
-import           Data.Label                    hiding (take)
+import           Data.Label                    hiding (take, drop)
 import           Data.SuffixTree
 
 type Pattern a = [a]

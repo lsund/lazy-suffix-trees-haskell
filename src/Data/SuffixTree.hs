@@ -1,7 +1,7 @@
 
 module Data.SuffixTree where
 
-import           Data.Label as Label
+import           Data.Label as Label hiding (drop)
 import           Protolude
 
 -------------------------------------------------------------------------------
@@ -47,8 +47,19 @@ isLeafEdge = isLeaf . _subtree
 longer :: Label a -> Edge a -> Bool
 longer suffix edge = not (isLeafEdge edge) && _len suffix > (_len . _label) edge
 
-matchPrefix :: Edge a -> Label a -> Label a
-matchPrefix edge suffix =
+-- Drop the start of the suffix
+dropEdgeMark :: Label a -> Edge a -> Label a
+dropEdgeMark suffix edge =
     Label
         (drop ((_len . _label) edge) (_mark suffix))
         (_len suffix - (_len . _label) edge)
+
+dropSuffixMark :: Label a -> Edge a -> Label a
+dropSuffixMark suffix edge =
+    Label
+        (drop (_len suffix) ((_mark . _label) edge))
+        ((_len . _label) edge - _len suffix)
+
+-- Replace the suffix with the edge
+replaceMark :: Label a -> Edge a -> Label a
+replaceMark suffix edge =  Label.take (_len suffix) (_label edge)
