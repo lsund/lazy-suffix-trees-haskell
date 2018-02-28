@@ -1,3 +1,5 @@
+module Ukkonen where
+
 import           Test.QuickCheck
 
 import           Algorithm.Common
@@ -10,6 +12,5 @@ import           Protolude
 prop_tree :: String -> Bool
 prop_tree x = ta == tb
     where ta = toTree $ LT.lazyCST (nub x) x
-          tb = toTree $ U.naiveOnline x
+          tb = toTree $ U.ukkonen x
 
-runTest = quickCheck prop_tree
