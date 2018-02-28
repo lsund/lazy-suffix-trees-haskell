@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 4fdb408edffbaa098bb3435b9412706d204a911fc3c3be6b3e9686d7dac23e9f
+-- hash: b3fc63e9642aebfc5f9a3b3cec232409a712b0057d2340eee3f797002500aca1
 
 name:                suffix-trees-haskell
 version:             1.0.0
@@ -46,6 +46,7 @@ library
     , pretty-tree ==0.1.0.0
     , protolude
     , random
+    , regex-compat
     , text
   if (flag(dev)) || (flag(library-only))
     ghc-options: -Wall -fwarn-tabs -O0
@@ -71,6 +72,7 @@ executable suffix-trees-haskell
     , pretty-tree ==0.1.0.0
     , protolude
     , random
+    , regex-compat
     , suffix-trees-haskell
     , text
   if flag(library-only)
@@ -99,6 +101,7 @@ test-suite test
     , pretty-tree ==0.1.0.0
     , protolude
     , random
+    , regex-compat
     , suffix-trees-haskell
     , text
   default-language: Haskell2010

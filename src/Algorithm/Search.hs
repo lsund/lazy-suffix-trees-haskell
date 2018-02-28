@@ -35,14 +35,12 @@ search (Branch branches) p =
         Nothing        -> Nothing
 
 
--- indices :: Eq a => Alphabet a -> [a] -> Pattern a -> Maybe [Int]
--- indices as x p =
---     let t = lazyCST as x
---     in indices' . snd <$> search t p
---     where
---         indices' :: STree a -> [Int]
---         indices' (Leaf i)    = [i]
---         indices' (Branch xs) = sort $ concatMap (indices' . snd) xs
+indices :: Eq a => Pattern a -> STree a -> Maybe [Int]
+indices p t = indices' . snd <$> search t p
+    where
+        indices' :: STree a -> [Int]
+        indices' (Leaf i)    = [i]
+        indices' (Branch xs) = sort $ concatMap (indices' . _subtree) xs
 
 
 exists :: Eq a => Pattern a -> STree a -> Bool

@@ -14,7 +14,7 @@ data Edge a = Edge
 
 
 data STree a    = Leaf      { _leafNumber :: Int }
-                | Branch    { _branches :: [Edge a] }
+                | Branch    { _branches   :: [Edge a] }
                 deriving (Eq, Show)
 
 -------------------------------------------------------------------------------
