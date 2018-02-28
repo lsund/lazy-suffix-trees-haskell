@@ -21,7 +21,7 @@ edgeAST xs = (0, xs)
 
 
 -- Takes a list of suffixes and removes the ones that occur in other suffixes
-removeNested :: (Eq a) => [[a]] -> [[a]]
+removeNested :: (Eq a) => [[a]]     -> [[a]]
 removeNested []                      = []
 removeNested ([] : _ : _ )           = []
 removeNested [s]                     = [s]

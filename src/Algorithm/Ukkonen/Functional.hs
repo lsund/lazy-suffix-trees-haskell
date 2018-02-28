@@ -14,15 +14,15 @@ import           Util
 -- Insert
 
 
-addLeafEdge :: Ord a => Int -> Label a -> [Edge a] -> [Edge a]
-addLeafEdge l suffix [] = [leafEdge l suffix]
-addLeafEdge l suffix (e : edges)
-    | compareFirst suffix e == GT = e : addLeafEdge (traceShowId l) suffix edges
-    | otherwise                   = leafEdge (traceShowId l) suffix : e : edges
+addLeafEdge :: Ord a => (Label a, Int) -> [Edge a] -> [Edge a]
+addLeafEdge (suffix, l) []          = [leafEdge l suffix]
+addLeafEdge (suffix, l) (e : edges)
+    | compareFirst suffix e == GT   = e : addLeafEdge (suffix, l) edges
+    | otherwise                     = leafEdge l suffix : e : edges
 
 
-splitEdge :: Ord a => Int -> Label a -> Edge a -> STree a -> (Edge a, Edge a)
-splitEdge l suffix edge tree
+splitEdge :: Ord a => (Label a, Int) -> Edge a -> STree a -> (Edge a, Edge a)
+splitEdge (suffix, l) edge tree
     | Label.compareFirst suffix' suffix'' == LT    = (sibling, newEdge)
     | otherwise                                    = (newEdge, sibling)
     where
@@ -33,15 +33,15 @@ splitEdge l suffix edge tree
         newEdge               = Edge suffix'' (Leaf l)
 
 
-splitAndInsert :: Ord a => Int -> Label a -> [Edge a] -> [Edge a]
-splitAndInsert _ _ []                  = []
-splitAndInsert l suffix (edge : edges)
-    | EQ /= compareFirst suffix edge = edge : splitAndInsert l suffix edges
+splitAndInsert :: Ord a => (Label a, Int) -> [Edge a] -> [Edge a]
+splitAndInsert _ []                  = []
+splitAndInsert (suffix, l) (edge : edges)
+    | EQ /= compareFirst suffix edge = edge : splitAndInsert (suffix, l) edges
     | longer suffix edge             = edge { _subtree = tree' } : edges
     | otherwise                      = edge' : edges
     where
-        tree' = insert l (dropEdgeMark suffix edge) (_subtree edge)
-        split = listify $ splitEdge l suffix edge (_subtree edge)
+        tree' = insert (dropEdgeMark suffix edge, l) (_subtree edge)
+        split = listify $ splitEdge (suffix, l) edge (_subtree edge)
         edge' = Edge (replaceMark suffix edge) (Branch split)
 
 -- Function for inserting a suffix in a A+ tree. Let `sa` be the suffix to be
@@ -50,23 +50,23 @@ splitAndInsert l suffix (edge : edges)
 --
 -- (1) s' to be inserted does not end in a vertex.
 -- (2) s' to be inserted does not end in a vertex.
-insert :: Ord a => Int -> Label a -> STree a -> STree a
-insert l suffix (Branch edges')
-    | Label.isEmpty suffix = Branch (addLeafEdge l suffix edges')
-    | otherwise            = Branch (splitAndInsert l suffix edges')
-insert _ _ _ = Leaf 0
+insert :: Ord a => (Label a, Int) -> STree a -> STree a
+insert (suffix, l) (Branch edges')
+    | Label.isEmpty suffix = Branch (addLeafEdge (suffix, l) edges')
+    | otherwise            = Branch (splitAndInsert (suffix, l) edges')
+insert _ _ = Leaf 0
 
 
 -- Update a tree
-update :: (Ord a) => (STree a, Label a, Int) -> (STree a, Label a, Int)
-update (tree, lbl@(Label mark len), l)
-    | exists suffix tree = (tree, grow lbl, l)
-    | len == 0           = (insert l (empty lbl) tree, Label.tail lbl, succ l)
-    | otherwise          = update (insert l lbl tree, shrink lbl, succ l)
+update :: (Ord a) => (STree a, (Label a, Int)) -> (STree a, (Label a, Int))
+update (tree, (lbl@(Label mark len), l))
+    | exists suffix tree = (tree, (grow lbl, l))
+    | len == 0           = (insert (empty lbl, l) tree, (Label.tail lbl, succ l))
+    | otherwise          = update (insert (lbl, l) tree, (shrink lbl, succ l))
     where suffix = take (succ len) mark
 
 
 naiveOnline :: Ord a => [a] -> STree a
-naiveOnline x = fst3 (until stop update (Branch [], Label x 0, 0))
+naiveOnline x = fst (until stop update (Branch [], (Label x 0, 0)))
     where
-        stop (_, Label s l, _) = null $ drop l s
+        stop (_, (Label s l, _)) = null $ drop l s

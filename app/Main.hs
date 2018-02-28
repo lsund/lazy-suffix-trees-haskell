@@ -11,6 +11,7 @@ import           Algorithm.Ukkonen.Functional
 
 -- text = "abaababa"
 text = "agcgacgag"
+-- TODO this lazytree does not create CST from this
 
 main = do
     let t2 = lazyCST (nub text) text
