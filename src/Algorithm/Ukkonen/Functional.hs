@@ -1,12 +1,12 @@
 
 module Algorithm.Ukkonen.Functional where
 
-import           Protolude hiding (empty)
+import           Protolude        hiding (empty)
 
 import           Algorithm.Search
-import           Data.Label       (Label (..), grow, shrink, empty)
+import           Data.Label       (Label (..), empty, grow, isEmpty, shrink)
 import qualified Data.Label       as Label
-import           Data.SuffixTree
+import           Data.SuffixTree  as Edge
 import           Util
 
 
@@ -17,8 +17,8 @@ import           Util
 addLeafEdge :: Ord a => (Label a, Int) -> [Edge a] -> [Edge a]
 addLeafEdge (suffix, l) []          = [leafEdge l suffix]
 addLeafEdge (suffix, l) (e : edges)
-    | compareFirst suffix e == GT   = e : addLeafEdge (suffix, l) edges
-    | otherwise                     = leafEdge l suffix : e : edges
+    | Edge.compareFirst suffix e == GT = e : addLeafEdge (suffix, l) edges
+    | otherwise                        = leafEdge l suffix : e : edges
 
 
 splitEdge :: Ord a => (Label a, Int) -> Edge a -> STree a -> (Edge a, Edge a)
@@ -36,13 +36,14 @@ splitEdge (suffix, l) edge tree
 splitAndInsert :: Ord a => (Label a, Int) -> [Edge a] -> [Edge a]
 splitAndInsert _ []                  = []
 splitAndInsert (suffix, l) (edge : edges)
-    | EQ /= compareFirst suffix edge = edge : splitAndInsert (suffix, l) edges
+    | EQ /= Edge.compareFirst suffix edge = edge : splitAndInsert (suffix, l) edges
     | longer suffix edge             = edge { _subtree = tree' } : edges
     | otherwise                      = edge' : edges
     where
         tree' = insert (dropEdgeMark suffix edge, l) (_subtree edge)
         split = listify $ splitEdge (suffix, l) edge (_subtree edge)
         edge' = Edge (replaceMark suffix edge) (Branch split)
+
 
 -- Function for inserting a suffix in a A+ tree. Let `sa` be the suffix to be
 -- inserted and s' (suffix) be the path that emerges by following the mark s.
@@ -52,7 +53,7 @@ splitAndInsert (suffix, l) (edge : edges)
 -- (2) s' to be inserted does not end in a vertex.
 insert :: Ord a => (Label a, Int) -> STree a -> STree a
 insert (suffix, l) (Branch edges')
-    | Label.isEmpty suffix = Branch (addLeafEdge (suffix, l) edges')
+    | isEmpty suffix = Branch (addLeafEdge (suffix, l) edges')
     | otherwise            = Branch (splitAndInsert (suffix, l) edges')
 insert _ _ = Leaf 0
 
@@ -66,7 +67,7 @@ update (tree, (lbl@(Label mark len), l))
     where suffix = take (succ len) mark
 
 
-naiveOnline :: Ord a => [a] -> STree a
-naiveOnline x = fst (until stop update (Branch [], (Label x 0, 0)))
+ukkonen :: Ord a => [a] -> STree a
+ukkonen x = fst (until stop update (Branch [], (Label x 0, 0)))
     where
         stop (_, (Label s l, _)) = null $ drop l s

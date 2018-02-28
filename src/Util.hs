@@ -18,6 +18,11 @@ tail :: [a] -> [a]
 tail []       = []
 tail (_ : xs) = xs
 
+removeHeads :: [[a]] -> [[a]]
+removeHeads []              = []
+removeHeads([] : xss)       = removeHeads xss
+removeHeads((_ : xs) : xss) = xs : removeHeads xss
+
 fst3 :: (a, b, c) -> a
 fst3 (x, _, _) = x
 
@@ -36,3 +41,10 @@ removeDuplicates t   =  x `T.cons` removeDuplicates withoutX
 
 listify :: (a, a) -> [a]
 listify (a, b) = [a, b]
+
+
+allStartsWith :: Eq a => a -> [[a]] -> Bool
+allStartsWith _ [[]] = True
+allStartsWith c xss  = (null . filter (not . headEq c)) xss
+
+

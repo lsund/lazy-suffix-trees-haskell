@@ -44,13 +44,14 @@ edgePST = pstSplit . removeNested
 
 
 edgeCST :: Eq a => EdgeFunction a
+edgeCST []                      = (0, [[]])
+edgeCST ([] : _)                = (0, [[]])
 edgeCST [s]                     = (length s, [[]])
 edgeCST suffix@((x : xs) : xss)
   | allStartsWith x xss         = (succ lcp, xs')
   | otherwise                   = (0, suffix)
     where
-        (lcp, xs')              = edgeCST (xs : map tail xss)
-        allStartsWith c         = null . filter (not . headEq c)
+        (lcp, xs')              = edgeCST (xs : removeHeads xss)
 
 
 -------------------------------------------------------------------------------

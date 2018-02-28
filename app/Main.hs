@@ -15,7 +15,7 @@ text = "agcgacgag"
 
 main = do
     let t2 = lazyCST (nub text) text
-    let t = naiveOnline text
+    let t = ukkonen text
     drawPretty t2
     drawPretty t
 

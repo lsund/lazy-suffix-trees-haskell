@@ -1,8 +1,8 @@
--- This file has been generated from package.yaml by hpack version 0.21.2.
+-- This file has been generated from package.yaml by hpack version 0.27.0.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: d18f0950f76880a2ad4f53ae125bac863773beae128915cc75f8bba50371f6a1
+-- hash: 4fdb408edffbaa098bb3435b9412706d204a911fc3c3be6b3e9686d7dac23e9f
 
 name:                suffix-trees-haskell
 version:             1.0.0
@@ -30,6 +30,7 @@ library
       Algorithm.Search
       Algorithm.Ukkonen.Functional
       Analyze
+      Data.Label
       Data.SuffixTree
       Draw
       Reader
