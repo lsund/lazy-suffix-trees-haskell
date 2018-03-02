@@ -1,8 +1,9 @@
 module Main where
 
-import           Data.List
+import           Data.List                     as List hiding (map)
 import           Data.Text                     as T (unpack)
 import           Draw
+import           Prelude                       (String)
 import           Protolude
 import           Text.Regex
 
@@ -20,22 +21,33 @@ import           Algorithm.Ukkonen.Functional
 --     drawPretty t2
 --     drawPretty t
 
+readReferenceNOs :: String -> IO [String]
+readReferenceNOs path = do
+    content <- readFile path
+    return $ lines (unpack content)
+
 main = do
+    (path : mode : _) <- getArgs
+
+    nos <- readReferenceNOs path
     text <- readFile "data/book/data.xml"
     alpha <- readFile "data/book/alpha.txt"
     let alphaS  = unpack alpha
         textS   = unpack text
-        p = "Blauer Stein"                 -- 3s
-        -- p = "ABI. L 185, S. 5"         -- 2s
+        wrapped = map (\xs -> '(' : xs ++ ")") nos
 
         tree = lazyCST alphaS textS
         -- tree = ukkonen textS
 
-        -- reg = mkRegex "(Blauer Stein)"
-        -- reg2 = mkRegex "(Behncke)"
+        -- reg = mkRegex p
 
+        regexes = map mkRegex wrapped
+
+    if mode == "reg" then
+        print $ map (`matchRegex` textS) regexes -- 274 s
+    else
+        print $ map (`exists` tree) nos -- 74s
     -- print $ matchRegex reg textS
-    -- print $ matchRegex reg2 textS
 
     -- print $ exists p tree       -- Does p exist?
-    print $ indices p tree
+    -- print $ indices p tree
