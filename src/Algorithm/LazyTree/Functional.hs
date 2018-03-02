@@ -62,7 +62,7 @@ lazyTree :: Eq a => EdgeFunction a -> Alphabet a -> [a] -> STree a
 lazyTree edgeFun as x = lazyTree' (length x) (init $ tails x)
     where
         lazyTree' i [[]]     = Leaf i
-        lazyTree' i suffixes = Branch (foldl (addEdge i suffixes) [] as)
+        lazyTree' i suffixes = Branch (foldl' (addEdge i suffixes) [] as)
         addEdge i suffixes edges a =
             let
                 suffixGroup  = groupSuffixes a suffixes

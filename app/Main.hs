@@ -4,6 +4,7 @@ import           Data.List
 import           Data.Text                     as T (unpack)
 import           Draw
 import           Protolude
+import           Text.Regex
 
 import           Algorithm.LazyTree.Functional
 import           Algorithm.Search
@@ -24,11 +25,17 @@ main = do
     alpha <- readFile "data/book/alpha.txt"
     let alphaS  = unpack alpha
         textS   = unpack text
-        -- p = "eg"                    -- 81s
-        p = "Wegen"                 -- 3s
+        p = "Blauer Stein"                 -- 3s
         -- p = "ABI. L 185, S. 5"         -- 2s
-        -- p = "a"
-    -- print $ indices alphaS textS p       -- Get all indices of p
+
         tree = lazyCST alphaS textS
-    print $ exists p tree       -- Does p exist?
+        -- tree = ukkonen textS
+
+        -- reg = mkRegex "(Blauer Stein)"
+        -- reg2 = mkRegex "(Behncke)"
+
+    -- print $ matchRegex reg textS
+    -- print $ matchRegex reg2 textS
+
+    -- print $ exists p tree       -- Does p exist?
     print $ indices p tree
