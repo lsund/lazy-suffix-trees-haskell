@@ -48,26 +48,3 @@ allStartsWith c ((x : _) : xss) = x == c && allStartsWith c xss
 allStartsWith _ []              = True
 allStartsWith _ [[]]            = True
 allStartsWith c ([] : xss)        = allStartsWith c xss
-
-
-unconsAll :: [[a]] -> ([a], [[a]])
-unconsAll xs =
-    let (hs, ts, _) = unconsAll' ([], [], xs)
-    in (hs, ts)
-
-unconsAll' :: ([a], [[a]], [[a]]) -> ([a], [[a]], [[a]])
-unconsAll' (hs, ts, []) = (hs, ts, [])
-unconsAll' (hs, ts, [] : xs) = unconsAll' (hs, ts, xs)
-unconsAll' (hs, ts, (x : xs) : xss) = unconsAll' (x : hs, xs : ts, xss)
-
-longestCommonPrefix :: Eq a => [[a]] -> Int
-longestCommonPrefix [] = 0
-longestCommonPrefix xs =
-    case unconsAll xs of
-        ([_], _) -> 0
-        (hs, ts) -> if allEq hs then 1 + longestCommonPrefix ts else 0
-
-allEq :: (Eq a) => [a] -> Bool
-allEq (x : xs) = all (== x) xs
-allEq [] = False
-

@@ -67,14 +67,13 @@ lazyTree edgeFun as x = lazyTree' (length x) (init $ tails x)
         lazyTree' i suffixes = Branch (foldr' (addEdge i suffixes) [] (nub $ heads suffixes))
         addEdge i suffixes a edges =
             let
-                suffixGroup  = groupSuffixes a suffixes
-                (lcp, rests) = edgeFun suffixGroup
+                aSuffixes = filterSuffixes a suffixes
+                (lcp, rests) = edgeFun aSuffixes
             in
-                case suffixGroup of
+                case aSuffixes of
                     (mark : _) -> makeEdge mark lcp rests : edges
                     []         -> edges
             where
-                groupSuffixes c         = map tail . filter (headEq c)
                 newLabel mark lcp       = Label (a : mark) (succ lcp)
                 descendTree lcp         = lazyTree' (i - succ lcp)
                 makeEdge mark lcp rests = Edge (newLabel mark lcp)
@@ -85,15 +84,6 @@ heads [] = []
 heads [[]] = []
 heads ((x : _) : xs) = x : heads xs
 
--------------------------------------------------------------------------------
--- Public API
-
-lazyAST :: Ord a => [a] -> [a] -> STree a
-lazyAST = lazyTree edgeAST
-
-lazyPST :: Ord a => [a] -> [a] -> STree a
-lazyPST = lazyTree edgePST
-
-lazyCST :: Ord a => [a] -> [a] -> STree a
-lazyCST = lazyTree edgeCST
+filterSuffixes :: Eq a => a -> [[a]] -> [[a]]
+filterSuffixes c = map tail . filter (headEq c)
 
