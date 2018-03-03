@@ -5,7 +5,7 @@ import           Prelude         (String)
 import           Protolude
 import           Test.QuickCheck
 
-import Util
+import SuffixTree.Util
 
 prop_removeHeads :: String -> [String] -> Bool
 prop_removeHeads xs xss = (xs : [u | _: u <- xss]) == (xs : removeHeads xss)
