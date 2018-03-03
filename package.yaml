@@ -19,19 +19,10 @@ default-extensions:
 
 library:
   source-dirs: src
-  when:
-  - condition: (flag(dev)) || (flag(library-only))
-    then:
-      ghc-options:
-      - -Wall
-      - -fwarn-tabs
-      - -O0
-      cpp-options: -DDEVELOPMENT
-    else:
-      ghc-options:
-      - -Wall
-      - -fwarn-tabs
-      - -O2
+  ghc-options:
+  - -Wall
+  - -fwarn-tabs
+  - -O2
 
 executables:
   suffix-trees-haskell:
@@ -41,11 +32,9 @@ executables:
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
+    - -O2
     dependencies:
     - suffix-trees-haskell
-    when:
-    - condition: flag(library-only)
-      buildable: false
 
 tests:
   test:
@@ -55,14 +44,3 @@ tests:
     dependencies:
     - suffix-trees-haskell
     - hspec >=2.0.0
-
-# Define flags used by "yesod devel" to make compilation faster
-flags:
-  library-only:
-    description: Build for use with "yesod devel"
-    manual: false
-    default: false
-  dev:
-    description: Turn on development settings, like auto-reload templates.
-    manual: false
-    default: false

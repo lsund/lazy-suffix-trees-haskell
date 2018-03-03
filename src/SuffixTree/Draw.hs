@@ -1,18 +1,16 @@
 
-module Draw where
+module SuffixTree.Draw where
 
-import           Prelude                       (String)
-
-import           Data.Label                    hiding (take)
+import           Prelude                                  (String)
 import           Data.Tree
 import           Data.Tree.Pretty
 import           Protolude
 
-import           Algorithm.Common
-import           Algorithm.LazyTree.Functional
-import           Data.SuffixTree
-
-import           Reader
+import           SuffixTree.Algorithm.Common
+import           SuffixTree.Algorithm.LazyTree.Functional
+import           SuffixTree.Data.Label                    hiding (take)
+import           SuffixTree.Data.SuffixTree
+import           SuffixTree.Reader
 
 -------------------------------------------------------------------------
 -- Draw

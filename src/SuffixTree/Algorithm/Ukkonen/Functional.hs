@@ -1,13 +1,13 @@
 
-module Algorithm.Ukkonen.Functional where
+module SuffixTree.Algorithm.Ukkonen.Functional where
 
 import           Protolude        hiding (empty)
 
-import           Algorithm.Search
-import           Data.Label       (Label (..), empty, grow, isEmpty, shrink)
-import qualified Data.Label       as Label
-import           Data.SuffixTree  as Edge
-import           Util
+import           SuffixTree.Algorithm.Search
+import           SuffixTree.Data.Label       (Label (..), empty, grow, isEmpty, shrink)
+import qualified SuffixTree.Data.Label       as Label
+import           SuffixTree.Data.SuffixTree  as Edge
+import           SuffixTree.Util
 
 
 -------------------------------------------------------------------------------

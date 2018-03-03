@@ -1,11 +1,10 @@
-module Reader where
+module SuffixTree.Reader where
 
 import           Prelude                       (String)
 
 import           Protolude
 import           Text.Parsec.Prim
 import           Text.ParserCombinators.Parsec
-
 import           Data.Char
 import           Data.Tree
 

@@ -1,12 +1,14 @@
 
-module Algorithm.LazyTree.Functional where
+module SuffixTree.Algorithm.LazyTree.Functional where
 
+import           Data.List       (groupBy, nub)
 import           Prelude         (init)
 import           Protolude
+import           Data.Function
 
-import           Data.Label (Label(..))
-import           Data.SuffixTree
-import           Util
+import           SuffixTree.Data.Label      (Label (..))
+import           SuffixTree.Data.SuffixTree
+import           SuffixTree.Util
 
 -------------------------------------------------------------------------------
 -- Atomic Suffix Tree
@@ -45,7 +47,7 @@ edgePST = pstSplit . removeNested
 
 edgeCST :: Eq a => EdgeFunction a
 edgeCST []                      = (0, [[]])
-edgeCST ([] : _)                = (0, [[]])
+edgeCST ([] : xs)                = edgeCST xs
 edgeCST [s]                     = (length s, [[]])
 edgeCST suffix@((x : xs) : xss)
   | allStartsWith x xss         = (succ lcp, xs')
@@ -58,12 +60,12 @@ edgeCST suffix@((x : xs) : xss)
 -- Functional LazyTree
 
 
-lazyTree :: Eq a => EdgeFunction a -> Alphabet a -> [a] -> STree a
+lazyTree :: Ord a => EdgeFunction a -> Alphabet a -> [a] -> STree a
 lazyTree edgeFun as x = lazyTree' (length x) (init $ tails x)
     where
         lazyTree' i [[]]     = Leaf i
-        lazyTree' i suffixes = Branch (foldl' (addEdge i suffixes) [] as)
-        addEdge i suffixes edges a =
+        lazyTree' i suffixes = Branch (foldr' (addEdge i suffixes) [] (nub $ heads suffixes))
+        addEdge i suffixes a edges =
             let
                 suffixGroup  = groupSuffixes a suffixes
                 (lcp, rests) = edgeFun suffixGroup
@@ -78,15 +80,20 @@ lazyTree edgeFun as x = lazyTree' (length x) (init $ tails x)
                 makeEdge mark lcp rests = Edge (newLabel mark lcp)
                                                 (descendTree lcp rests)
 
+heads :: [[a]] -> [a]
+heads [] = []
+heads [[]] = []
+heads ((x : _) : xs) = x : heads xs
+
 -------------------------------------------------------------------------------
 -- Public API
 
-lazyAST :: Eq a => [a] -> [a] -> STree a
+lazyAST :: Ord a => [a] -> [a] -> STree a
 lazyAST = lazyTree edgeAST
 
-lazyPST :: Eq a => [a] -> [a] -> STree a
+lazyPST :: Ord a => [a] -> [a] -> STree a
 lazyPST = lazyTree edgePST
 
-lazyCST :: Eq a => [a] -> [a] -> STree a
+lazyCST :: Ord a => [a] -> [a] -> STree a
 lazyCST = lazyTree edgeCST
 

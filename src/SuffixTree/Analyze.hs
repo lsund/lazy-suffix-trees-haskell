@@ -1,9 +1,9 @@
 
-module Analyze where
+module SuffixTree.Analyze where
 
 import           Protolude
 
-import           Util
+import           SuffixTree.Util
 
 alphabet :: Text -> Text
 alphabet = removeDuplicates

@@ -1,11 +1,11 @@
 
-module Algorithm.Search where
+module SuffixTree.Algorithm.Search where
 
 import           Protolude
 
-import           Algorithm.LazyTree.Functional
-import           Data.Label                    hiding (take, drop)
-import           Data.SuffixTree
+import           SuffixTree.Algorithm.LazyTree.Functional
+import           SuffixTree.Data.Label                    hiding (take, drop)
+import           SuffixTree.Data.SuffixTree
 
 type Pattern a = [a]
 

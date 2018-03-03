@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: b3fc63e9642aebfc5f9a3b3cec232409a712b0057d2340eee3f797002500aca1
+-- hash: e1efbfd89eb042107b6d94c6592993871af70b70e09fd3be087ec9f7641cb8a9
 
 name:                suffix-trees-haskell
 version:             1.0.0
@@ -10,31 +10,22 @@ license-file:        LICENSE
 build-type:          Simple
 cabal-version:       >= 1.10
 
-flag dev
-  description: Turn on development settings, like auto-reload templates.
-  manual: False
-  default: False
-
-flag library-only
-  description: Build for use with "yesod devel"
-  manual: False
-  default: False
-
 library
   hs-source-dirs:
       src
   default-extensions: NoImplicitPrelude OverloadedStrings
+  ghc-options: -Wall -fwarn-tabs -O2
   exposed-modules:
-      Algorithm.Common
-      Algorithm.LazyTree.Functional
-      Algorithm.Search
-      Algorithm.Ukkonen.Functional
-      Analyze
-      Data.Label
-      Data.SuffixTree
-      Draw
-      Reader
-      Util
+      SuffixTree.Algorithm.Common
+      SuffixTree.Algorithm.LazyTree.Functional
+      SuffixTree.Algorithm.Search
+      SuffixTree.Algorithm.Ukkonen.Functional
+      SuffixTree.Analyze
+      SuffixTree.Data.Label
+      SuffixTree.Data.SuffixTree
+      SuffixTree.Draw
+      SuffixTree.Reader
+      SuffixTree.Util
   other-modules:
       Paths_suffix_trees_haskell
   build-depends:
@@ -48,11 +39,6 @@ library
     , random
     , regex-compat
     , text
-  if (flag(dev)) || (flag(library-only))
-    ghc-options: -Wall -fwarn-tabs -O0
-    cpp-options: -DDEVELOPMENT
-  else
-    ghc-options: -Wall -fwarn-tabs -O2
   default-language: Haskell2010
 
 executable suffix-trees-haskell
@@ -62,7 +48,7 @@ executable suffix-trees-haskell
   hs-source-dirs:
       app
   default-extensions: NoImplicitPrelude OverloadedStrings
-  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N -O2
   build-depends:
       QuickCheck
     , base >=4.8.2.0 && <4.9 || >=4.9.1.0 && <5
@@ -75,8 +61,6 @@ executable suffix-trees-haskell
     , regex-compat
     , suffix-trees-haskell
     , text
-  if flag(library-only)
-    buildable: False
   default-language: Haskell2010
 
 test-suite test
@@ -86,6 +70,7 @@ test-suite test
       Benchmark
       LazyTree
       Ukkonen
+      Util
       Paths_suffix_trees_haskell
   hs-source-dirs:
       test

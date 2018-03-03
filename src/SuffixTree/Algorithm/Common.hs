@@ -1,12 +1,12 @@
 
-module Algorithm.Common where
+module SuffixTree.Algorithm.Common where
 
-import           Data.Label
 import           Data.Tree
 import           Prelude         (String)
 import           Protolude
 
-import           Data.SuffixTree
+import           SuffixTree.Data.Label
+import           SuffixTree.Data.SuffixTree
 
 
 unfoldEdge :: Edge Char -> (Label Char, [Edge Char])

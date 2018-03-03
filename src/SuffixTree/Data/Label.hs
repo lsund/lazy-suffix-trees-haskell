@@ -1,5 +1,5 @@
 
-module Data.Label where
+module SuffixTree.Data.Label where
 
 import Protolude
 

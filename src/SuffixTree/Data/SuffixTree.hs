@@ -1,8 +1,9 @@
 
-module Data.SuffixTree where
+module SuffixTree.Data.SuffixTree where
 
-import           Data.Label as Label hiding (drop)
 import           Protolude
+
+import           SuffixTree.Data.Label as Label hiding (drop)
 
 -------------------------------------------------------------------------------
 -- Data

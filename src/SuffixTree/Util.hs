@@ -1,5 +1,5 @@
 
-module Util where
+module SuffixTree.Util where
 
 import           Data.Char     (chr)
 import qualified Data.Text     as T
@@ -44,7 +44,24 @@ listify (a, b) = [a, b]
 
 
 allStartsWith :: Eq a => a -> [[a]] -> Bool
-allStartsWith _ [[]] = True
-allStartsWith c xss  = (null . filter (not . headEq c)) xss
+allStartsWith c ((x : _) : xss) = x == c && allStartsWith c xss
+allStartsWith _ []              = True
+allStartsWith _ [[]]            = True
+allStartsWith _ ([] : _)        = True
 
 
+unconsAll :: [[a]] -> ([a], [[a]])
+unconsAll xs =
+    let (hs, ts, _) = unconsAll' ([], [], xs)
+    in (hs, ts)
+unconsAll' (hs, ts, []) = (hs, ts, [])
+unconsAll' (hs, ts, (x : xs) : xss) = unconsAll' (x : hs, xs : ts, xss)
+
+longestCommonPrefix :: Eq a => [[a]] -> Int
+longestCommonPrefix xs =
+    let
+        (hs, ts) = unconsAll xs
+    in
+        if allEq hs then 1 + longestCommonPrefix ts else 0
+
+allEq (x : xs) = all (== x) xs
