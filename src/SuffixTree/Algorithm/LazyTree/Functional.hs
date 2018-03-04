@@ -5,7 +5,7 @@ import           Data.Function
 import           Data.List                  (nub)
 import           Data.Text                  as Text hiding (all, init,
                                                      map, tail)
-import           Prelude                    (init)
+import           Prelude                    (init, String)
 import           Protolude                  hiding (length)
 
 import           SuffixTree.Data.Label      (Label (..))
@@ -44,7 +44,7 @@ lazyTree :: EdgeFunction -> Text -> STree
 lazyTree edgeFun x = lazyTree' (length x) (init $ Text.tails x)
     where
         lazyTree' i [""]     = Leaf i
-        lazyTree' i suffixes = Branch (foldr' (addEdge i suffixes) [] (nub $ map Text.head suffixes))
+        lazyTree' i suffixes = Branch (foldr' (addEdge i suffixes) [] (nub $ heads suffixes))
         addEdge i suffixes a edges =
             let
                 aSuffixes = filterSuffixes a suffixes
@@ -58,6 +58,12 @@ lazyTree edgeFun x = lazyTree' (length x) (init $ Text.tails x)
                 descendTree lcp         = lazyTree' (i - succ lcp)
                 makeEdge mark lcp rests = Edge (newLabel mark lcp)
                                                 (descendTree lcp rests)
+
+
+heads :: [Text] -> String
+heads [] = []
+heads [""] = []
+heads (x : xs) = Text.head x : heads xs
 
 filterSuffixes :: Char -> [Text] -> [Text]
 filterSuffixes c = map tail . Protolude.filter (headEq c)
