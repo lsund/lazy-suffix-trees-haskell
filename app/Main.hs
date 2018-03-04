@@ -30,7 +30,7 @@ main = do
         textS   = unpack text
         wrapped = map (\xs -> '(' : xs ++ ")") nos
 
-        tree = lazyTree edgeCST alphaS textS
+        tree = lazyTree edgeCST textS
         -- tree = ukkonen textS
 
         regexes = map mkRegex wrapped

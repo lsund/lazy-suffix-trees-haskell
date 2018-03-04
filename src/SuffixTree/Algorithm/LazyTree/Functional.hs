@@ -1,10 +1,10 @@
 
 module SuffixTree.Algorithm.LazyTree.Functional where
 
-import           Data.List       (groupBy, nub)
-import           Prelude         (init)
-import           Protolude
 import           Data.Function
+import           Data.List                  (groupBy, head, nub)
+import           Prelude                    (init)
+import           Protolude                  hiding (head)
 
 import           SuffixTree.Data.Label      (Label (..))
 import           SuffixTree.Data.SuffixTree
@@ -50,7 +50,7 @@ edgeCST []                      = (0, [[]])
 edgeCST ([] : xs)                = edgeCST xs
 edgeCST [s]                     = (length s, [[]])
 edgeCST suffix@((x : xs) : xss)
-  | allStartsWith x xss         = (succ lcp, xs')
+  | allHeadsEq x xss         = (succ lcp, xs')
   | otherwise                   = (0, suffix)
     where
         (lcp, xs')              = edgeCST (xs : removeHeads xss)
@@ -60,11 +60,11 @@ edgeCST suffix@((x : xs) : xss)
 -- Functional LazyTree
 
 
-lazyTree :: Ord a => EdgeFunction a -> Alphabet a -> [a] -> STree a
-lazyTree edgeFun as x = lazyTree' (length x) (init $ tails x)
+lazyTree :: Ord a => EdgeFunction a -> [a] -> STree a
+lazyTree edgeFun x = lazyTree' (length x) (init $ tails x)
     where
         lazyTree' i [[]]     = Leaf i
-        lazyTree' i suffixes = Branch (foldr' (addEdge i suffixes) [] (nub $ heads suffixes))
+        lazyTree' i suffixes = Branch (foldr' (addEdge i suffixes) [] (nub $ map head suffixes))
         addEdge i suffixes a edges =
             let
                 aSuffixes = filterSuffixes a suffixes
@@ -78,11 +78,6 @@ lazyTree edgeFun as x = lazyTree' (length x) (init $ tails x)
                 descendTree lcp         = lazyTree' (i - succ lcp)
                 makeEdge mark lcp rests = Edge (newLabel mark lcp)
                                                 (descendTree lcp rests)
-
-heads :: [[a]] -> [a]
-heads [] = []
-heads [[]] = []
-heads ((x : _) : xs) = x : heads xs
 
 filterSuffixes :: Eq a => a -> [[a]] -> [[a]]
 filterSuffixes c = map tail . filter (headEq c)

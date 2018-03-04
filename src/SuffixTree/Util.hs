@@ -2,9 +2,10 @@
 module SuffixTree.Util where
 
 import           Data.Char     (chr)
+import           Data.List     (head)
 import qualified Data.Text     as T
 import           Prelude       (String)
-import           Protolude
+import           Protolude     hiding (head)
 import           System.Random
 
 randString :: Int -> IO String
@@ -43,8 +44,5 @@ listify :: (a, a) -> [a]
 listify (a, b) = [a, b]
 
 
-allStartsWith :: Eq a => a -> [[a]] -> Bool
-allStartsWith c ((x : _) : xss) = x == c && allStartsWith c xss
-allStartsWith _ []              = True
-allStartsWith _ [[]]            = True
-allStartsWith c ([] : xss)        = allStartsWith c xss
+allHeadsEq :: Eq a => a -> [[a]] -> Bool
+allHeadsEq c = all ((==) c . head)
