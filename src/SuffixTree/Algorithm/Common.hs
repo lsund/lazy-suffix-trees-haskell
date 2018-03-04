@@ -1,9 +1,9 @@
 
 module SuffixTree.Algorithm.Common where
 
-import           Data.Text
+import           Data.Text.Lazy
 import           Data.Tree
-import           Protolude
+import           Protolude hiding (Text)
 
 import           SuffixTree.Data.Label
 import           SuffixTree.Data.SuffixTree
@@ -19,5 +19,5 @@ unfoldEdge (Edge (Label m n) (Leaf i)) = (showLeaf, [])
 toTree :: STree -> Tree Label
 toTree = unfoldTree unfoldEdge . rootEdge
     where
-        rootEdge = Edge (Label "r" (1 :: Int))
+        rootEdge = Edge (Label "r" (1 :: Int64))
 

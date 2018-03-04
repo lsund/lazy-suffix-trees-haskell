@@ -1,8 +1,8 @@
 
 module SuffixTree.Data.SuffixTree where
 
-import           Data.Text             as Text
-import           Protolude             hiding (head)
+import           Data.Text.Lazy             as Text
+import           Protolude             hiding (head, Text)
 
 import           SuffixTree.Data.Label as Label
 
@@ -15,7 +15,7 @@ data Edge = Edge
     } deriving (Eq, Show)
 
 
-data STree      = Leaf      { _leafNumber :: Int }
+data STree      = Leaf      { _leafNumber :: Int64 }
                 | Branch    { _branches   :: ![Edge] }
                 deriving (Eq, Show)
 
@@ -25,7 +25,7 @@ type SuffixList = [Text]
 
 type Alphabet a = [a]
 
-type EdgeFunction = SuffixList -> (Int, SuffixList)
+type EdgeFunction = SuffixList -> (Int64, SuffixList)
 
 isLeaf :: STree -> Bool
 isLeaf (Leaf _) = True
@@ -44,7 +44,7 @@ edgeChar :: Edge -> Char
 edgeChar (Edge (Label cs _) _) = head cs
 
 
-leafEdge :: Int -> Label -> Edge
+leafEdge :: Int64 -> Label -> Edge
 leafEdge l suffix = Edge (Label.fromList (_mark suffix)) (Leaf l)
 
 

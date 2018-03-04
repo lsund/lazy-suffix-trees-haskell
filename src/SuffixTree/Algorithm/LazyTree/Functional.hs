@@ -3,10 +3,10 @@ module SuffixTree.Algorithm.LazyTree.Functional where
 
 import           Data.Function
 import           Data.List                  (nub)
-import           Data.Text                  as Text hiding (all, init,
+import           Data.Text.Lazy                  as Text hiding (all, init,
                                                      map)
 import           Prelude                    (init, String)
-import           Protolude                  hiding (length)
+import           Protolude                  hiding (length, Text)
 
 import           SuffixTree.Data.Label      (Label (..))
 import           SuffixTree.Data.SuffixTree
@@ -43,9 +43,8 @@ edgeCST (xs : xss) =
 -------------------------------------------------------------------------------
 -- Functional LazyTree
 
--- TODO nub for text before map head suffixes
 lazyTree :: EdgeFunction -> Text -> STree
-lazyTree edgeFun x = lazyTree' (length x) (init $ Text.tails x)
+lazyTree edgeFun x = lazyTree' (fromIntegral $ length x) (init $ Text.tails x)
     where
         lazyTree' i [""]     = Leaf i
         lazyTree' i suffixes = Branch (foldr' (addEdge i suffixes) [] (nub $ heads suffixes))

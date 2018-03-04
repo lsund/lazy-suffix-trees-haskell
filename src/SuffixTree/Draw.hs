@@ -1,7 +1,7 @@
 
 module SuffixTree.Draw where
 
-import qualified Data.Text                                as Text
+import qualified Data.Text.Lazy                                as Text
 import           Data.Tree
 import           Data.Tree.Pretty
 import           Prelude                                  (String)
@@ -20,7 +20,7 @@ import           SuffixTree.Reader
 drawST :: (Tree String -> String) -> STree -> IO ()
 drawST drawFun = putStr . drawFun . map edgeLabel . toTree
     where
-        edgeLabel (Label s l) = take l (Text.unpack s)
+        edgeLabel (Label s l) = take (fromIntegral l) (Text.unpack s)
 
 draw :: STree -> IO ()
 draw = drawST drawTree

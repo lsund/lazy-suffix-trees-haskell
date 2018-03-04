@@ -1,8 +1,9 @@
 
 module SuffixTree.Algorithm.Ukkonen.Functional where
 
-import           Data.Text                   hiding (empty)
-import           Protolude                   hiding (drop, empty, null, take)
+import           Data.Text.Lazy              hiding (empty)
+import           Protolude                   hiding (Text, drop, empty, null,
+                                              take)
 
 import           SuffixTree.Algorithm.Search
 import           SuffixTree.Data.Label       (Label (..), empty, grow, isEmpty,
@@ -16,7 +17,7 @@ import           SuffixTree.Util
 -- Insert
 
 
-addLeafEdge :: (Label, Int) -> [Edge] -> [Edge]
+addLeafEdge :: (Label, Int64) -> [Edge] -> [Edge]
 addLeafEdge (suffix, l) []          = [leafEdge l suffix]
 addLeafEdge (suffix, l) (e : edges)
     | Edge.compareFirst suffix e == GT = e : addLeafEdge (suffix, l) edges
@@ -32,7 +33,7 @@ splitEdge (suffix, l) edge tree
         suffix''              = Label.drop suffix suffix
         sibling | isLeaf tree = Edge suffix' tree
                 | otherwise   = Edge (dropSuffixMark suffix edge) tree
-        newEdge               = Edge suffix'' (Leaf l)
+        newEdge               = Edge suffix'' (Leaf $ fromIntegral l)
 
 
 splitAndInsert :: (Label, Int) -> [Edge] -> [Edge]
@@ -42,7 +43,7 @@ splitAndInsert (suffix, l) (edge : edges)
     | longer suffix edge             = edge { _subtree = tree' } : edges
     | otherwise                      = edge' : edges
     where
-        tree' = insert (dropEdgeMark suffix edge, l) (_subtree edge)
+        tree' = insert (dropEdgeMark suffix edge, fromIntegral l) (_subtree edge)
         split = listify $ splitEdge (suffix, l) edge (_subtree edge)
         edge' = Edge (replaceMark suffix edge) (Branch split)
 
@@ -53,10 +54,10 @@ splitAndInsert (suffix, l) (edge : edges)
 --
 -- (1) s' to be inserted does not end in a vertex.
 -- (2) s' to be inserted does not end in a vertex.
-insert :: (Label, Int) -> STree -> STree
+insert :: (Label, Int64) -> STree -> STree
 insert (suffix, l) (Branch edges')
     | isEmpty suffix = Branch (addLeafEdge (suffix, l) edges')
-    | otherwise            = Branch (splitAndInsert (suffix, l) edges')
+    | otherwise            = Branch (splitAndInsert (suffix, fromIntegral l) edges')
 insert _ _ = Leaf 0
 
 
@@ -64,8 +65,8 @@ insert _ _ = Leaf 0
 update :: (STree, (Label, Int)) -> (STree, (Label, Int))
 update (tree, (lbl@(Label mark len), l))
     | exists suffix tree = (tree, (grow lbl, l))
-    | len == 0           = (insert (empty lbl, l) tree, (Label.tail lbl, succ l))
-    | otherwise          = update (insert (lbl, l) tree, (shrink lbl, succ l))
+    | len == 0           = (insert (empty lbl, fromIntegral l) tree, (Label.tail lbl, succ l))
+    | otherwise          = update (insert (lbl, fromIntegral l) tree, (shrink lbl, succ l))
     where suffix = take (succ len) mark
 
 

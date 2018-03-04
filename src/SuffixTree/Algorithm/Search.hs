@@ -1,8 +1,8 @@
 
 module SuffixTree.Algorithm.Search where
 
-import           Data.Text hiding (concatMap)
-import           Protolude hiding (isPrefixOf, take, drop)
+import           Data.Text.Lazy hiding (concatMap)
+import           Protolude hiding (isPrefixOf, take, drop, Text)
 
 import           SuffixTree.Algorithm.LazyTree.Functional
 import           SuffixTree.Data.Label                    hiding (drop, take)
@@ -36,10 +36,10 @@ search (Branch branches) p =
         Nothing        -> Nothing
 
 
-indices :: Pattern -> STree -> Maybe [Int]
+indices :: Pattern -> STree -> Maybe [Int64]
 indices p t = indices' . snd <$> search t p
     where
-        indices' :: STree -> [Int]
+        indices' :: STree -> [Int64]
         indices' (Leaf i)    = [i]
         indices' (Branch xs) = sort $ concatMap (indices' . _subtree) xs
 

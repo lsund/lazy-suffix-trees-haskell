@@ -1,20 +1,20 @@
 
 module SuffixTree.Data.Label where
 
-import           Data.Text as Text
-import           Protolude hiding (length, head)
+import           Data.Text.Lazy as Text
+import           Protolude hiding (length, head, Text)
 
 
 data Label = Label
     { _mark :: Text
-    , _len  :: Int
+    , _len  :: Int64
     } deriving (Eq, Show)
 
 
 fromList :: Text -> Label
 fromList xs = Label xs (length xs)
 
-take :: Int -> Label -> Label
+take :: Int64 -> Label -> Label
 take n (Label xs _) = Label xs n
 
 

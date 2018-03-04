@@ -1,11 +1,11 @@
 
 module SuffixTree.Util where
 
-import           Data.Text as Text
-import           Protolude hiding (head)
+import           Data.Text.Lazy as Text
+import           Protolude      hiding (Text, head)
 
 tail :: Text -> Text
-tail ""       = ""
+tail "" = ""
 tail xs = Text.tail xs
 
 removeHeads :: [Text] -> [Text]
@@ -18,8 +18,8 @@ fst3 (x, _, _) = x
 
 
 headEq :: Char -> Text -> Bool
-headEq _ ""  = False
-headEq a xs  = a == head xs
+headEq _ "" = False
+headEq a xs = a == head xs
 
 
 removeDuplicates :: Text -> Text
