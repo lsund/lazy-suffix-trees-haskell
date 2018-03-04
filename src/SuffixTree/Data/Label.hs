@@ -1,51 +1,50 @@
 
 module SuffixTree.Data.Label where
 
-import Protolude
+import           Data.Text as Text
+import           Protolude hiding (length, head)
 
-import Data.List  as List
 
-
-data Label a = Label
-    { _mark :: [a]
+data Label = Label
+    { _mark :: Text
     , _len  :: Int
     } deriving (Eq, Show)
 
 
-fromList :: [a] -> Label a
+fromList :: Text -> Label
 fromList xs = Label xs (length xs)
 
 
-take :: Int -> Label a -> Label a
+take :: Int -> Label -> Label
 take n (Label xs _) = Label xs n
 
 
-tail :: Label a -> Label a
-tail (Label mark n) = Label (List.tail mark) n
+tail :: Label -> Label
+tail (Label mark n) = Label (Text.tail mark) n
 
-shrink :: Label a -> Label a
-shrink (Label mark n) = Label (List.tail mark) (pred n)
+shrink :: Label -> Label
+shrink (Label mark n) = Label (Text.tail mark) (pred n)
 
-grow :: Label a -> Label a
+grow :: Label -> Label
 grow (Label mark n) = Label mark (succ n)
 
 
-empty :: Label a -> Label a
+empty :: Label -> Label
 empty lbl = Label (_mark lbl) 0
 
 
-isEmpty :: Label a -> Bool
+isEmpty :: Label -> Bool
 isEmpty (Label _ 0) = True
 isEmpty _           = False
 
 
-rest :: Label a -> Label a
-rest lbl = fromList (List.drop (_len lbl) (_mark lbl))
+rest :: Label -> Label
+rest lbl = fromList (Text.drop (_len lbl) (_mark lbl))
 
 
-drop :: Label a -> Label a -> Label a
-drop lbl lbl' = fromList (List.drop (_len lbl) (_mark lbl'))
+drop :: Label -> Label -> Label
+drop lbl lbl' = fromList (Text.drop (_len lbl) (_mark lbl'))
 
 
-compareFirst :: Ord a => Label a -> Label a -> Ordering
-compareFirst (Label (x : _) _) (Label (y : _) _) = x `compare` y
+compareFirst :: Label -> Label -> Ordering
+compareFirst (Label xs _) (Label ys _) = head xs `compare` head ys

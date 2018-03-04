@@ -1,9 +1,10 @@
 
 module SuffixTree.Draw where
 
-import           Prelude                                  (String)
+import qualified Data.Text                                as Text
 import           Data.Tree
 import           Data.Tree.Pretty
+import           Prelude                                  (String)
 import           Protolude
 
 import           SuffixTree.Algorithm.Common
@@ -16,15 +17,15 @@ import           SuffixTree.Reader
 -- Draw
 
 
-drawST :: (Tree String -> String) -> STree Char -> IO ()
+drawST :: (Tree String -> String) -> STree -> IO ()
 drawST drawFun = putStr . drawFun . map edgeLabel . toTree
     where
-        edgeLabel (Label s l) = take l s
+        edgeLabel (Label s l) = take l (Text.unpack s)
 
-draw :: STree Char -> IO ()
+draw :: STree -> IO ()
 draw = drawST drawTree
 
-drawPretty :: STree Char -> IO ()
+drawPretty :: STree -> IO ()
 drawPretty = drawST drawVerticalTree
 
 drawFile :: String -> IO ()

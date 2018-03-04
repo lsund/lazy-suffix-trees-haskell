@@ -2,9 +2,10 @@
 module SuffixTree.Algorithm.LazyTree.Functional where
 
 import           Data.Function
-import           Data.List                  (groupBy, head, nub)
+import           Data.Text                  as Text hiding (all, filter, init,
+                                                     map)
 import           Prelude                    (init)
-import           Protolude                  hiding (head)
+import           Protolude                  hiding (length, null)
 
 import           SuffixTree.Data.Label      (Label (..))
 import           SuffixTree.Data.SuffixTree
@@ -14,57 +15,35 @@ import           SuffixTree.Util
 -- Atomic Suffix Tree
 
 
-edgeAST :: Eq a => EdgeFunction a
+edgeAST :: EdgeFunction
 edgeAST xs = (0, xs)
-
-
--------------------------------------------------------------------------------
--- Position Suffix Tree
-
-
--- Takes a list of suffixes and removes the ones that occur in other suffixes
-removeNested :: (Eq a) => [[a]]     -> [[a]]
-removeNested []                      = []
-removeNested ([] : _ : _ )           = []
-removeNested [s]                     = [s]
-removeNested suffix@((x : xs) : xss)
-    | (not . any (headEq x)) xss     = map tail removed
-    | otherwise                      = suffix
-        where
-            removed                  = removeNested (xs : map tail xss)
-
-
-edgePST :: Eq a => EdgeFunction a
-edgePST = pstSplit . removeNested
-    where
-        pstSplit [x] = (length x, [[]])
-        pstSplit xs  = (0, xs)
 
 
 -------------------------------------------------------------------------------
 -- Compact Suffix Tree: Extracts the largest common suffix for each branch
 
 
-edgeCST :: Eq a => EdgeFunction a
-edgeCST []                      = (0, [[]])
-edgeCST ([] : xs)                = edgeCST xs
-edgeCST [s]                     = (length s, [[]])
-edgeCST suffix@((x : xs) : xss)
-  | allHeadsEq x xss         = (succ lcp, xs')
+edgeCST :: EdgeFunction
+edgeCST []                      = (0, [])
+edgeCST (xs : xss) | null xs    = edgeCST xss
+edgeCST [s]                     = (length s, [])
+edgeCST suffix@(xs : xss)
+  | allHeadsEq (Text.head xs) xss            = (succ lcp, xs')
   | otherwise                   = (0, suffix)
     where
-        (lcp, xs')              = edgeCST (xs : removeHeads xss)
+        allHeadsEq c = all ((==) c . Text.head)
+        (lcp, xs') = edgeCST (xs : removeHeads xss)
 
 
 -------------------------------------------------------------------------------
 -- Functional LazyTree
 
-
-lazyTree :: Ord a => EdgeFunction a -> [a] -> STree a
-lazyTree edgeFun x = lazyTree' (length x) (init $ tails x)
+-- TODO nub for text before map head suffixes
+lazyTree :: EdgeFunction -> Text -> STree
+lazyTree edgeFun x = lazyTree' (length x) (init $ Text.tails x)
     where
-        lazyTree' i [[]]     = Leaf i
-        lazyTree' i suffixes = Branch (foldr' (addEdge i suffixes) [] (nub $ map head suffixes))
+        lazyTree' i [xs] | null xs     = Leaf i
+        lazyTree' i suffixes = Branch (foldr' (addEdge i suffixes) [] (map Text.head suffixes))
         addEdge i suffixes a edges =
             let
                 aSuffixes = filterSuffixes a suffixes
@@ -74,11 +53,11 @@ lazyTree edgeFun x = lazyTree' (length x) (init $ tails x)
                     (mark : _) -> makeEdge mark lcp rests : edges
                     []         -> edges
             where
-                newLabel mark lcp       = Label (a : mark) (succ lcp)
+                newLabel mark lcp       = Label (a `cons` mark) (succ lcp)
                 descendTree lcp         = lazyTree' (i - succ lcp)
                 makeEdge mark lcp rests = Edge (newLabel mark lcp)
                                                 (descendTree lcp rests)
 
-filterSuffixes :: Eq a => a -> [[a]] -> [[a]]
-filterSuffixes c = map tail . filter (headEq c)
+filterSuffixes :: Char -> [Text] -> [Text]
+filterSuffixes c = map Text.tail . filter (headEq c)
 
