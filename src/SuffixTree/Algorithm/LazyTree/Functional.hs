@@ -2,10 +2,11 @@
 module SuffixTree.Algorithm.LazyTree.Functional where
 
 import           Data.Function
-import           Data.Text                  as Text hiding (all, filter, init,
-                                                     map)
+import           Data.List                  (nub)
+import           Data.Text                  as Text hiding (all, init,
+                                                     map, tail)
 import           Prelude                    (init)
-import           Protolude                  hiding (length, null)
+import           Protolude                  hiding (length)
 
 import           SuffixTree.Data.Label      (Label (..))
 import           SuffixTree.Data.SuffixTree
@@ -24,9 +25,9 @@ edgeAST xs = (0, xs)
 
 
 edgeCST :: EdgeFunction
-edgeCST []                      = (0, [])
-edgeCST (xs : xss) | null xs    = edgeCST xss
-edgeCST [s]                     = (length s, [])
+edgeCST []                      = (0, [""])
+edgeCST ("" : xss)              = edgeCST xss
+edgeCST [s]                     = (length s, [""])
 edgeCST suffix@(xs : xss)
   | allHeadsEq (Text.head xs) xss            = (succ lcp, xs')
   | otherwise                   = (0, suffix)
@@ -42,8 +43,8 @@ edgeCST suffix@(xs : xss)
 lazyTree :: EdgeFunction -> Text -> STree
 lazyTree edgeFun x = lazyTree' (length x) (init $ Text.tails x)
     where
-        lazyTree' i [xs] | null xs     = Leaf i
-        lazyTree' i suffixes = Branch (foldr' (addEdge i suffixes) [] (map Text.head suffixes))
+        lazyTree' i [""]     = Leaf i
+        lazyTree' i suffixes = Branch (foldr' (addEdge i suffixes) [] (nub $ map Text.head suffixes))
         addEdge i suffixes a edges =
             let
                 aSuffixes = filterSuffixes a suffixes
@@ -59,5 +60,4 @@ lazyTree edgeFun x = lazyTree' (length x) (init $ Text.tails x)
                                                 (descendTree lcp rests)
 
 filterSuffixes :: Char -> [Text] -> [Text]
-filterSuffixes c = map Text.tail . filter (headEq c)
-
+filterSuffixes c = map tail . Protolude.filter (headEq c)
