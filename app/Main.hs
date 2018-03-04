@@ -18,7 +18,7 @@ main = do
     let t1 = lazyTree edgeCST text
     let t2 = ukkonen text
     drawPretty t1
-    drawPretty t2
+    -- drawPretty t2
 
 
 -- main = do
