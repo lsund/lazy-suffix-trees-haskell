@@ -1,14 +1,13 @@
 
 module SuffixTree.Algorithm.Search where
 
-import           Data.Text.Lazy hiding (concatMap)
-import           Protolude hiding (isPrefixOf, take, drop, Text)
+import qualified Data.Text.Lazy                           as T
+import           Protolude
 
-import           SuffixTree.Algorithm.LazyTree.Functional
-import           SuffixTree.Data.Label                    hiding (drop, take)
+import           SuffixTree.Data.Label
 import           SuffixTree.Data.SuffixTree
 
-type Pattern = Text
+type Pattern = T.Text
 
 firstMatch :: [Edge] -> Pattern -> Maybe (Pattern, STree)
 firstMatch []            _ = Nothing
@@ -20,9 +19,9 @@ firstMatch (Edge l t : xs) p =
 
 match :: Pattern -> Edge -> Maybe (Pattern, STree)
 match p (Edge (Label s len) t)
-    | take len s `isPrefixOf` p          = Just (drop len p, t)
-    | p          `isPrefixOf` take len s = Just ("", t)
-    | otherwise                          = Nothing
+    | T.take len s `T.isPrefixOf` p             = Just (T.drop len p, t)
+    | p            `T.isPrefixOf` T.take len s  = Just ("", t)
+    | otherwise                                 = Nothing
 
 
 

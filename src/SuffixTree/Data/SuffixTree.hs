@@ -1,8 +1,8 @@
 
 module SuffixTree.Data.SuffixTree where
 
-import           Data.Text.Lazy             as Text
-import           Protolude             hiding (head, Text)
+import           Data.Text.Lazy             as T
+import           Protolude
 
 import           SuffixTree.Data.Label as Label
 
@@ -21,7 +21,7 @@ data STree      = Leaf      { _leafNumber :: Int64 }
 
 -------------------------------------------------------------------------------
 -- Old
-type SuffixList = [Text]
+type SuffixList = [T.Text]
 
 type Alphabet a = [a]
 
@@ -37,11 +37,11 @@ isLeaf _        = False
 
 
 compareFirst :: Label -> Edge -> Ordering
-compareFirst (Label xs _) (Edge (Label ys _) _) = head xs `compare` head ys
+compareFirst (Label xs _) (Edge (Label ys _) _) = T.head xs `compare` T.head ys
 
 
 edgeChar :: Edge -> Char
-edgeChar (Edge (Label cs _) _) = head cs
+edgeChar (Edge (Label cs _) _) = T.head cs
 
 
 leafEdge :: Int64 -> Label -> Edge
@@ -59,14 +59,14 @@ longer suffix edge = not (isLeafEdge edge) && _len suffix > (_len . _label) edge
 dropEdgeMark :: Label -> Edge -> Label
 dropEdgeMark suffix edge =
     Label
-        (Text.drop ((_len . _label) edge) (_mark suffix))
+        (T.drop ((_len . _label) edge) (_mark suffix))
         (_len suffix - (_len . _label) edge)
 
 
 dropSuffixMark :: Label -> Edge -> Label
 dropSuffixMark suffix edge =
     Label
-        (Text.drop (_len suffix) ((_mark . _label) edge))
+        (T.drop (_len suffix) ((_mark . _label) edge))
         ((_len . _label) edge - _len suffix)
 
 

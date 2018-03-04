@@ -1,14 +1,14 @@
 
 module SuffixTree.Algorithm.Ukkonen.Functional where
 
-import           Data.Text.Lazy              hiding (empty)
-import           Protolude                   hiding (Text, drop, empty, null,
-                                              take)
+import           Data.Text.Lazy              (Text)
+import qualified Data.Text.Lazy              as T
+import           Protolude                   hiding (Text)
 
 import           SuffixTree.Algorithm.Search
-import           SuffixTree.Data.Label       (Label (..), empty, grow, isEmpty,
+import           SuffixTree.Data.Label       (Label (..), grow, isEmpty,
                                               shrink)
-import qualified SuffixTree.Data.Label       as Label
+import qualified SuffixTree.Data.Label       as L
 import           SuffixTree.Data.SuffixTree  as Edge
 import           SuffixTree.Util
 
@@ -26,11 +26,11 @@ addLeafEdge (suffix, l) (e : edges)
 
 splitEdge :: (Label, Int) -> Edge -> STree -> (Edge, Edge)
 splitEdge (suffix, l) edge tree
-    | Label.compareFirst suffix' suffix'' == LT    = (sibling, newEdge)
+    | L.compareFirst suffix' suffix'' == LT    = (sibling, newEdge)
     | otherwise                                    = (newEdge, sibling)
     where
-        suffix'               = Label.drop suffix (_label edge)
-        suffix''              = Label.drop suffix suffix
+        suffix'               = L.drop suffix (_label edge)
+        suffix''              = L.drop suffix suffix
         sibling | isLeaf tree = Edge suffix' tree
                 | otherwise   = Edge (dropSuffixMark suffix edge) tree
         newEdge               = Edge suffix'' (Leaf $ fromIntegral l)
@@ -65,12 +65,12 @@ insert _ _ = Leaf 0
 update :: (STree, (Label, Int)) -> (STree, (Label, Int))
 update (tree, (lbl@(Label mark len), l))
     | exists suffix tree = (tree, (grow lbl, l))
-    | len == 0           = (insert (empty lbl, fromIntegral l) tree, (Label.tail lbl, succ l))
+    | len == 0           = (insert (L.empty lbl, fromIntegral l) tree, (L.tail lbl, succ l))
     | otherwise          = update (insert (lbl, fromIntegral l) tree, (shrink lbl, succ l))
-    where suffix = take (succ len) mark
+    where suffix = T.take (succ len) mark
 
 
 ukkonen :: Text -> STree
 ukkonen x = fst (until stop update (Branch [], (Label x 0, 0)))
     where
-        stop (_, (Label s l, _)) = null $ drop l s
+        stop (_, (Label s l, _)) = T.null $ T.drop (fromIntegral l) s

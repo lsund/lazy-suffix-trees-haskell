@@ -1,17 +1,18 @@
 
 module SuffixTree.Util where
 
-import           Data.Text.Lazy as Text
-import           Protolude      hiding (Text, head)
+import           Data.Text.Lazy (Text, cons)
+import qualified Data.Text.Lazy as T
+import           Protolude      hiding (Text)
 
 tail :: Text -> Text
 tail "" = ""
-tail xs = Text.tail xs
+tail xs = T.tail xs
 
 removeHeads :: [Text] -> [Text]
 removeHeads []        = []
 removeHeads("" : xss) = removeHeads xss
-removeHeads(xs : xss) = Text.tail xs : removeHeads xss
+removeHeads(xs : xss) = T.tail xs : removeHeads xss
 
 fst3 :: (a, b, c) -> a
 fst3 (x, _, _) = x
@@ -19,14 +20,14 @@ fst3 (x, _, _) = x
 
 headEq :: Char -> Text -> Bool
 headEq _ "" = False
-headEq a xs = a == head xs
+headEq a xs = a == T.head xs
 
 
 removeDuplicates :: Text -> Text
 removeDuplicates ""  =  ""
 removeDuplicates t   =  x `cons` removeDuplicates withoutX
-    where x = head t
-          withoutX = Text.filter (\y -> x /= y) (Text.tail t)
+    where x = T.head t
+          withoutX = T.filter (\y -> x /= y) (T.tail t)
 
 
 listify :: (a, a) -> [a]

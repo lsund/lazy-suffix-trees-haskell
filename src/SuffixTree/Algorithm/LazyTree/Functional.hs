@@ -3,14 +3,14 @@ module SuffixTree.Algorithm.LazyTree.Functional where
 
 import           Data.Function
 import           Data.List                  (nub)
-import           Data.Text.Lazy                  as Text hiding (all, init,
-                                                     map)
-import           Prelude                    (init, String)
-import           Protolude                  hiding (length, Text)
+import           Data.Text.Lazy             (Text, cons)
+import qualified Data.Text.Lazy             as T
+import           Prelude                    (String, init)
+import           Protolude                  hiding (Text)
 
 import           SuffixTree.Data.Label      (Label (..))
 import           SuffixTree.Data.SuffixTree
-import           SuffixTree.Util as Util
+import           SuffixTree.Util            as Util
 
 -------------------------------------------------------------------------------
 -- Atomic Suffix Tree
@@ -27,24 +27,24 @@ edgeAST xs = (0, xs)
 edgeCST :: EdgeFunction
 edgeCST []                      = (0, [""])
 edgeCST ("" : xss)              = edgeCST xss
-edgeCST [s]                     = (length s, [""])
+edgeCST [s]                     = (T.length s, [""])
 edgeCST (xs : xss) =
     let
-        (h, t) = (Text.head xs, Text.tail xs)
+        (h, t) = (T.head xs, T.tail xs)
         (lcp, xs') = edgeCST (t : removeHeads xss)
     in
         if allHeadsEq h xss
             then (succ lcp, xs')
             else  (0, xs : xss)
     where
-        allHeadsEq c = all ((==) c . Text.head)
+        allHeadsEq c = all ((==) c . T.head)
 
 
 -------------------------------------------------------------------------------
 -- Functional LazyTree
 
 lazyTree :: EdgeFunction -> Text -> STree
-lazyTree edgeFun x = lazyTree' (fromIntegral $ length x) (init $ Text.tails x)
+lazyTree edgeFun x = lazyTree' (fromIntegral $ T.length x) (init $ T.tails x)
     where
         lazyTree' i [""]     = Leaf i
         lazyTree' i suffixes = Branch (foldr' (addEdge i suffixes) [] (nub $ heads suffixes))
@@ -64,9 +64,9 @@ lazyTree edgeFun x = lazyTree' (fromIntegral $ length x) (init $ Text.tails x)
 
 
 heads :: [Text] -> String
-heads [] = []
-heads [""] = []
-heads (x : xs) = Text.head x : heads xs
+heads []       = []
+heads [""]     = []
+heads (x : xs) = T.head x : heads xs
 
 filterSuffixes :: Char -> [Text] -> [Text]
 filterSuffixes c = map Util.tail . Protolude.filter (headEq c)

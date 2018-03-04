@@ -1,14 +1,13 @@
 
 module SuffixTree.Draw where
 
-import qualified Data.Text.Lazy                                as Text
+import qualified Data.Text.Lazy                           as T
 import           Data.Tree
 import           Data.Tree.Pretty
 import           Prelude                                  (String)
 import           Protolude
 
 import           SuffixTree.Algorithm.Common
-import           SuffixTree.Algorithm.LazyTree.Functional
 import           SuffixTree.Data.Label                    hiding (take)
 import           SuffixTree.Data.SuffixTree
 import           SuffixTree.Reader
@@ -20,7 +19,7 @@ import           SuffixTree.Reader
 drawST :: (Tree String -> String) -> STree -> IO ()
 drawST drawFun = putStr . drawFun . map edgeLabel . toTree
     where
-        edgeLabel (Label s l) = take (fromIntegral l) (Text.unpack s)
+        edgeLabel (Label s l) = take (fromIntegral l) (T.unpack s)
 
 draw :: STree -> IO ()
 draw = drawST drawTree

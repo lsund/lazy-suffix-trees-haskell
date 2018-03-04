@@ -1,9 +1,9 @@
 
 module SuffixTree.Algorithm.Common where
 
-import           Data.Text.Lazy
+import           Data.Text.Lazy             (Text, append)
 import           Data.Tree
-import           Protolude hiding (Text)
+import           Protolude                  hiding (Text)
 
 import           SuffixTree.Data.Label
 import           SuffixTree.Data.SuffixTree

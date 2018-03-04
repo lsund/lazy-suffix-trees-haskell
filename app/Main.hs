@@ -1,8 +1,9 @@
 module Main where
 
-import           Data.Text.Lazy                                as Text (unpack, lines)
-import           Data.Text.Lazy.IO                             (readFile)
-import           Protolude hiding (readFile, Text)
+import qualified Data.Text.Lazy                           as T
+import           Data.Text.Lazy.IO                        (readFile)
+import           Protolude                                hiding (Text,
+                                                           readFile)
 import           Text.Regex
 
 import           SuffixTree.Algorithm.LazyTree.Functional
@@ -26,10 +27,10 @@ main = do
     content <- readFile path
     text <- readFile "data/book/data.xml"
     alpha <- readFile "data/book/alpha.txt"
-    let nos = Text.lines content
-        alphaS  = unpack alpha
-        textS   = unpack text
-        wrapped = map (\xs -> '(' : unpack xs ++ ")") nos
+    let nos = T.lines content
+        alphaS  = T.unpack alpha
+        textS   = T.unpack text
+        wrapped = map (\xs -> '(' : T.unpack xs ++ ")") nos
 
         tree = lazyTree edgeCST text
         -- tree = ukkonen textS
