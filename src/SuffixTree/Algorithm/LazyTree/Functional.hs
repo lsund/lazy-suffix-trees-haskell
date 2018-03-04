@@ -4,13 +4,13 @@ module SuffixTree.Algorithm.LazyTree.Functional where
 import           Data.Function
 import           Data.List                  (nub)
 import           Data.Text                  as Text hiding (all, init,
-                                                     map, tail)
+                                                     map)
 import           Prelude                    (init, String)
 import           Protolude                  hiding (length)
 
 import           SuffixTree.Data.Label      (Label (..))
 import           SuffixTree.Data.SuffixTree
-import           SuffixTree.Util
+import           SuffixTree.Util as Util
 
 -------------------------------------------------------------------------------
 -- Atomic Suffix Tree
@@ -28,12 +28,16 @@ edgeCST :: EdgeFunction
 edgeCST []                      = (0, [""])
 edgeCST ("" : xss)              = edgeCST xss
 edgeCST [s]                     = (length s, [""])
-edgeCST suffix@(xs : xss)
-  | allHeadsEq (Text.head xs) xss            = (succ lcp, xs')
-  | otherwise                   = (0, suffix)
+edgeCST (xs : xss) =
+    let
+        (h, t) = (Text.head xs, Text.tail xs)
+        (lcp, xs') = edgeCST (t : removeHeads xss)
+    in
+        if allHeadsEq h xss
+            then (succ lcp, xs')
+            else  (0, xs : xss)
     where
         allHeadsEq c = all ((==) c . Text.head)
-        (lcp, xs') = edgeCST (xs : removeHeads xss)
 
 
 -------------------------------------------------------------------------------
@@ -66,4 +70,4 @@ heads [""] = []
 heads (x : xs) = Text.head x : heads xs
 
 filterSuffixes :: Char -> [Text] -> [Text]
-filterSuffixes c = map tail . Protolude.filter (headEq c)
+filterSuffixes c = map Util.tail . Protolude.filter (headEq c)

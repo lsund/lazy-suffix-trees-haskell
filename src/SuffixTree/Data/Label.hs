@@ -14,7 +14,6 @@ data Label = Label
 fromList :: Text -> Label
 fromList xs = Label xs (length xs)
 
-
 take :: Int -> Label -> Label
 take n (Label xs _) = Label xs n
 
@@ -22,8 +21,10 @@ take n (Label xs _) = Label xs n
 tail :: Label -> Label
 tail (Label mark n) = Label (Text.tail mark) n
 
+
 shrink :: Label -> Label
 shrink (Label mark n) = Label (Text.tail mark) (pred n)
+
 
 grow :: Label -> Label
 grow (Label mark n) = Label mark (succ n)
