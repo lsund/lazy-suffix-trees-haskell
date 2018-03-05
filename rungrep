@@ -1,0 +1,5 @@
+#!/bin/zsh
+
+while read p; do
+    grep "'$p'" data/book/data.xml > /dev/null
+done <$1
