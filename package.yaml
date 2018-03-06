@@ -12,6 +12,7 @@ dependencies:
     - random
     - deepseq
     - regex-compat
+    - array
 
 default-extensions:
     - NoImplicitPrelude

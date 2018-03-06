@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: e1efbfd89eb042107b6d94c6592993871af70b70e09fd3be087ec9f7641cb8a9
+-- hash: 90eaa33bf1730027f5739209e19baaf21b7b1e4e80a94f6f673384a25125c57d
 
 name:                suffix-trees-haskell
 version:             1.0.0
@@ -30,6 +30,7 @@ library
       Paths_suffix_trees_haskell
   build-depends:
       QuickCheck
+    , array
     , base >=4.8.2.0 && <4.9 || >=4.9.1.0 && <5
     , containers
     , deepseq
@@ -51,6 +52,7 @@ executable suffix-trees-haskell
   ghc-options: -threaded -rtsopts -with-rtsopts=-N -O2
   build-depends:
       QuickCheck
+    , array
     , base >=4.8.2.0 && <4.9 || >=4.9.1.0 && <5
     , containers
     , deepseq
@@ -78,6 +80,7 @@ test-suite test
   ghc-options: -Wall
   build-depends:
       QuickCheck
+    , array
     , base >=4.8.2.0 && <4.9 || >=4.9.1.0 && <5
     , containers
     , deepseq
