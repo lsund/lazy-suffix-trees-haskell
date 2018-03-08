@@ -1,2 +1,8 @@
+check that each character is at most 2 characters
 
-All isomorphic trees by permuting the edgelist at each node
+updating suffix trees if you know the data that changed
+
+Plot graph with text size / memory
+
+Might be good to represent nodes near root by hash table etc while later with
+linked lists
