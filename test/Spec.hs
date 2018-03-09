@@ -6,7 +6,7 @@ import Ukkonen
 import LazyTree
 import Util
 
-runTest = undefined
+runTest = quickCheck prop_countsort
 
 main :: IO ()
 main = runTest
