@@ -6,3 +6,8 @@ Plot graph with text size / memory
 
 Might be good to represent nodes near root by hash table etc while later with
 linked lists
+
+Pattern contains three special characters: \8211 and \8212 for "long" dashes,
+\8209 for a short dash.
+
+

@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 90eaa33bf1730027f5739209e19baaf21b7b1e4e80a94f6f673384a25125c57d
+-- hash: ee4975417daa84804d96cdd4aedf7c596bd0eadc98ddab48f9797063f71bb0bd
 
 name:                suffix-trees-haskell
 version:             1.0.0
@@ -34,6 +34,7 @@ library
     , base >=4.8.2.0 && <4.9 || >=4.9.1.0 && <5
     , containers
     , deepseq
+    , multiset
     , parsec
     , pretty-tree ==0.1.0.0
     , protolude
@@ -56,6 +57,7 @@ executable suffix-trees-haskell
     , base >=4.8.2.0 && <4.9 || >=4.9.1.0 && <5
     , containers
     , deepseq
+    , multiset
     , parsec
     , pretty-tree ==0.1.0.0
     , protolude
@@ -85,6 +87,7 @@ test-suite test
     , containers
     , deepseq
     , hspec >=2.0.0
+    , multiset
     , parsec
     , pretty-tree ==0.1.0.0
     , protolude

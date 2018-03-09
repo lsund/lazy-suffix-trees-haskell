@@ -13,6 +13,7 @@ dependencies:
     - deepseq
     - regex-compat
     - array
+    - multiset
 
 default-extensions:
     - NoImplicitPrelude

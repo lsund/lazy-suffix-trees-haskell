@@ -2,8 +2,10 @@
 module SuffixTree.Util where
 
 import           Data.Array
+import qualified Data.List      as L
 import           Data.Text.Lazy (Text, cons)
 import qualified Data.Text.Lazy as T
+import           Prelude        (String)
 import           Protolude      hiding (Text)
 
 
@@ -35,7 +37,15 @@ removeDuplicates t   =  x `cons` removeDuplicates withoutX
 listify :: (a, a) -> [a]
 listify (a, b) = [a, b]
 
--- countingSort :: (Ix n) => [n] -> n -> n -> [n]
-countingSort l lo hi = [replicate times n | (n, times) <- counts]
-  where counts = assocs (accumArray (+) 0 (lo, hi) [(i, 1) | i <- l])
+heads :: [Text] -> String
+heads []       = []
+heads [""]     = []
+heads (x : xs) = T.head x : heads xs
 
+
+-- countingSort :: [Text] -> Char -> Char -> [String]
+-- countingSort xs lo hi = [replicate times n | (n, times) <- counts]
+--   where counts =
+--             assocs
+--                 (accumArray
+--                     (+) 0 (lo, hi) [(T.head i, 1) | i <- xs])

@@ -43,6 +43,9 @@ edgeCST (xs : xss) =
 -------------------------------------------------------------------------------
 -- Functional LazyTree
 
+filterSuffixes :: Char -> [Text] -> [Text]
+filterSuffixes c = map Util.tail . Protolude.filter (headEq c)
+
 lazyTree :: EdgeFunction -> Text -> STree
 lazyTree edgeFun x = lazyTree' (fromIntegral $ T.length x) (init $ T.tails x)
     where
@@ -63,10 +66,21 @@ lazyTree edgeFun x = lazyTree' (fromIntegral $ T.length x) (init $ T.tails x)
                                                 (descendTree lcp rests)
 
 
-heads :: [Text] -> String
-heads []       = []
-heads [""]     = []
-heads (x : xs) = T.head x : heads xs
-
-filterSuffixes :: Char -> [Text] -> [Text]
-filterSuffixes c = map Util.tail . Protolude.filter (headEq c)
+lazyTreeCount :: EdgeFunction -> Text -> STree
+lazyTreeCount edgeFun x = lazyTree' (fromIntegral $ T.length x) (init $ T.tails x)
+    where
+        lazyTree' i [""]     = Leaf i
+        lazyTree' i suffixes = Branch (foldr' (addEdge i suffixes) [] (nub $ heads suffixes))
+        addEdge i suffixes a edges =
+            let
+                aSuffixes = filterSuffixes a suffixes
+                (lcp, rests) = edgeFun aSuffixes
+            in
+                case aSuffixes of
+                    (mark : _) -> makeEdge mark lcp rests : edges
+                    []         -> edges
+            where
+                newLabel mark lcp       = Label (a `cons` mark) (succ lcp)
+                descendTree lcp         = lazyTree' (i - succ lcp)
+                makeEdge mark lcp rests = Edge (newLabel mark lcp)
+                                                (descendTree lcp rests)
