@@ -3,7 +3,6 @@ module SuffixTree.Util where
 
 import           Control.Arrow       ((&&&))
 import qualified Data.List           as L
-import qualified Data.MultiSet       as MS
 import           Data.Text.Lazy      (Text, cons)
 import qualified Data.Text.Lazy      as T
 import           Data.Vector         (Vector)
@@ -53,6 +52,9 @@ heads [""]     = []
 heads (x : xs) = T.head x : heads xs
 
 
+groupVec = undefined
+
+
 splitSuffixes :: [Text] -> Vector Text
 splitSuffixes t = Vector.fromList $ foldr splitJoin [] t
     where
@@ -65,21 +67,22 @@ countingSort = L.groupBy fstEq . V.toList . countingSortV
 
 countingSortV :: Vector Text -> Vector Text
 countingSortV input = Vector.create $ do
-  let lo = Vector.minimum $ T.head <$> input
-      hi = Vector.maximum $ T.head <$> input
+    let lo = ord $ Vector.minimum $ T.head <$> input
+        hi = ord $ Vector.maximum $ T.head <$> input
 
-  offsets <- Vector.thaw . Vector.prescanl (+) 0 $ Vector.create $ do
-    counts <- MVector.replicate (ord hi - ord lo + 1) 0
-    Vector.forM_ input $ \x ->
-      MVector.modify counts succ ((ord $ T.head x) - ord lo)
-    return counts
+    offsets <- Vector.thaw . Vector.prescanl (+) 0 $ Vector.create $ do
+        counts <- MVector.replicate (hi - lo + 1) 0
+        Vector.forM_ input $ \x ->
+            MVector.modify counts succ ((ord $ T.head x) - lo)
+        return counts
 
-  output <- MVector.new (Vector.length input)
-  Vector.forM_ input $ \x -> do
-    ix <- MVector.read offsets ((ord $ T.head x) - ord lo)
-    MVector.write output ix x
-    MVector.modify offsets succ ((ord $ T.head x) - ord lo)
+    output <- MVector.new (Vector.length input)
+    Vector.forM_ input $ \x -> do
+        let i = ord $ T.head x
+        ix <- MVector.read offsets (i - lo)
+        MVector.write output ix x
+        MVector.modify offsets succ (i - lo)
 
-  return output
+    return output
 
 
