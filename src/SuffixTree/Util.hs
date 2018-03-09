@@ -28,8 +28,8 @@ fst3 :: (a, b, c) -> a
 fst3 (x, _, _) = x
 
 
-fstEq :: Eq a => (a, b) -> (a, c) -> Bool
-fstEq (x, _) (y, _) = x == y
+fstEq :: Text -> Text -> Bool
+fstEq xs ys = T.head xs == T.head ys
 
 
 headEq :: Char -> Text -> Bool
@@ -52,39 +52,33 @@ heads []       = []
 heads [""]     = []
 heads (x : xs) = T.head x : heads xs
 
-splitSuffixes :: [Text] -> [(Char, Text)]
-splitSuffixes = map (T.head &&& T.tail)
 
-countingSort :: [(Char, Text)] -> [[(Char, Text)]]
-countingSort = L.groupBy fstEq . MS.toAscList . MS.fromList
-
-splitSuffixesV :: [Text] -> Vector (Char, Text)
-splitSuffixesV t = Vector.fromList $ foldr splitJoin [] t
+splitSuffixes :: [Text] -> Vector Text
+splitSuffixes t = Vector.fromList $ foldr splitJoin [] t
     where
         splitJoin "" acc = acc
-        splitJoin x acc = (T.head x, T.tail x) : acc
+        splitJoin x acc = x : acc
 
-countingSortV :: Vector (Char, Text) -> [[(Char, Text)]]
-countingSortV = L.groupBy fstEq . V.toList . countingSortVector
+countingSort :: Vector Text -> [[Text]]
+countingSort = L.groupBy fstEq . V.toList . countingSortV
 
-countingSortVector :: Vector (Char,a) -> Vector (Char,a)
-countingSortVector input
-    | null input = input
-    | otherwise = Vector.create $ do
-  let lo = Vector.minimum $ fst <$> input
-      hi = Vector.maximum $ fst <$> input
+
+countingSortV :: Vector Text -> Vector Text
+countingSortV input = Vector.create $ do
+  let lo = Vector.minimum $ T.head <$> input
+      hi = Vector.maximum $ T.head <$> input
 
   offsets <- Vector.thaw . Vector.prescanl (+) 0 $ Vector.create $ do
     counts <- MVector.replicate (ord hi - ord lo + 1) 0
-    Vector.forM_ input $ \(i,_) ->
-      MVector.modify counts succ (ord i - ord lo)
+    Vector.forM_ input $ \x ->
+      MVector.modify counts succ ((ord $ T.head x) - ord lo)
     return counts
 
   output <- MVector.new (Vector.length input)
-  Vector.forM_ input $ \p@(i,_) -> do
-    ix <- MVector.read offsets (ord i - ord lo)
-    MVector.write output ix p
-    MVector.modify offsets succ (ord i - ord lo)
+  Vector.forM_ input $ \x -> do
+    ix <- MVector.read offsets ((ord $ T.head x) - ord lo)
+    MVector.write output ix x
+    MVector.modify offsets succ ((ord $ T.head x) - ord lo)
 
   return output
 

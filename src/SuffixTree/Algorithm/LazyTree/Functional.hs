@@ -67,10 +67,10 @@ lazyTree edgeFun x = lazyTree' (fromIntegral $ T.length x) (init $ T.tails x)
 
 
 lazyTreeCount :: EdgeFunction -> Text -> STree
-lazyTreeCount edgeFun x =
+lazyTreeCount edgeFun text =
     lazyTree'
-        (fromIntegral $ T.length x)
-        (init $ T.tails x)
+        (fromIntegral $ T.length text)
+        (T.tails text)
     where
         lazyTree' i [""]     = Leaf i
         lazyTree' i suffixes =
@@ -78,44 +78,15 @@ lazyTreeCount edgeFun x =
                         (addEdge i)
                         []
                         (countingSort $ splitSuffixes suffixes))
-        addEdge :: Int64 -> [(Char, Text)] -> [Edge] -> [Edge]
-        addEdge i aSuffixes' edges =
+        addEdge i aSuffixes edges =
             let
-                (lcp, rests) = edgeFun (map snd aSuffixes')
+                (lcp, rests) = edgeFun (map tail aSuffixes)
             in
-                case aSuffixes' of
-                    ((_, xs) : _) -> makeEdge xs lcp rests : edges
-                    []         -> edges
-            where
-                a = fst $ L.head aSuffixes'
-                newLabel mark lcp       = Label (a `cons` mark) (succ lcp)
-                descendTree lcp         = lazyTree' (i - succ lcp)
-                makeEdge mark lcp rests = Edge (newLabel mark lcp)
-                                                (descendTree lcp rests)
-
-lazyTreeCountV :: EdgeFunction -> Text -> STree
-lazyTreeCountV edgeFun x =
-    lazyTree'
-        (fromIntegral $ T.length x)
-        (init $ T.tails x)
-    where
-        lazyTree' i [""]     = Leaf i
-        lazyTree' i suffixes =
-            Branch (foldr'
-                        (addEdge i)
-                        []
-                        (countingSortV $ splitSuffixesV suffixes))
-        addEdge :: Int64 -> [(Char, Text)] -> [Edge] -> [Edge]
-        addEdge i aSuffixes' edges =
-            let
-                (lcp, rests) = edgeFun (map snd aSuffixes')
-            in
-                case aSuffixes' of
-                    ((_, xs) : _) -> makeEdge xs lcp rests : edges
+                case aSuffixes of
+                    (x : _) -> makeEdge (x) lcp rests : edges
                     []            -> edges
             where
-                a = fst $ L.head aSuffixes'
-                newLabel mark lcp       = Label (a `cons` mark) (succ lcp)
+                newLabel mark lcp       = Label (mark) (succ lcp)
                 descendTree lcp         = lazyTree' (i - succ lcp)
                 makeEdge mark lcp rests = Edge (newLabel mark lcp)
                                                 (descendTree lcp rests)

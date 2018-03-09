@@ -17,12 +17,10 @@ text = "abaababa"
 -- text = "xabxa$babxba#"
 --
 sample =  do
-    -- let t1 = lazyTree edgeCST text
-    let t2 = lazyTreeCount edgeCST text
-    let t3 = lazyTreeCountV edgeCST text
+    let t1 = lazyTree edgeCST text
+    let t3 = lazyTreeCount edgeCST text
     -- let t2 = ukkonen text
-    -- drawPretty t1
-    drawPretty t2
+    drawPretty t1
     drawPretty t3
 
 main = do
@@ -39,7 +37,7 @@ main = do
             textS   = T.unpack text
             wrapped = map (\xs -> '(' : T.unpack xs ++ ")") nos
 
-            tree = lazyTreeCountV edgeCST text
+            tree = lazyTreeCount edgeCST text
 
             regexes = map mkRegex wrapped
 
