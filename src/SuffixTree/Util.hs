@@ -2,7 +2,7 @@
 module SuffixTree.Util where
 
 import qualified Data.List      as L
-import           Data.MultiSet  as MS
+import qualified Data.MultiSet  as MS
 import           Data.Text.Lazy (Text, cons)
 import qualified Data.Text.Lazy as T
 import           Prelude        (String)
@@ -46,5 +46,13 @@ heads []       = []
 heads [""]     = []
 heads (x : xs) = T.head x : heads xs
 
+joinSuffixes :: [(Char, Text)] -> [Text]
+joinSuffixes = map (\(x, xs) -> x `cons` xs)
+
+
+splitSuffixes :: [Text] -> [(Char, Text)]
+splitSuffixes = map (\x -> (T.head x, T.tail x))
+
 countingSort :: [(Char, Text)] -> [[(Char, Text)]]
 countingSort = L.groupBy fstEq . MS.toAscList . MS.fromList
+
