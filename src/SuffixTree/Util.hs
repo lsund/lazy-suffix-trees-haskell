@@ -7,8 +7,7 @@ import           Data.Text.Lazy      (Text, cons)
 import qualified Data.Text.Lazy      as T
 import           Data.Vector         (Vector)
 import qualified Data.Vector         as V
-import qualified Data.Vector         as Vector
-import qualified Data.Vector.Mutable as MVector
+import qualified Data.Vector.Mutable as MV
 import           Prelude             (String)
 import           Protolude           hiding (Text)
 
@@ -56,7 +55,7 @@ groupVec = undefined
 
 
 splitSuffixes :: [Text] -> Vector Text
-splitSuffixes t = Vector.fromList $ foldr splitJoin [] t
+splitSuffixes t = V.fromList $ foldr splitJoin [] t
     where
         splitJoin "" acc = acc
         splitJoin x acc = x : acc
@@ -66,22 +65,22 @@ countingSort = L.groupBy fstEq . V.toList . countingSortV
 
 
 countingSortV :: Vector Text -> Vector Text
-countingSortV input = Vector.create $ do
-    let lo = ord $ Vector.minimum $ T.head <$> input
-        hi = ord $ Vector.maximum $ T.head <$> input
+countingSortV input = V.create $ do
+    let lo = ord $ V.minimum $ T.head <$> input
+        hi = ord $ V.maximum $ T.head <$> input
 
-    offsets <- Vector.thaw . Vector.prescanl (+) 0 $ Vector.create $ do
-        counts <- MVector.replicate (hi - lo + 1) 0
-        Vector.forM_ input $ \x ->
-            MVector.modify counts succ ((ord $ T.head x) - lo)
+    offsets <- V.thaw . V.prescanl (+) 0 $ V.create $ do
+        counts <- MV.replicate (hi - lo + 1) 0
+        V.forM_ input $ \x ->
+            MV.modify counts succ ((ord $ T.head x) - lo)
         return counts
 
-    output <- MVector.new (Vector.length input)
-    Vector.forM_ input $ \x -> do
+    output <- MV.new (V.length input)
+    V.forM_ input $ \x -> do
         let i = ord $ T.head x
-        ix <- MVector.read offsets (i - lo)
-        MVector.write output ix x
-        MVector.modify offsets succ (i - lo)
+        ix <- MV.read offsets (i - lo)
+        MV.write output ix x
+        MV.modify offsets succ (i - lo)
 
     return output
 
