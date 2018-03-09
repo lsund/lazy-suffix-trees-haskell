@@ -1,8 +1,8 @@
 
 module SuffixTree.Util where
 
-import           Data.Array
 import qualified Data.List      as L
+import           Data.MultiSet  as MS
 import           Data.Text.Lazy (Text, cons)
 import qualified Data.Text.Lazy as T
 import           Prelude        (String)
@@ -20,6 +20,10 @@ removeHeads(xs : xss) = T.tail xs : removeHeads xss
 
 fst3 :: (a, b, c) -> a
 fst3 (x, _, _) = x
+
+
+fstEq :: Eq a => (a, b) -> (a, c) -> Bool
+fstEq (x, _) (y, _) = x == y
 
 
 headEq :: Char -> Text -> Bool
@@ -42,10 +46,5 @@ heads []       = []
 heads [""]     = []
 heads (x : xs) = T.head x : heads xs
 
-
--- countingSort :: [Text] -> Char -> Char -> [String]
--- countingSort xs lo hi = [replicate times n | (n, times) <- counts]
---   where counts =
---             assocs
---                 (accumArray
---                     (+) 0 (lo, hi) [(T.head i, 1) | i <- xs])
+countingSort :: [(Char, Text)] -> [[(Char, Text)]]
+countingSort = L.groupBy fstEq . MS.toAscList . MS.fromList
