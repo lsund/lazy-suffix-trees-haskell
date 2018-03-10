@@ -1,9 +1,6 @@
 
 module SuffixTree.Util where
 
-import qualified Data.MultiSet as MS
-import           Control.Arrow       ((&&&))
-import qualified Data.IntMap         as I
 import qualified Data.List           as L
 import           Data.Text.Lazy      (Text, cons)
 import qualified Data.Text.Lazy      as T
@@ -29,8 +26,6 @@ fst3 (x, _, _) = x
 
 
 fstEq :: Text -> Text -> Bool
-fstEq "" _  = undefined
-fstEq _ ""  = undefined
 fstEq xs ys = T.head xs == T.head ys
 
 
@@ -66,6 +61,7 @@ countingSortV input = V.create $ do
     offsets <- V.thaw . V.prescanl (+) 0 $ V.create $ do
         counts <- MV.replicate (hi - lo + 1) 0
         V.forM_ input' $ \x ->
+
             MV.modify counts succ (ord (T.head x) - lo)
         return counts
 

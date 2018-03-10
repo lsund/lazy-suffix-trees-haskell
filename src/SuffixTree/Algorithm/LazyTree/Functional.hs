@@ -66,7 +66,7 @@ lazyTree edgeFun x = lazyTree' (fromIntegral $ T.length x) (init $ T.tails x)
                 makeEdge mark lcp rests = Edge (newLabel mark lcp)
                                                 (descendTree lcp rests)
 
-
+-- Tails is about 7%
 lazyTreeCount :: EdgeFunction -> Text -> STree
 lazyTreeCount edgeFun text =
     lazyTree'
