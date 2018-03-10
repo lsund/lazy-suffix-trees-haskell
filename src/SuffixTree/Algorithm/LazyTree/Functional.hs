@@ -7,6 +7,7 @@ import           Data.Text.Lazy             (Text, cons)
 import qualified Data.Text.Lazy             as T
 import           Prelude                    (String, init)
 import           Protolude                  hiding (Text)
+import qualified Data.Vector as V
 
 import           SuffixTree.Data.Label      (Label (..))
 import           SuffixTree.Data.SuffixTree
@@ -77,7 +78,7 @@ lazyTreeCount edgeFun text =
             Branch (foldr'
                         (addEdge i)
                         []
-                        (countingSort $ splitSuffixes suffixes))
+                        (countingSort $ V.fromList suffixes))
         addEdge i aSuffixes edges =
             let
                 (lcp, rests) = edgeFun (map tail aSuffixes)

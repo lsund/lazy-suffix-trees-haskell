@@ -36,14 +36,13 @@ main = do
         [path, mode] <- getArgs
         content <- readFile path
         text <- readFile datafile
-        -- print $ filter (> 8000) $ map ord $ T.unpack $ alphabet text
-        -- print $ filter (> 8000) $ map ord $ T.unpack $ alphabet content
         alpha <- readFile alphafile
         let nos = T.lines content
             alphaS  = T.unpack alpha
             textS   = T.unpack text
             wrapped = map (\xs -> '(' : T.unpack xs ++ ")") nos
 
+            -- tree = lazyTree edgeCST text
             tree = lazyTreeCount edgeCST text
 
             regexes = map mkRegex wrapped
