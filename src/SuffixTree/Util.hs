@@ -45,13 +45,27 @@ removeDuplicates t   =  x `cons` removeDuplicates withoutX
 listify :: (a, a) -> [a]
 listify (a, b) = [a, b]
 
+third :: (a, b, c) -> c
+third (_, _, x) = x
+
 heads :: [Text] -> String
 heads []       = []
 heads [""]     = []
 heads (x : xs) = T.head x : heads xs
 
 
-groupVec = undefined
+groupVec :: Vector Text -> Vector [Text]
+groupVec xs =
+    -- third $
+        let (_, b, c) =
+                foldr
+                    (\t (c, g, acc) ->
+                        if T.head t == c
+                            then (c, t : g, acc)
+                            else (T.head t, [t], g `V.cons` acc))
+                    ('v', [], empty) xs
+                    -- Which first element here?
+        in b `V.cons` c
 
 
 splitSuffixes :: [Text] -> Vector Text
