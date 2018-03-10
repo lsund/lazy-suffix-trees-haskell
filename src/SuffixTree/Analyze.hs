@@ -16,3 +16,4 @@ writeAlphabet path = do
     cont <- TIO.readFile (path ++ "/data.xml")
     TIO.writeFile (path ++ "/alpha.txt") (alphabet cont)
 
+

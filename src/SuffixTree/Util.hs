@@ -68,14 +68,17 @@ countingSortV :: Vector Text -> Vector Text
 countingSortV input = V.create $ do
     let lo = ord $ V.minimum $ T.head <$> input
         hi = ord $ V.maximum $ T.head <$> input
+    -- let lo = 9                                        -- For the specific text
+    --     hi = 252
 
     offsets <- V.thaw . V.prescanl (+) 0 $ V.create $ do
         counts <- MV.replicate (hi - lo + 1) 0
         V.forM_ input $ \x ->
-            MV.modify counts succ ((ord $ T.head x) - lo)
+            MV.modify counts succ (ord (T.head x) - lo)
         return counts
 
     output <- MV.new (V.length input)
+
     V.forM_ input $ \x -> do
         let i = ord $ T.head x
         ix <- MV.read offsets (i - lo)

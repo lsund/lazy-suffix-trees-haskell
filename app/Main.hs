@@ -6,11 +6,16 @@ import           Protolude                                hiding (Text,
                                                            readFile)
 import           Text.Regex
 
+import           SuffixTree.Analyze
 import           SuffixTree.Algorithm.LazyTree.Functional
 import           SuffixTree.Algorithm.Search
 import           SuffixTree.Algorithm.Ukkonen.Functional
 import           SuffixTree.Draw
 import           SuffixTree.Util
+
+-- datafile = "data/book/data.xml"
+datafile = "data/book/modified.xml"
+alphafile = "data/book/alpha.txt"
 
 text = "abaababa"
 -- text = "agcgacgag"
@@ -30,8 +35,10 @@ main = do
     else do
         [path, mode] <- getArgs
         content <- readFile path
-        text <- readFile "data/book/data.xml"
-        alpha <- readFile "data/book/alpha.txt"
+        text <- readFile datafile
+        -- print $ filter (> 8000) $ map ord $ T.unpack $ alphabet text
+        -- print $ filter (> 8000) $ map ord $ T.unpack $ alphabet content
+        alpha <- readFile alphafile
         let nos = T.lines content
             alphaS  = T.unpack alpha
             textS   = T.unpack text

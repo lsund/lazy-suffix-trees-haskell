@@ -11,3 +11,7 @@ Pattern contains three special characters: \8211 and \8212 for "long" dashes,
 \8209 for a short dash.
 
 
+Improvements to counting sort:
+
+* Group for vector
+* Remove bad characters from document

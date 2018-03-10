@@ -83,10 +83,10 @@ lazyTreeCount edgeFun text =
                 (lcp, rests) = edgeFun (map tail aSuffixes)
             in
                 case aSuffixes of
-                    (x : _) -> makeEdge (x) lcp rests : edges
+                    (x : _) -> makeEdge x lcp rests : edges
                     []            -> edges
             where
-                newLabel mark lcp       = Label (mark) (succ lcp)
+                newLabel mark lcp       = Label mark (succ lcp)
                 descendTree lcp         = lazyTree' (i - succ lcp)
                 makeEdge mark lcp rests = Edge (newLabel mark lcp)
                                                 (descendTree lcp rests)
