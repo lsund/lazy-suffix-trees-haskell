@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 2d279bb33a70a0c6964f4cdf6f97214b9bc6a90168e18ede61379f560c2fbde7
+-- hash: 568c2f3e4016e7365d4dc4e557e36707bb5752f96c0944c0f5918a22d5722cad
 
 name:                suffix-trees-haskell
 version:             1.0.0
@@ -24,6 +24,7 @@ library
       SuffixTree.Data.Label
       SuffixTree.Data.SuffixTree
       SuffixTree.Draw
+      SuffixTree.Generator
       SuffixTree.Reader
       SuffixTree.Util
   other-modules:
