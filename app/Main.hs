@@ -22,8 +22,8 @@ text = "abaababa"
 -- text = "xabxa$babxba#"
 --
 sample =  do
-    let t1 = lazyTree edgeCST text
-    let t3 = lazyTreeCount edgeCST text
+    let t1 = lazyTree text
+    let t3 = lazyTreeCount text
     -- let t2 = ukkonen text
     drawPretty t1
     drawPretty t3
@@ -42,12 +42,12 @@ main = do
             textS   = T.unpack text
             wrapped = map (\xs -> '(' : T.unpack xs ++ ")") nos
 
-            -- tree = lazyTree edgeCST text
-            tree = lazyTreeCount edgeCST text
+            -- tree = lazyTree text
+            tree = lazyTreeCount text
 
             regexes = map mkRegex wrapped
 
         if mode == "reg" then
             print $ map (`matchRegex` textS) regexes -- 274 s
         else
-            print $ map (`exists` tree) nos -- 74s
+            print $ map (`exists` tree) nos

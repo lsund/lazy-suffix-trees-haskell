@@ -5,7 +5,7 @@ import           Data.Function
 import qualified Data.List                  as L
 import           Data.Text.Lazy             (Text, cons)
 import qualified Data.Text.Lazy             as T
-import           Prelude                    (String, init)
+import           Prelude                    (init)
 import           Protolude                  hiding (Text)
 import qualified Data.Vector as V
 
@@ -47,15 +47,15 @@ edgeCST (xs : xss) =
 filterSuffixes :: Char -> [Text] -> [Text]
 filterSuffixes c = map Util.tail . Protolude.filter (headEq c)
 
-lazyTree :: EdgeFunction -> Text -> STree
-lazyTree edgeFun x = lazyTree' (fromIntegral $ T.length x) (init $ T.tails x)
+lazyTree :: Text -> STree
+lazyTree x = lazyTree' (fromIntegral $ T.length x) (init $ T.tails x)
     where
         lazyTree' i [""]     = Leaf i
         lazyTree' i suffixes = Branch (foldr' (addEdge i suffixes) [] (L.nub $ heads suffixes))
         addEdge i suffixes a edges =
             let
                 aSuffixes = filterSuffixes a suffixes
-                (lcp, rests) = edgeFun aSuffixes
+                (lcp, rests) = edgeCST aSuffixes
             in
                 case aSuffixes of
                     (mark : _) -> makeEdge mark lcp rests : edges
@@ -67,27 +67,27 @@ lazyTree edgeFun x = lazyTree' (fromIntegral $ T.length x) (init $ T.tails x)
                                                 (descendTree lcp rests)
 
 -- Tails is about 7%
-lazyTreeCount :: EdgeFunction -> Text -> STree
-lazyTreeCount edgeFun text =
+lazyTreeCount :: Text -> STree
+lazyTreeCount text =
     lazyTree'
         (fromIntegral $ T.length text)
         (T.tails text)
     where
         lazyTree' i [""]     = Leaf i
         lazyTree' i suffixes =
-            Branch (foldr'
+            Branch (foldr
                         (addEdge i)
                         []
-                        (countingSort $ V.fromList suffixes))
-        addEdge i aSuffixes edges =
+                        (groupByHead $ V.fromList suffixes))
+        addEdge i aGroup edges =
             let
-                (lcp, rests) = edgeFun (map tail aSuffixes)
+                (lcp, rests) = edgeCST (map tail aGroup)
             in
-                case aSuffixes of
+                case aGroup of
                     (x : _) -> makeEdge x lcp rests : edges
-                    []            -> edges
+                    []      -> edges
             where
                 newLabel mark lcp       = Label mark (succ lcp)
                 descendTree lcp         = lazyTree' (i - succ lcp)
                 makeEdge mark lcp rests = Edge (newLabel mark lcp)
-                                                (descendTree lcp rests)
+                                               (descendTree lcp rests)

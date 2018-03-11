@@ -14,9 +14,8 @@ data Edge = Edge
     , _subtree :: STree
     } deriving (Eq, Show)
 
-
 data STree      = Leaf      { _leafNumber :: Int64 }
-                | Branch    { _branches   :: ![Edge] }
+                | Branch    { _branches   :: [Edge] }
                 deriving (Eq, Show)
 
 -------------------------------------------------------------------------------

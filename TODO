@@ -10,8 +10,5 @@ linked lists
 Pattern contains three special characters: \8211 and \8212 for "long" dashes,
 \8209 for a short dash.
 
+Instead of sorting: Process the list once and add to a map of char -> Edge
 
-Improvements to counting sort:
-
-* Group for vector
-* Remove bad characters from document

@@ -11,15 +11,16 @@ import           Prelude             (String)
 import           Protolude           hiding (Text)
 
 
-
 tail :: Text -> Text
 tail "" = ""
 tail xs = T.tail xs
+
 
 removeHeads :: [Text] -> [Text]
 removeHeads []        = []
 removeHeads("" : xss) = removeHeads xss
 removeHeads(xs : xss) = T.tail xs : removeHeads xss
+
 
 fst3 :: (a, b, c) -> a
 fst3 (x, _, _) = x
@@ -48,12 +49,12 @@ heads :: [Text] -> String
 heads = foldr (\x acc -> if T.null x then acc else T.head x : acc) []
 
 
-countingSort :: Vector Text -> [[Text]]
-countingSort = L.groupBy fstEq . V.toList . countingSortV
+groupByHead :: Vector Text -> [[Text]]
+groupByHead = L.groupBy fstEq . V.toList . countingSort
 
 
-countingSortV :: Vector Text -> Vector Text
-countingSortV input = V.create $ do
+countingSort :: Vector Text -> Vector Text
+countingSort input = V.create $ do
     let input' = V.init input
         lo = ord $ V.minimum $ T.head <$> input'
         hi = ord $ V.maximum $ T.head  <$> input'
@@ -61,7 +62,6 @@ countingSortV input = V.create $ do
     offsets <- V.thaw . V.prescanl (+) 0 $ V.create $ do
         counts <- MV.replicate (hi - lo + 1) 0
         V.forM_ input' $ \x ->
-
             MV.modify counts succ (ord (T.head x) - lo)
         return counts
 
@@ -74,5 +74,3 @@ countingSortV input = V.create $ do
         MV.modify offsets succ (i - lo)
 
     return output
-
-
