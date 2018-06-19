@@ -5,7 +5,7 @@ import           Data.Text.Lazy.IO                        (readFile, appendFile,
 import           Protolude                                hiding (Text,
                                                            readFile, appendFile, writeFile)
 
-import           SuffixTree.Algorithm.LazyTree.Functional
+import           SuffixTree.Algorithm.LazyTreeCountSort
 import           SuffixTree.Algorithm.Search
 
 datafile :: FilePath
@@ -17,8 +17,7 @@ main :: IO ()
 main = do
     content <- readFile datafile
     let nos = T.lines content
-        tree = lazyTree content
+        tree = lazyTreeCount content
+    print "todo"
 
-    let existmap = map (\x -> (x `exists` tree, x)) nos
-    writeFile "data/out.txt" ""
-    mapM_ (\(_, y) -> appendFile "data/out.txt" (y `T.append` "\n")) $ filter fst existmap
+

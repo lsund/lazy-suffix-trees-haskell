@@ -1,5 +1,5 @@
 
-module SuffixTree.Algorithm.Ukkonen.Functional where
+module SuffixTree.Algorithm.Ukkonen where
 
 import           Data.Text.Lazy              (Text)
 import qualified Data.Text.Lazy              as T

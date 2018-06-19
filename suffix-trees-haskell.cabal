@@ -1,8 +1,8 @@
--- This file has been generated from package.yaml by hpack version 0.27.0.
+-- This file has been generated from package.yaml by hpack version 0.28.2.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: f3925472f1ea20cd9bd2dec93bff6b8360f8d5141cc468bcdb98962fcc21878c
+-- hash: 03036f47d3d85e4b58c9383b099d9c4b2edb8b5b06adc97fd2fc240a849f4da4
 
 name:                suffix-trees-haskell
 version:             1.0.0
@@ -17,9 +17,10 @@ library
   ghc-options: -Wall -fwarn-tabs -O2
   exposed-modules:
       SuffixTree.Algorithm.Common
-      SuffixTree.Algorithm.LazyTree.Functional
+      SuffixTree.Algorithm.LazyTree
+      SuffixTree.Algorithm.LazyTreeCountSort
       SuffixTree.Algorithm.Search
-      SuffixTree.Algorithm.Ukkonen.Functional
+      SuffixTree.Algorithm.Ukkonen
       SuffixTree.Analyze
       SuffixTree.Data.Label
       SuffixTree.Data.SuffixTree

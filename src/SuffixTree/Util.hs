@@ -15,13 +15,6 @@ tail :: Text -> Text
 tail "" = ""
 tail xs = T.tail xs
 
-
-removeHeads :: [Text] -> [Text]
-removeHeads []        = []
-removeHeads("" : xss) = removeHeads xss
-removeHeads(xs : xss) = T.tail xs : removeHeads xss
-
-
 fst3 :: (a, b, c) -> a
 fst3 (x, _, _) = x
 

@@ -1,5 +1,5 @@
 
-module SuffixTree.Algorithm.LazyTree.Functional where
+module SuffixTree.Algorithm.LazyTreeCountSort where
 
 import           Data.Function
 import qualified Data.List                  as L
@@ -13,10 +13,6 @@ import qualified Data.Vector as V
 import           SuffixTree.Data.Label      (Label (..))
 import           SuffixTree.Data.SuffixTree
 import           SuffixTree.Util            as Util
-
--------------------------------------------------------------------------------
--- Compact Suffix Tree: Extracts the largest common suffix for each branch
-
 
 edgeCST :: EdgeFunction
 edgeCST []                      = (0, [""])
@@ -32,9 +28,6 @@ edgeCST (xs : xss) =
             else  (0, xs : xss)
     where
         allHeadsEq c = all ((==) c . T.head)
-
--------------------------------------------------------------------------------
--- Functional LazyTree
 
 -- Tails is about 7%
 lazyTreeCount :: Text -> STree
@@ -63,22 +56,3 @@ lazyTreeCount text =
                                                 (descendTree lcp rests)
 
 
-lazyTree :: Text -> STree
-lazyTree x = lazyTree' (fromIntegral $ T.length x) (init $ T.tails x)
-    where
-        lazyTree' i [""]     = Leaf i
-        lazyTree' i suffixes = Branch (foldr' (addEdge i suffixes) []
-                                        (L.nub $ heads suffixes))
-        addEdge i suffixes a edges =
-            let
-                aSuffixes = filterSuffixes a suffixes
-                (lcp, rests) = edgeCST aSuffixes
-            in
-                case aSuffixes of
-                    (mark : _) -> makeEdge mark lcp rests : edges
-                    []         -> edges
-            where
-                newLabel mark lcp       = Label (a `cons` mark) (succ lcp)
-                descendTree lcp         = lazyTree' (i - succ lcp)
-                makeEdge mark lcp rests = Edge (newLabel mark lcp)
-                                                (descendTree lcp rests)
