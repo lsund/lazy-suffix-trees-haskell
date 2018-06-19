@@ -12,3 +12,6 @@ Pattern contains three special characters: \8211 and \8212 for "long" dashes,
 
 Instead of sorting: Process the list once and add to a map of char -> Edge
 
+Does not find some patterns, eg KartVerg 05 / 99. Seems to be a problem when
+they only exist within <Tags> but on the other hands finds others so I'm not
+really sure

@@ -15,6 +15,7 @@ dependencies:
     - array
     - multiset
     - vector
+    - split
 
 default-extensions:
     - NoImplicitPrelude

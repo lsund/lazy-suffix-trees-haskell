@@ -74,3 +74,7 @@ countingSort input = V.create $ do
         MV.modify offsets succ (i - lo)
 
     return output
+
+filterSuffixes :: Char -> [Text] -> [Text]
+filterSuffixes c = map tail . filter (headEq c)
+

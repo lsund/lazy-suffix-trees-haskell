@@ -7,19 +7,12 @@ import           Data.Text.Lazy             (Text, cons)
 import qualified Data.Text.Lazy             as T
 import           Prelude                    (init)
 import           Protolude                  hiding (Text)
+import           Protolude                  (filter)
 import qualified Data.Vector as V
 
 import           SuffixTree.Data.Label      (Label (..))
 import           SuffixTree.Data.SuffixTree
 import           SuffixTree.Util            as Util
-
--------------------------------------------------------------------------------
--- Atomic Suffix Tree
-
-
-edgeAST :: EdgeFunction
-edgeAST xs = (0, xs)
-
 
 -------------------------------------------------------------------------------
 -- Compact Suffix Tree: Extracts the largest common suffix for each branch
@@ -40,31 +33,8 @@ edgeCST (xs : xss) =
     where
         allHeadsEq c = all ((==) c . T.head)
 
-
 -------------------------------------------------------------------------------
 -- Functional LazyTree
-
-filterSuffixes :: Char -> [Text] -> [Text]
-filterSuffixes c = map Util.tail . Protolude.filter (headEq c)
-
-lazyTree :: Text -> STree
-lazyTree x = lazyTree' (fromIntegral $ T.length x) (init $ T.tails x)
-    where
-        lazyTree' i [""]     = Leaf i
-        lazyTree' i suffixes = Branch (foldr' (addEdge i suffixes) [] (L.nub $ heads suffixes))
-        addEdge i suffixes a edges =
-            let
-                aSuffixes = filterSuffixes a suffixes
-                (lcp, rests) = edgeCST aSuffixes
-            in
-                case aSuffixes of
-                    (mark : _) -> makeEdge mark lcp rests : edges
-                    []         -> edges
-            where
-                newLabel mark lcp       = Label (a `cons` mark) (succ lcp)
-                descendTree lcp         = lazyTree' (i - succ lcp)
-                makeEdge mark lcp rests = Edge (newLabel mark lcp)
-                                                (descendTree lcp rests)
 
 -- Tails is about 7%
 lazyTreeCount :: Text -> STree
@@ -90,4 +60,25 @@ lazyTreeCount text =
                 newLabel mark lcp       = Label mark (succ lcp)
                 descendTree lcp         = lazyTree' (i - succ lcp)
                 makeEdge mark lcp rests = Edge  (newLabel mark lcp)
+                                                (descendTree lcp rests)
+
+
+lazyTree :: Text -> STree
+lazyTree x = lazyTree' (fromIntegral $ T.length x) (init $ T.tails x)
+    where
+        lazyTree' i [""]     = Leaf i
+        lazyTree' i suffixes = Branch (foldr' (addEdge i suffixes) []
+                                        (L.nub $ heads suffixes))
+        addEdge i suffixes a edges =
+            let
+                aSuffixes = filterSuffixes a suffixes
+                (lcp, rests) = edgeCST aSuffixes
+            in
+                case aSuffixes of
+                    (mark : _) -> makeEdge mark lcp rests : edges
+                    []         -> edges
+            where
+                newLabel mark lcp       = Label (a `cons` mark) (succ lcp)
+                descendTree lcp         = lazyTree' (i - succ lcp)
+                makeEdge mark lcp rests = Edge (newLabel mark lcp)
                                                 (descendTree lcp rests)
