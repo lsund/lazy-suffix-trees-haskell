@@ -54,5 +54,3 @@ lazyTreeCount text =
                 descendTree lcp         = lazyTree' (i - succ lcp)
                 makeEdge mark lcp rests = Edge  (newLabel mark lcp)
                                                 (descendTree lcp rests)
-
-

@@ -10,6 +10,10 @@ import qualified Data.Vector.Mutable as MV
 import           Prelude             (String)
 import           Protolude           hiding (Text)
 
+removeHeads :: [Text] -> [Text]
+removeHeads []        = []
+removeHeads("" : xss) = removeHeads xss
+removeHeads(xs : xss) = T.tail xs : removeHeads xss
 
 tail :: Text -> Text
 tail "" = ""

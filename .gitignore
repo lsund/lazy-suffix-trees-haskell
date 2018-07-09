@@ -12,3 +12,4 @@ tags
 suffix-trees-haskell.prof
 *.hp
 *.ps
+testdata

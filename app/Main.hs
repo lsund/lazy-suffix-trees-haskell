@@ -12,7 +12,7 @@ import           SuffixTree.Algorithm.Search
 
 -- Specify input file here
 datafile :: FilePath
-datafile = "data.txt"
+datafile = "testdata/data.xml"
 
 main :: IO ()
 main = do
