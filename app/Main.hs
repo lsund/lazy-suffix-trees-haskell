@@ -12,10 +12,11 @@ import           SuffixTree.Algorithm.Search
 
 -- Specify input file here
 datafile :: FilePath
-datafile = "testdata/data.xml"
+datafile = "testdata/members.xml"
 
 main :: IO ()
 main = do
+    print $ "Creating a suffix tree for " ++ datafile
     content <- readFile datafile
     let nos = T.lines content
         tree = lazyTreeCount content
