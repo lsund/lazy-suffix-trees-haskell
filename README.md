@@ -1,5 +1,3 @@
 # suffix-trees
 
-(Under Development)
-
-This repository is intended to among other things contain my implementation of suffix trees. Under active development.
+Contains some (not finished) implementations of lazy suffix tree construction in haskell
